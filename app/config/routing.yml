@@ -1,0 +1,3 @@
+swot_network:
+    resource: "@SwotNetworkBundle/Resources/config/routing.yml"
+    prefix:   /

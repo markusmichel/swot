@@ -1,0 +1,18 @@
+swot_network_homepage:
+    path:     /
+    defaults: { _controller: SwotNetworkBundle:Default:index }
+
+swot_network_homepage2:
+    path:     /foo
+    defaults: { _controller: SwotNetworkBundle:Default:foo }
+
+logout:
+    path:   /logout
+
+login:
+    path:     /login
+    defaults: { _controller: SwotNetworkBundle:Security:login }
+
+login_check:
+    path:     /login_check
+    defaults: { _controller: SwotNetworkBundle:Security:loginCheck }

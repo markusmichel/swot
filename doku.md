@@ -104,6 +104,68 @@ Der Besitzer hat weiterhin mehr Rechte am Gegenstand als der Beliehene (entferne
 *__kein Like__*
 
 
+
+Doctrine Datenmodell
+========================
+
+## Person (User)
+| title             | type          | Kardinalität      | required
+|-------------------|---------------|-------------------|---------------
+| firstName         | string 255    |                   |
+| lastName          | string 255    |                   |
+| username          | string 255    |                   |
+| birthdate         | Date/DateTime |                   |
+| gender            | string 1      |                   |
+| profileImage      | string 255    |                   |
+| activated         | boolean       |                   |
+| registeredDate    | DateTime      |                   |
+| password          | string 255    |                   |
+| friendships       | Friendship    | ManyToMany        |
+| ownerships        | Ownership     | OneToMany         |
+| things_rent       | Rental        | OneToMany         |
+| things_lent       | Rental        | OneToMany         |
+
+## Gegenstand (Thing)
+| Titel             | Typ           | Kardinalität      | required
+|-------------------|---------------|-------------------|-------------
+| title             | string 255    |                   |
+| access_token      | string 255    |                   |
+| owner             | Ownership     | ManyToOne         |
+| rentals           | Rental        | OneToMany         |
+
+## Verleih (Rental)
+| Titel                 | Typ           | Kardinalität      | required
+|-----------------------|---------------|-------------------|--------------
+| thing                 | Thing         | ManyToOne         | true
+| user_from             | User          | ManyToOne         | true
+| user_to               | User          | ManyToOne         | true
+| started               | DateTime      |                   | true
+| acces_granted_until   | DateTime      |                   | true
+| rental_finished       | DateTime      |                   | false
+| access_token          | string 255    |                   | true
+
+## Freundschaft (Friendship)
+| Titel             | Typ           | Kardinalität  | required
+|-------------------|---------------|---------------|------------
+| who               | User          | ManyToOne     |
+| with              | User          | ManyToOne     |
+| since             | DateTime      |               |
+
+## Besitz (Ownership)
+| Titel             | Typ           | Kardinalität  | required
+|-------------------|---------------|---------------|-------------
+| owner             | User          | OneToMany     |
+| thing             | Thing         | ManyToOne     |
+| since             | DateTime      |               |
+
+## Follow
+| Titel             | Typ           | Kardinalität  | required
+|-------------------|---------------|---------------|-------------
+
+## Transfer
+| Titel             | Typ           | Kardinalität  | required
+|-------------------|---------------|---------------|-------------
+
 --------------------------------------------------------------------------------
 
 

@@ -31,11 +31,12 @@ security:
         main:
             pattern:    ^/
             anonymous: ~
+
             form_login:
                 check_path: /login_check
                 login_path: /login
                 use_referer: true
-#
+
             logout:
                 path:   /logout
                 target: /

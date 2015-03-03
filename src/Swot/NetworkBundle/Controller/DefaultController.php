@@ -14,12 +14,8 @@ class DefaultController extends Controller
         /** @var AuthorizationChecker $checker */
         $checker = $this->get('security.authorization_checker');
 
-        $user = $this->getUser();
-        var_dump($user);
-        die();
-
         if(!$checker->isGranted('ROLE_USER'))
-            throw $this->createAccessDeniedException("Nur für registrierte Nutzer sichtbar");
+            return $this->redirect($this->generateUrl("login"));
 
         return $this->render('SwotNetworkBundle:Default:index.html.twig', array('name' => "test"));
     }

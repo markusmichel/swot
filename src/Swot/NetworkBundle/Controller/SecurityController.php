@@ -4,6 +4,7 @@ namespace Swot\NetworkBundle\Controller;
 
 use Swot\NetworkBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 
 class SecurityController extends Controller
@@ -26,6 +27,12 @@ class SecurityController extends Controller
 
 //        $this->getDoctrine()->getManager()->persist($user);
 //        $this->getDoctrine()->getManager()->flush();
+
+        $pw = "hallo";
+        echo $pw;
+        $encoder = new MessageDigestPasswordEncoder();
+        echo $encoder->encodePassword($pw, null);
+
 
         $authenticationUtils = $this->get('security.authentication_utils');
 

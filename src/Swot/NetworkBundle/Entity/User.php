@@ -24,6 +24,31 @@ class User implements UserInterface, \Serializable
     private $id;
 
     /**
+     * @ORM\ManyToMany(targetEntity="Friendship")
+     * @ORM\JoinTable(
+     *  name="users_friendships",
+     *  joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *  inverseJoinColumns={@ORM\JoinColumn(name="friendship_id", referencedColumnName="id")}
+     * )
+     */
+    private $friendships;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Ownership", mappedBy="owner")
+     */
+    private $ownerships;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Rental", mappedBy="userFrom")
+     */
+    private $thingsRent;
+
+    /**
+     * @ORM\OneToMany(targetEntity="Rental", mappedBy="userTo")
+     */
+    private $thingsLent;
+
+    /**
      * @var string
      *
      * @ORM\Column(name="first_name", type="string", length=255)
@@ -47,7 +72,7 @@ class User implements UserInterface, \Serializable
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="birthdate", type="datetime")
+     * @ORM\Column(name="birthdate", type="date")
      */
     private $birthdate;
 
@@ -381,5 +406,145 @@ class User implements UserInterface, \Serializable
             $this->username,
             $this->password,
             ) = unserialize($serialized);
+    }
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->friendships = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->ownerships = new \Doctrine\Common\Collections\ArrayCollection();
+    }
+
+    /**
+     * Add friendships
+     *
+     * @param \Swot\NetworkBundle\Entity\Friendship $friendships
+     * @return User
+     */
+    public function addFriendship(\Swot\NetworkBundle\Entity\Friendship $friendships)
+    {
+        $this->friendships[] = $friendships;
+
+        return $this;
+    }
+
+    /**
+     * Remove friendships
+     *
+     * @param \Swot\NetworkBundle\Entity\Friendship $friendships
+     */
+    public function removeFriendship(\Swot\NetworkBundle\Entity\Friendship $friendships)
+    {
+        $this->friendships->removeElement($friendships);
+    }
+
+    /**
+     * Get friendships
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFriendships()
+    {
+        return $this->friendships;
+    }
+
+    /**
+     * Add ownerships
+     *
+     * @param \Swot\NetworkBundle\Entity\Ownership $ownerships
+     * @return User
+     */
+    public function addOwnership(\Swot\NetworkBundle\Entity\Ownership $ownerships)
+    {
+        $this->ownerships[] = $ownerships;
+
+        return $this;
+    }
+
+    /**
+     * Remove ownerships
+     *
+     * @param \Swot\NetworkBundle\Entity\Ownership $ownerships
+     */
+    public function removeOwnership(\Swot\NetworkBundle\Entity\Ownership $ownerships)
+    {
+        $this->ownerships->removeElement($ownerships);
+    }
+
+    /**
+     * Get ownerships
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getOwnerships()
+    {
+        return $this->ownerships;
+    }
+
+    /**
+     * Add thingsRent
+     *
+     * @param \Swot\NetworkBundle\Entity\Rental $thingsRent
+     * @return User
+     */
+    public function addThingsRent(\Swot\NetworkBundle\Entity\Rental $thingsRent)
+    {
+        $this->thingsRent[] = $thingsRent;
+
+        return $this;
+    }
+
+    /**
+     * Remove thingsRent
+     *
+     * @param \Swot\NetworkBundle\Entity\Rental $thingsRent
+     */
+    public function removeThingsRent(\Swot\NetworkBundle\Entity\Rental $thingsRent)
+    {
+        $this->thingsRent->removeElement($thingsRent);
+    }
+
+    /**
+     * Get thingsRent
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getThingsRent()
+    {
+        return $this->thingsRent;
+    }
+
+    /**
+     * Add thingsLent
+     *
+     * @param \Swot\NetworkBundle\Entity\Rental $thingsLent
+     * @return User
+     */
+    public function addThingsLent(\Swot\NetworkBundle\Entity\Rental $thingsLent)
+    {
+        $this->thingsLent[] = $thingsLent;
+
+        return $this;
+    }
+
+    /**
+     * Remove thingsLent
+     *
+     * @param \Swot\NetworkBundle\Entity\Rental $thingsLent
+     */
+    public function removeThingsLent(\Swot\NetworkBundle\Entity\Rental $thingsLent)
+    {
+        $this->thingsLent->removeElement($thingsLent);
+    }
+
+    /**
+     * Get thingsLent
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getThingsLent()
+    {
+        return $this->thingsLent;
     }
 }

@@ -1,27 +1,6 @@
 #!/usr/bin/env bash
-###########################################################
-#
-# Provisioning script for the Vagrant VM
-#
-# This script is run by Vagrant, based on the Vagrantfile.
-# It sets up the Auf Haxe development server.
-#
-# Check vagrantup.com for general information about Vagrant
-# or https://aufhaxe.de/wiki/entwicklung:setup for a guide.
-#
-###########################################################
 
-# Add better mirror selection for apt
-if ! grep -q mirrors /etc/apt/sources.list; then
-	echo 'deb mirror://mirrors.ubuntu.com/mirrors.txt precise main restricted universe multiverse' | cat - /etc/apt/sources.list > temp && sudo mv temp /etc/apt/sources.list
-	echo 'deb mirror://mirrors.ubuntu.com/mirrors.txt precise-updates main restricted universe multiverse' | cat - /etc/apt/sources.list > temp && sudo mv temp /etc/apt/sources.list
-fi
-
-# Only update package list if the last update is more than 2 weeks ago (or the cache file does not exist yet)
-if [[ $(expr $(date +%s) - $(stat -c %Y /var/cache/apt/pkgcache.bin)) -ge 1209600 || ! -f /var/cache/apt/pkgcache.bin ]]; then
-	sudo apt-get update
-fi
-
+sudo apt-get update
 
 # Prepare the MySQL password (before installation)
 sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password password root'
@@ -31,14 +10,16 @@ sudo debconf-set-selections <<< 'mysql-server mysql-server/root_password_again p
 # Install required packages
 sudo apt-get install -q -y --no-upgrade \
 	apache2 \
+	curl \
 	libapache2-mod-php5 \
+	php5 \
 	php5-mysql \
+	php5-curl \
 	mysql-server \
 	mysql-client \
 	php5-gd \
 	php5-curl \
 	poppler-utils \
-	firefox=11.0+build1-0ubuntu4 \
 	xvfb \
 	openjdk-7-jre-headless \
 	gettext \
@@ -48,17 +29,27 @@ sudo apt-get install -q -y --no-upgrade \
 sudo rm -f /var/www/index.html
 
 
+# Copy tmp vhost file with sudo
+sudo cp /tmp/000-default.conf /etc/apache2/sites-available/000-default.conf
+sudo service apache2 reload
+
+
+# Add latest version of php5
+php_version=$(php -v | grep 'PHP 5.5' | sed 's/.*PHP \([^-]*\).*/\1/' | cut -c 1-3)
+if
+    [ "$php_version" != "5.5" ]; then
+
+    sudo add-apt-repository -y ppa:ondrej/php5
+	sudo apt-get update && sudo apt-get install --only-upgrade -y php5 apache2
+	sudo service apache2 reload
+fi
+
+
 # install PHPUnit
 wget https://phar.phpunit.de/phpunit.phar
 chmod +x phpunit.phar
 sudo mv phpunit.phar /usr/local/bin/phpunit
 phpunit --version
-
-
-# Make htaccess files work
-#sudo sed -i "s/AllowOverride None/AllowOverride All/g" /etc/apache2/sites-available/default
-#sudo a2enmod rewrite
-sudo service apache2 reload
 
 
 # If phpmyadmin does not exist
@@ -93,8 +84,13 @@ then
 fi
 
 
+# Make htaccess files work
+sudo sed -i "s/AllowOverride None/AllowOverride All/g" /etc/apache2/sites-available/default
+sudo a2enmod rewrite
+sudo service apache2 reload
+
+
 cd /var/www
-php -r "readfile('https://getcomposer.org/installer');" | php
 php composer.phar install
 php app/console doctrine:database:create
 php app/console doctrine:schema:update --force

@@ -80,7 +80,7 @@ then
 
 	apt-get -y install phpmyadmin
 
-	sudo ln -s /usr/share/phpmyadmin/ /var/www/phpmyadmin
+	sudo ln -s /usr/share/phpmyadmin/ /var/www/web/phpmyadmin
 fi
 
 

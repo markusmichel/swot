@@ -79,9 +79,9 @@ then
 	echo 'dbconfig-common dbconfig-common/password-confirm password root' | debconf-set-selections
 
 	apt-get -y install phpmyadmin
-
-	sudo ln -s /usr/share/phpmyadmin/ /var/www/web/phpmyadmin
 fi
+
+sudo ln -sf /usr/share/phpmyadmin/ /var/www/web/phpmyadmin
 
 
 # Make htaccess files work

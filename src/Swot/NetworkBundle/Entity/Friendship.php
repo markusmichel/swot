@@ -28,6 +28,8 @@ class Friendship
      */
     private $since;
 
+    //@todo: add references to friends(users)
+
 
     /**
      * Get id

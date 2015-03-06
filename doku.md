@@ -280,3 +280,7 @@ API
 --------------------------------------------------------
 
 # Sicherheit
+
+## `/`
+- IS_AUTHENTICATIED_ANONYMOUSLY --> zeige Informationsseite, evtl. mit login/register
+- ROLE_USER --> zeige persönlichen Newsfeed

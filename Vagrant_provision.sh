@@ -91,6 +91,7 @@ sudo service apache2 reload
 
 
 cd /var/www
+curl -sS https://getcomposer.org/installer | php
 php composer.phar install
 php app/console doctrine:database:create
 php app/console doctrine:schema:update --force

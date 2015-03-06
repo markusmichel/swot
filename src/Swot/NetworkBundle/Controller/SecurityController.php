@@ -25,14 +25,8 @@ class SecurityController extends Controller
         $encoder = $this->get('security.password_encoder');
         $user->setPassword($encoder->encodePassword($user, "markus"));
 
-//        $this->getDoctrine()->getManager()->persist($user);
-//        $this->getDoctrine()->getManager()->flush();
-
-        $pw = "hallo";
-        echo $pw;
-        $encoder = new MessageDigestPasswordEncoder();
-        echo $encoder->encodePassword($pw, null);
-
+      //  $this->getDoctrine()->getManager()->persist($user);
+      //  $this->getDoctrine()->getManager()->flush();
 
         $authenticationUtils = $this->get('security.authentication_utils');
 

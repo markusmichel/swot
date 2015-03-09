@@ -25,12 +25,11 @@ Funktionen
 	- Newsfeed von Gegenstand, chronologisch
 	- Profilbild vom Gegenstand
 	- Gerätespezifische Einstellungen (IFrame auf Gerät)
-	- Netzwerkspezifische Einstellungen mit Gerät:
-		- Gerät teilen
+	- Netzwerkspezifische Einstellungen mit Gerät als Besitzer:
 		- Sichtbarkeit
 		- verleihen
 		- verschenken / übertragen
-		- Mashup?
+		- deregistrieren
 	- Funktionen als Dropdown Menü
 	- Gegenstand entfernen
 		- Gegenstand mitteilen
@@ -79,11 +78,6 @@ Datenmodell
 - *weitere Attribute offen halten*
 
 ### gehört (Gegenstand)
-- Person
-- Gegenstand
-- *weitere Attribute offen halten*
-
-### follow
 - Person
 - Gegenstand
 - *weitere Attribute offen halten*

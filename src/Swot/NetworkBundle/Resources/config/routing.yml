@@ -13,6 +13,10 @@ newsfeed:
     path:     /
     defaults: { _controller: SwotNetworkBundle:Frontend:newsfeed }
 
+my_friends:
+    path:     /friends
+    defaults: { _controller: SwotNetworkBundle:Frontend:myFriends }
+
 #register_user:
 #    path:     /register
 #    defaults: { _controller: SwotNetworkBundle:Security:register }

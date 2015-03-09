@@ -1,0 +1,29 @@
+{# Index page when logged in #}
+
+{% extends "::base.html.twig" %}
+
+{% block title %}SwotNetworkBundle:Frontend:newsfeed{% endblock %}
+
+{% block body %}
+
+    <h1>My Friends</h1>
+
+    {% for friendship in user.friendships %}
+        {# Test if userWho or userWith is the "other" friend/user #}
+        {% if friendship.userWith == user %}
+            {% set friend = friendship.userWho %}
+        {% else %}
+            {% set friend = friendship.userWith %}
+        {% endif %}
+
+        {% set friend = friendship.otherUser(user) %}
+
+        {{ friend.username }}<br/>
+        {{ friend.firstName }}<br/>
+        {{ friend.lastName }}<br/>
+
+        <hr/>
+
+    {% endfor %}
+
+{% endblock %}

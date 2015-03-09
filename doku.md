@@ -35,6 +35,10 @@ Funktionen
 	- Gegenstand entfernen
 		- Gegenstand mitteilen
 		- Token wieder freischalten
+    - Gerät kann öffentlich, eingeschränkt, privat sein    
+        - privat: niemand sieht es, aber verleihen/teilen möglich    
+        - eingeschränkt: Freunde sehen das Gerät und können es bedienen   
+        - öffentlich: alle können das Gerät sehen und bedienen
 
 
 
@@ -285,3 +289,15 @@ API
 ## `/`
 - IS_AUTHENTICATIED_ANONYMOUSLY --> zeige Informationsseite, evtl. mit login/register
 - ROLE_USER --> zeige persönlichen Newsfeed
+
+## Security beim Gerät selbst:   
+- Token periodisch selber erstellen und Netzwerk mitteilen
+- Admin-Funktion: deregistrieren
+
+--------------------------------------------------------
+
+# Ausblick
+
+- Funktionen unterteilen --> manche Funktionen öffentlich, manche nicht
+- Sichtbarkeit und Zugriff unterscheiden
+- Strengere Zugriffsrichtlinien

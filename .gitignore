@@ -42,3 +42,6 @@
 # Vagrant
 /.vagrant/
 web/phpmyadmin
+app/check.php
+/web/config.php
+app/SymfonyRequirements.php

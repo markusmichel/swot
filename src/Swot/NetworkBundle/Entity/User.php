@@ -11,6 +11,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Swot\NetworkBundle\Entity\UserRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class User implements UserInterface, \Serializable
 {
@@ -86,7 +87,7 @@ class User implements UserInterface, \Serializable
     /**
      * @var string
      *
-     * @ORM\Column(name="profile_image", type="string", length=255)
+     * @ORM\Column(name="profile_image", type="string", length=255, nullable=true)
      */
     private $profileImage;
 
@@ -109,6 +110,22 @@ class User implements UserInterface, \Serializable
      */
     private $password;
 
+    /**
+     * Constructor
+     */
+    public function __construct() {
+        $this->friendships = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->ownerships = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->activated = false;
+    }
+
+    /**
+     * @ORM\PrePersist
+     */
+    public function setRegisteredDateValue()
+    {
+        $this->registeredDate = new \DateTime();
+    }
 
     /**
      * Get id
@@ -406,14 +423,6 @@ class User implements UserInterface, \Serializable
             $this->username,
             $this->password,
             ) = unserialize($serialized);
-    }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->friendships = new \Doctrine\Common\Collections\ArrayCollection();
-        $this->ownerships = new \Doctrine\Common\Collections\ArrayCollection();
     }
 
     /**

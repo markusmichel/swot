@@ -3,31 +3,19 @@
 namespace Swot\NetworkBundle\Controller;
 
 use Swot\NetworkBundle\Entity\User;
+use Swot\NetworkBundle\Form\UserType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
 use Symfony\Component\Security\Core\Encoder\MessageDigestPasswordEncoder;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
+use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class SecurityController extends Controller
 {
-    public function loginAction()
+    public function loginAction(Request $request)
     {
-        $user = new User();
-        $user->setActivated(true);
-        $user->setBirthdate(new \DateTime());
-        $user->setFirstName("Markus");
-        $user->setLastName("Michel");
-        $user->setGender("m");
-        $user->setProfileImage("");
-        $user->setRegisteredDate(new \DateTime());
-        $user->setUsername("markus");
-
-        /** @var PasswordEncoderInterface $encoder */
-        $encoder = $this->get('security.password_encoder');
-        $user->setPassword($encoder->encodePassword($user, "markus"));
-
-      //  $this->getDoctrine()->getManager()->persist($user);
-      //  $this->getDoctrine()->getManager()->flush();
-
+        /** @var AuthenticationUtils $authenticationUtils */
         $authenticationUtils = $this->get('security.authentication_utils');
 
         // get the login error if there is one
@@ -36,10 +24,36 @@ class SecurityController extends Controller
         // last username entered by the user
         $lastUsername = $authenticationUtils->getLastUsername();
 
+        // register form
+        $userToRegister = new User();
+        $registerForm = $this->createForm(new UserType(), $userToRegister);
+
+        if($request->getMethod() === 'POST') {
+            $registerForm->handleRequest($request);
+
+            if($registerForm->isValid()) {
+                /** @var PasswordEncoderInterface $encoder */
+                $encoder = $this->get('security.password_encoder');
+                $encodedPassword = $encoder->encodePassword($userToRegister, $userToRegister->getPassword());
+                $userToRegister->setPassword($encodedPassword);
+
+                $this->getDoctrine()->getManager()->persist($userToRegister);
+                $this->getDoctrine()->getManager()->flush();
+
+                // login registered user
+                $token = new UsernamePasswordToken($userToRegister, null, 'main', $userToRegister->getRoles());
+                $this->get('security.token_storage')->setToken($token);
+
+                return $this->redirect($this->generateUrl('newsfeed'));
+            }
+
+        }
+
         return $this->render('SwotNetworkBundle:Security:login.html.twig', array(
             // last username entered by the user
             'last_username' => $lastUsername,
             'error'         => $error,
+            'register_form' => $registerForm->createView(),
         ));
     }
 
@@ -47,5 +61,7 @@ class SecurityController extends Controller
     {
 
     }
+
+
 
 }

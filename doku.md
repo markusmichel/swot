@@ -182,7 +182,7 @@ API
 	- Gerät antwortet mit JSON Liste
 	- Liste enthält Namen der Funktionen + URLs zum Aufruf + Parameter
 	
-	```javascript
+```javascript
 {
 	"device": {
 		"id": 12345,
@@ -212,7 +212,7 @@ API
 		]
 	}
 }
-	```
+```
 
 
 ## Newsfeed + Profil Gerät
@@ -226,17 +226,19 @@ API
 - ?? Geräteeinstellungen per JSON `/settings` - liefert JSON Datei mit Einstellungsmöglichkeiten zurück
 - Aktion ausführen `/action`; Parameter per POST
 	- Rückmeldung: JSON - Datei
-	```JSON
-{
 
-}
+	```JSON
+	{
+	
+	}
 	```
 
 	- Broadcast der Rückmeldeantwort (evtl. mit Zusatzinformationen vom Netzwerk)
-	```JSON
-{
 
-}
+	```JSON
+	{
+	
+	}
 	```
 
 - Registrierung eines Geräts `/register`
@@ -253,10 +255,12 @@ API
 ## Schnittstellen, die Geräte aufrufen können
 - Statusupdate `/api/v1/device/status`
 	- Netzwerk broadcastet die Meldung
-	```JSON
-{
 
-}
+
+	```JSON
+	{
+	
+	}
 	```
 
 ## Standardcodes und Antworten

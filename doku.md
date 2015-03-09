@@ -44,6 +44,7 @@ Funktionen
 
 - Profilseite Person
 	- Newsfeed
+	- sichtbare Gegenstände
 	- Name, Bild
 	- Löschen/entfernen
 

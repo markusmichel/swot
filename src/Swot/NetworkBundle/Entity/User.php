@@ -26,10 +26,9 @@ class User implements UserInterface, \Serializable
 
     /**
      * @ORM\ManyToMany(targetEntity="Friendship")
-     * @ORM\JoinTable(
-     *  name="users_friendships",
-     *  joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *  inverseJoinColumns={@ORM\JoinColumn(name="friendship_id", referencedColumnName="id")}
+     * @ORM\JoinTable(name="users_friendships",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="friendship_id", referencedColumnName="id")}
      * )
      */
     private $friendships;

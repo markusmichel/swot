@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Swot\NetworkBundle\Entity\FriendshipRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Friendship
 {
@@ -28,7 +29,33 @@ class Friendship
      */
     private $since;
 
-    //@todo: add references to friends(users)
+    /**
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="user_who_id", referencedColumnName="id")
+     */
+    private $userWho;
+
+    /**
+     * @ORM\ManyToOne(targetEntity="User")
+     * @ORM\JoinColumn(name="user_with_id", referencedColumnName="id")
+     */
+    private $userWith;
+
+    /**
+     * Helper function to return the user who is NOT the passed other.
+     * @param User $user User to compare
+     * @return \Swot\NetworkBundle\Entity\User The other user of the relation in the friendship.
+     */
+    public function getOtherUser(User $user) {
+        return ($user === $this->userWho) ? $this->userWith : $this->userWho;
+    }
+
+    /**
+     * @ORM\PrePersist()
+     */
+    public function prePersist() {
+        $this->setSince(new \DateTime());
+    }
 
 
     /**
@@ -62,5 +89,51 @@ class Friendship
     public function getSince()
     {
         return $this->since;
+    }
+
+    /**
+     * Set userWho
+     *
+     * @param \Swot\NetworkBundle\Entity\User $userWho
+     * @return Friendship
+     */
+    public function setUserWho(\Swot\NetworkBundle\Entity\User $userWho = null)
+    {
+        $this->userWho = $userWho;
+
+        return $this;
+    }
+
+    /**
+     * Get userWho
+     *
+     * @return \Swot\NetworkBundle\Entity\User 
+     */
+    public function getUserWho()
+    {
+        return $this->userWho;
+    }
+
+    /**
+     * Set userWith
+     *
+     * @param \Swot\NetworkBundle\Entity\User $userWith
+     * @return Friendship
+     */
+    public function setUserWith(\Swot\NetworkBundle\Entity\User $userWith = null)
+    {
+        $this->userWith = $userWith;
+
+        return $this;
+    }
+
+    /**
+     * Get userWith
+     *
+     * @return \Swot\NetworkBundle\Entity\User 
+     */
+    public function getUserWith()
+    {
+        return $this->userWith;
     }
 }

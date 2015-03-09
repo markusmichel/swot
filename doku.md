@@ -25,12 +25,11 @@ Funktionen
 	- Newsfeed von Gegenstand, chronologisch
 	- Profilbild vom Gegenstand
 	- Gerätespezifische Einstellungen (IFrame auf Gerät)
-	- Netzwerkspezifische Einstellungen mit Gerät:
-		- Gerät teilen
+	- Netzwerkspezifische Einstellungen mit Gerät als Besitzer:
 		- Sichtbarkeit
 		- verleihen
 		- verschenken / übertragen
-		- Mashup?
+		- deregistrieren
 	- Funktionen als Dropdown Menü
 	- Gegenstand entfernen
 		- Gegenstand mitteilen
@@ -83,11 +82,6 @@ Datenmodell
 - *weitere Attribute offen halten*
 
 ### gehört (Gegenstand)
-- Person
-- Gegenstand
-- *weitere Attribute offen halten*
-
-### follow
 - Person
 - Gegenstand
 - *weitere Attribute offen halten*
@@ -186,7 +180,7 @@ API
 	- Gerät antwortet mit JSON Liste
 	- Liste enthält Namen der Funktionen + URLs zum Aufruf + Parameter
 	
-	```javascript
+```javascript
 {
 	"device": {
 		"id": 12345,
@@ -216,7 +210,7 @@ API
 		]
 	}
 }
-	```
+```
 
 
 ## Newsfeed + Profil Gerät
@@ -230,17 +224,19 @@ API
 - ?? Geräteeinstellungen per JSON `/settings` - liefert JSON Datei mit Einstellungsmöglichkeiten zurück
 - Aktion ausführen `/action`; Parameter per POST
 	- Rückmeldung: JSON - Datei
-	```JSON
-{
 
-}
+	```JSON
+	{
+	
+	}
 	```
 
 	- Broadcast der Rückmeldeantwort (evtl. mit Zusatzinformationen vom Netzwerk)
-	```JSON
-{
 
-}
+	```JSON
+	{
+	
+	}
 	```
 
 - Registrierung eines Geräts `/register`
@@ -257,10 +253,12 @@ API
 ## Schnittstellen, die Geräte aufrufen können
 - Statusupdate `/api/v1/device/status`
 	- Netzwerk broadcastet die Meldung
-	```JSON
-{
 
-}
+
+	```JSON
+	{
+	
+	}
 	```
 
 ## Standardcodes und Antworten

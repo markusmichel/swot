@@ -39,6 +39,15 @@ class FrontendController extends Controller
         ));
     }
 
+    /**
+     * Shows the logged in user's things.
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function myThingsAction(Request $request) {
+        return $this->render('SwotNetworkBundle:Frontend:myThings.html.twig');
+    }
+
     private function generateTestFriends() {
         /** @var User $user */
         $user = $this->getUser();

@@ -1,0 +1,19 @@
+{# Shows the loggin in user's things #}
+
+{% extends "::base.html.twig" %}
+
+{% block title %}SwotNetworkBundle:Frontend:newsfeed{% endblock %}
+
+{% block body %}
+
+    <h1>My Things</h1>
+    {% for ownership in app.user.ownerships %}
+        {% include 'SwotNetworkBundle:Frontend:myThingsEntry.html.twig' with {thing: ownership.thing} %}
+    {% endfor %}
+
+    <h1>Things lent to me</h1>
+    {% for thing in app.user.thingsLent %}
+        {% include 'SwotNetworkBundle:Frontend:myThingsEntry.html.twig' with {thing: thing} %}
+    {% endfor %}
+
+{% endblock %}

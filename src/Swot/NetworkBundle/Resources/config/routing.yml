@@ -17,6 +17,10 @@ my_friends:
     path:     /friends
     defaults: { _controller: SwotNetworkBundle:Frontend:myFriends }
 
+my_things:
+    path:     /things
+    defaults: { _controller: SwotNetworkBundle:Frontend:myThings }
+
 #register_user:
 #    path:     /register
 #    defaults: { _controller: SwotNetworkBundle:Security:register }

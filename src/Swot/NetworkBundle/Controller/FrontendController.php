@@ -9,7 +9,8 @@ class FrontendController extends Controller
     public function newsfeedAction()
     {
         return $this->render('SwotNetworkBundle:Frontend:newsfeed.html.twig', array(
-                // ...
-            ));    }
+            // ...
+        ));
+    }
 
 }

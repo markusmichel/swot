@@ -52,7 +52,9 @@ class Ownership
     }
 
     /**
-     * Set since
+     * Set since.
+     * Should not be called.
+     * Model automatically sets since when owner or thing changes.
      *
      * @param \DateTime $since
      * @return Ownership
@@ -82,6 +84,7 @@ class Ownership
      */
     public function setOwner(\Swot\NetworkBundle\Entity\User $owner = null)
     {
+        if($this->owner !== $owner) $this->setSince(new \DateTime());
         $this->owner = $owner;
 
         return $this;
@@ -105,6 +108,7 @@ class Ownership
      */
     public function setThing(\Swot\NetworkBundle\Entity\Thing $thing = null)
     {
+        if($this->thing !== $thing) $this->setSince(new \DateTime());
         $this->thing = $thing;
 
         return $this;

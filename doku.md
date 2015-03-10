@@ -292,6 +292,45 @@ API
 - Token periodisch selber erstellen und Netzwerk mitteilen
 - Admin-Funktion: deregistrieren
 
+## Voters
+Voter werden verwendet, um spezielle Zugriffsrechte von Nutzern zu prüfen.
+Voter können in Controllern per
+
+```php
+$this->get('security.authorization_checker')->isGranted(...);
+```
+
+oder im Template
+
+```Twig
+{% if is_granted('ROLE_ADMIN') %}
+    <a href="...">Delete</a>
+{% endif %}
+```
+
+aufgerufen werden.
+
+### ThingVoter
+Prüft auf Rechte von Nutzern für Aktionen auf Gegenstände.
+Unterstützte Aktionen:
+- view
+- access
+- admin
+
+Bsp:
+
+```php
+$this->get('security.authorization_checker')->isGranted(ThingVoter::ACCESS, $thing);
+```
+
+bzw:
+
+```twig
+{% if is_granted('access', thing) %}
+    is granted
+{% endif %}
+```
+
 --------------------------------------------------------
 
 # Ausblick

@@ -2,6 +2,7 @@
 
 namespace Swot\NetworkBundle\Controller;
 
+use Swot\NetworkBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 
@@ -23,8 +24,12 @@ class FriendController extends Controller
 
     public function showAction($id)
     {
+        /** @var User $user */
+        $user = $this->getDoctrine()->getRepository('SwotNetworkBundle:User')->find($id);
+
         return $this->render('SwotNetworkBundle:Friend:show.html.twig', array(
-                // ...
-            ));    }
+            'user'  => $user,
+        ));
+    }
 
 }

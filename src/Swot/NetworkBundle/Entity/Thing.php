@@ -45,7 +45,7 @@ class Thing
     /**
      * @ORM\OneToOne(targetEntity="Ownership", mappedBy="thing", cascade={"persist"})
      */
-    private $owner;
+    private $ownership;
 
     /**
      * @ORM\OneToMany(targetEntity="Rental", mappedBy="thing")
@@ -139,13 +139,13 @@ class Thing
      * Set owner.
      * Automatically sets owner since when owner changes.
      *
-     * @param \Swot\NetworkBundle\Entity\Ownership $owner
+     * @param \Swot\NetworkBundle\Entity\Ownership $ownership
      * @return Thing
      */
-    public function setOwner(\Swot\NetworkBundle\Entity\Ownership $owner = null)
+    public function setOwnership(\Swot\NetworkBundle\Entity\Ownership $ownership = null)
     {
-        if($this->getOwner() !== $owner) $this->setOwnerSince(new \DateTime());
-        $this->owner = $owner;
+        if($this->getOwnership() !== $ownership) $this->setOwnerSince(new \DateTime());
+        $this->ownership = $ownership;
 
         return $this;
     }
@@ -155,9 +155,9 @@ class Thing
      *
      * @return \Swot\NetworkBundle\Entity\Ownership 
      */
-    public function getOwner()
+    public function getOwnership()
     {
-        return $this->owner;
+        return $this->ownership;
     }
     /**
      * Constructor

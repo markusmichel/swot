@@ -21,7 +21,7 @@ class ThingController extends Controller
         $thing = $this->getDoctrine()->getRepository("SwotNetworkBundle:Thing")->find($id);
 
         // Check if thing exists and has an owner
-        if(null === $thing || $thing->getOwner() === null) {
+        if(null === $thing || $thing->getOwnership() === null) {
             // @todo: message string
             $this->addFlash('notice', 'Thing does not exist');
             return $this->redirectToRoute('my_things');

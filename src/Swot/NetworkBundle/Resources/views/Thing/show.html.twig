@@ -1,5 +1,5 @@
 <h1>Name: {{ thing.name }}</h1>
-<h2>Owner: {{ thing.owner.owner.username }}</h2>
+<h2>Owner: {{ thing.ownership.owner.username }}</h2>
 
 {% if is_granted('admin', thing) %}
     {{ form(delete_form) }}

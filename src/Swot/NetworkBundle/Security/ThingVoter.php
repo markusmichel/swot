@@ -81,7 +81,7 @@ class ThingVoter implements VoterInterface {
         $user = $token->getUser();
 
         // Check if the user is logged in and the thing exists
-        if(!$user instanceof UserInterface || $thing === null || $thing->getOwner() === null) {
+        if(!$user instanceof UserInterface || $thing === null || $thing->getOwnership() === null) {
             return VoterInterface::ACCESS_DENIED;
         }
 
@@ -110,7 +110,7 @@ class ThingVoter implements VoterInterface {
      * @return bool
      */
     private function isOwner($user, $thing) {
-        return $thing->getOwner()->getOwner() === $user;
+        return $thing->getOwnership()->getOwner() === $user;
     }
 
     /**

@@ -87,7 +87,7 @@ class FrontendController extends Controller
         $ownership = new Ownership();
         $ownership->setOwner($user);
         $ownership->setThing($thing);
-        $thing->setOwner($ownership);
+        $thing->setOwnership($ownership);
         $user->addOwnership($ownership);
 
         $this->getDoctrine()->getManager()->persist($user);
@@ -128,7 +128,7 @@ class FrontendController extends Controller
         $ownership = new Ownership();
         $ownership->setOwner($friend);
         $ownership->setThing($thing);
-        $thing->setOwner($ownership);
+        $thing->setOwnership($ownership);
         $friend->addOwnership($ownership);
 
         $rental = new Rental();

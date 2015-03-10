@@ -35,7 +35,7 @@ class Ownership
     private $owner;
 
     /**
-     * @ORM\OneToOne(targetEntity="Thing", inversedBy="owner")
+     * @ORM\OneToOne(targetEntity="Thing", inversedBy="ownership")
      * @ORM\JoinColumn(name="thing_id", referencedColumnName="id")
      */
     private $thing;

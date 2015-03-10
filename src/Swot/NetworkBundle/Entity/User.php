@@ -125,7 +125,7 @@ class User implements UserInterface, \Serializable
      */
     public function isFriendOf(UserInterface $user) {
         /** @var Friendship $friendship */
-        foreach($user->getFriendships() as $friendship) {
+        foreach($this->getFriendships() as $friendship) {
             if ($friendship->getOtherUser($this) === $user) {
                 return true;
             }

@@ -23,25 +23,13 @@
 
                 <!-- Off Canvas Menu -->
                 <aside class="left-off-canvas-menu">
-                    <ul>
-                        <li><a href="{{ path('newsfeed') }}">Freunde finden</a></li>
-                        <li><a href="{{ path('my_friends') }}">Freunde anzeigen</a></li>
-                        <li><a href="{{ path('newsfeed') }}">Nachrichten</a></li>
-                        <li><a href="{{ path('my_things') }}">Gegenstände anzeigen</a></li>
-                        <li><a href="{{ path('newsfeed') }}">Gegenstände hinzufügen</a></li>
-                    </ul>
+                    {% include 'navigation.html.twig' %}
                 </aside>
                 <div class="row">
                     <div class="large-12 small-centered columns">
                         <div class="row">
                             <div class="large-4 columns show-for-large-up">
-                                <ul>
-                                    <li><a href="{{ path('newsfeed') }}">Freunde finden</a></li>
-                                    <li><a href="{{ path('my_friends') }}">Freunde anzeigen</a></li>
-                                    <li><a href="{{ path('newsfeed') }}">Nachrichten</a></li>
-                                    <li><a href="{{ path('my_things') }}">Gegenstände anzeigen</a></li>
-                                    <li><a href="{{ path('newsfeed') }}">Gegenstände hinzufügen</a></li>
-                                </ul>
+                                {% include 'navigation.html.twig' %}
                             </div>
             <div class="large-8  columns">
                 {% block body %}{% endblock %}

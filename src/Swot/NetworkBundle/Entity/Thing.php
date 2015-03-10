@@ -86,7 +86,11 @@ class Thing
     }
 
     /**
-     * Set ownerSince
+     * Set ownerSince.
+     * Should not be called.
+     * Model automatically sets ownerSince when owner changes.
+     * @todo: check if it can safely be removed.
+     * @see setOwner
      *
      * @param \DateTime $ownerSince
      * @return Thing
@@ -132,13 +136,15 @@ class Thing
     }
 
     /**
-     * Set owner
+     * Set owner.
+     * Automatically sets owner since when owner changes.
      *
      * @param \Swot\NetworkBundle\Entity\Ownership $owner
      * @return Thing
      */
     public function setOwner(\Swot\NetworkBundle\Entity\Ownership $owner = null)
     {
+        if($this->getOwner() !== $owner) $this->setOwnerSince(new \DateTime());
         $this->owner = $owner;
 
         return $this;

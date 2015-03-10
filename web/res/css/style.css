@@ -1,6 +1,16 @@
+html, body{
+    height:100%;
+}
+
+body {
+    padding: 0;
+    margin: 0;
+    font-family: 'Slabo 27px', serif;
+}
+
 
 .top-bar .toggle-topbar{
-	left:0px;
+	left:0;
 	right: auto;
 }
 
@@ -47,115 +57,24 @@
     background-image: url("../gfx/lock.png");
 }
 
-html, body{
-  height:100%;
+.thing-list-item {
+    width: 130px;
+    height: 130px;
 }
 
-body {
-	padding: 0;
-	margin: 0;
-	font-family: 'Slabo 27px', serif;
+.thing-list-item-inner {
+    width: 130px;
+    height: 130px;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
 }
 
-ul {
-    list-style-type: none;
-    padding: 0;
-    margin: 0;
+.thing-list-item img {
+    opacity: 0.1;
+    width: 130px;
+    position: absolute;
 }
 
-.main {
-	float: left;
-	height: 100%;
-	width: 790px;
-}
 
-li {
-	margin: 10px;
-}
 
-.devices-list li {
-	display: inline-block;
-	cursor: pointer;
-	font-size: 23px;
-	text-align: center;
-}
-
-.device-actions li {
-	display: inline-block;
-	cursor: pointer;
-	font-size: 23px;
-	text-align: center;
-	border: 1px solid black;
-	width: 70px;
-	height: 50px;
-	padding-top: 20px;
-}
-
-.devices-list li:hover, .device-actions li:hover {
-	color: green;
-}
-
-.main-title {
-    font-size: 28px;
-    height: 36px;
-    padding-left: 18px;
-    padding-top: 4px;
-}
-
-.device-actions ul {
-	margin: 0;
-}
-
-.devices-add {
-	margin: 20px;
-}
-
-.news-item {
-	margin: 20px;
-	padding: 10px;
-	border: 1px solid black;
-}
-
-.device-top > div {
-	display: inline-block;	
-}
-
-.device-top > div:nth-child(2) {
-	margin-right: 270px;	
-}
-
-.device-top, .device-center {
-	margin-bottom: 70px;
-}
-
-.device-detail-picture {
-	width: 150px;
-	height: 150px;
-	border: 1px solid black;
-}
-
-.devices-list-picture {
-	width: 50px;
-	height: 50px;
-	border: 1px solid black;
-	margin: 8px;
-}
-
-.news-picture {
-	width: 50px;
-}
-
-.news-header * {
-	display: inline-block;
-	height: 50px;
-	vertical-align: middle;
-}
-
-.news-header {
-	margin-bottom: 10px;
-}
-
-.device-admin-functions * {
-	cursor: pointer;
-	text-align: right;
-}

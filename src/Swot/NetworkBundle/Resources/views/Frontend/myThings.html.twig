@@ -13,13 +13,20 @@
     {% endfor %}
 
     <h1>My Things</h1>
-    {% for ownership in app.user.ownerships %}
-        {% include 'SwotNetworkBundle:Frontend:myThingsEntry.html.twig' with {thing: ownership.thing} %}
-    {% endfor %}
+        <ul class="small-block-grid-2 large-block-grid-4">
+            {% for ownership in app.user.ownerships %}
+                <li>
+                    {% include 'SwotNetworkBundle:Frontend:myThingsEntry.html.twig' with {thing: ownership.thing} %}
+                </li>
+            {% endfor %}
+        </ul>
+
 
     <h1>Things lent to me</h1>
-    {% for thing in app.user.thingsLent %}
-        {% include 'SwotNetworkBundle:Frontend:myThingsEntry.html.twig' with {thing: thing.thing} %}
-    {% endfor %}
+        <ul class="small-block-grid-2 large-block-grid-4">
+            {% for thing in app.user.thingsLent %}
+                {% include 'SwotNetworkBundle:Frontend:myThingsEntry.html.twig' with {thing: thing.thing} %}
+            {% endfor %}
+        </ul>
 
 {% endblock %}

@@ -5,4 +5,4 @@ thing_show:
 thing_delete:
     path:     /{id}/delete
     defaults: { _controller: "SwotNetworkBundle:Thing:delete" }
-#    methods:  [POST, DELETE]
+    methods:  [POST, DELETE]

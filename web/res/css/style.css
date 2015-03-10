@@ -6,8 +6,8 @@
 
 .top-bar .name {
 	background: transparent url("../gfx/title.png") no-repeat center center;
-	width: 180	px;
-	margin-left: 80px;
+	width: 180px;
+	margin: auto;
 }
 
 .top-bar {
@@ -24,27 +24,28 @@
 }	
 
 .news-icon {
-	background-image: url("icons/calendar-text.png");
+	background-image: url("../gfx/calendar-text.png");
 }
 
 .profile-icon {
-	background-image: url("icons/account-star.png");
+	background-image: url("../gfx/account-star.png");
 }
 
 .messages-icon {
-	background-image: url("icons/comment.png");
+	background-image: url("../gfx/comment.png");
 }
 
 .friends-icon {
-	background-image: url("icons/account-multiple.png");
+	background-image: url("../gfx/account-multiple.png");
 }
 
 .devices-icon {
-	background-image: url("icons/hexagon-outline.png");
+	background-image: url("../gfx/hexagon-outline.png");
 }
 
 .account-icon {
-	background-image: url("icons/lock.png");
+    background-image: url("../gfx/lock.png");
+}
 
 html, body{
   height:100%;
@@ -54,47 +55,18 @@ body {
 	padding: 0;
 	margin: 0;
 	font-family: 'Slabo 27px', serif;
-	background-color: #ffe8e6;
 }
 
 ul {
-
     list-style-type: none;
     padding: 0;
     margin: 0;
-}
-
-a {
-	color: black;
-    text-decoration: none;
-}
-
-.content {
-	margin-left: auto;
-	margin-right: auto;
-	margin-top: 25px;
-	margin-bottom: 40px;
-	width: 960px;
-	height: 85%;
 }
 
 .main {
 	float: left;
 	height: 100%;
 	width: 790px;
-}
-
-.header {
-	height: 65px;
-	width: 100%;
-	background-color: #FEAF10;
-}
-
-.navigation {
-	float: left;
-	height: 100%;
-	margin-right: 20px;
-	width: 150px;
 }
 
 li {
@@ -167,21 +139,6 @@ li {
 	height: 50px;
 	border: 1px solid black;
 	margin: 8px;
-}
-
-.toaster-pic {
-	background: transparent url("toaster.jpg") no-repeat center center;
-	background-size: contain;
-}
-
-.skoda-pic {
-	background: transparent url("auto.jpg") no-repeat center center;
-	background-size: contain;
-}
-
-.person-pic {
-	background: transparent url("person.jpg") no-repeat center center;
-	background-size: contain;
 }
 
 .news-picture {

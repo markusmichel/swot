@@ -1,0 +1,204 @@
+
+.top-bar .toggle-topbar{
+	left:0px;
+	right: auto;
+}
+
+.top-bar .name {
+	background: transparent url("../gfx/title.png") no-repeat center center;
+	width: 180	px;
+	margin-left: 80px;
+}
+
+.top-bar {
+	background-color: #FEAF10;
+	margin-bottom: 40px;
+}
+
+.nav-item {
+	height: 36px;
+	padding-left: 42px;
+	padding-top: 8px;
+	background-position: left center;
+	background-repeat: no-repeat;
+}	
+
+.news-icon {
+	background-image: url("icons/calendar-text.png");
+}
+
+.profile-icon {
+	background-image: url("icons/account-star.png");
+}
+
+.messages-icon {
+	background-image: url("icons/comment.png");
+}
+
+.friends-icon {
+	background-image: url("icons/account-multiple.png");
+}
+
+.devices-icon {
+	background-image: url("icons/hexagon-outline.png");
+}
+
+.account-icon {
+	background-image: url("icons/lock.png");
+
+html, body{
+  height:100%;
+}
+
+body {
+	padding: 0;
+	margin: 0;
+	font-family: 'Slabo 27px', serif;
+	background-color: #ffe8e6;
+}
+
+ul {
+
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+a {
+	color: black;
+    text-decoration: none;
+}
+
+.content {
+	margin-left: auto;
+	margin-right: auto;
+	margin-top: 25px;
+	margin-bottom: 40px;
+	width: 960px;
+	height: 85%;
+}
+
+.main {
+	float: left;
+	height: 100%;
+	width: 790px;
+}
+
+.header {
+	height: 65px;
+	width: 100%;
+	background-color: #FEAF10;
+}
+
+.navigation {
+	float: left;
+	height: 100%;
+	margin-right: 20px;
+	width: 150px;
+}
+
+li {
+	margin: 10px;
+}
+
+.devices-list li {
+	display: inline-block;
+	cursor: pointer;
+	font-size: 23px;
+	text-align: center;
+}
+
+.device-actions li {
+	display: inline-block;
+	cursor: pointer;
+	font-size: 23px;
+	text-align: center;
+	border: 1px solid black;
+	width: 70px;
+	height: 50px;
+	padding-top: 20px;
+}
+
+.devices-list li:hover, .device-actions li:hover {
+	color: green;
+}
+
+.main-title {
+    font-size: 28px;
+    height: 36px;
+    padding-left: 18px;
+    padding-top: 4px;
+}
+
+.device-actions ul {
+	margin: 0;
+}
+
+.devices-add {
+	margin: 20px;
+}
+
+.news-item {
+	margin: 20px;
+	padding: 10px;
+	border: 1px solid black;
+}
+
+.device-top > div {
+	display: inline-block;	
+}
+
+.device-top > div:nth-child(2) {
+	margin-right: 270px;	
+}
+
+.device-top, .device-center {
+	margin-bottom: 70px;
+}
+
+.device-detail-picture {
+	width: 150px;
+	height: 150px;
+	border: 1px solid black;
+}
+
+.devices-list-picture {
+	width: 50px;
+	height: 50px;
+	border: 1px solid black;
+	margin: 8px;
+}
+
+.toaster-pic {
+	background: transparent url("toaster.jpg") no-repeat center center;
+	background-size: contain;
+}
+
+.skoda-pic {
+	background: transparent url("auto.jpg") no-repeat center center;
+	background-size: contain;
+}
+
+.person-pic {
+	background: transparent url("person.jpg") no-repeat center center;
+	background-size: contain;
+}
+
+.news-picture {
+	width: 50px;
+}
+
+.news-header * {
+	display: inline-block;
+	height: 50px;
+	vertical-align: middle;
+}
+
+.news-header {
+	margin-bottom: 10px;
+}
+
+.device-admin-functions * {
+	cursor: pointer;
+	text-align: right;
+}

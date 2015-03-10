@@ -119,6 +119,22 @@ class User implements UserInterface, \Serializable
     }
 
     /**
+     * Is the user a friend of the current user.
+     * @param UserInterface $user
+     * @return bool True if the passed user is a friend of the current user alse false.
+     */
+    public function isFriendOf(UserInterface $user) {
+        /** @var Friendship $friendship */
+        foreach($user->getFriendships() as $friendship) {
+            if ($friendship->getOtherUser($this) === $user) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    /**
      * @ORM\PrePersist
      */
     public function setRegisteredDateValue()

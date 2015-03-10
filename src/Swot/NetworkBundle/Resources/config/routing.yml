@@ -21,9 +21,9 @@ my_things:
     path:     /things
     defaults: { _controller: SwotNetworkBundle:Frontend:myThings }
 
-delete_thing:
-    path:     /things/delete/{id}
-    defaults: { _controller: SwotNetworkBundle:Frontend:deleteThing }
+swot_network_thing:
+    resource: "@SwotNetworkBundle/Resources/config/routing/thing.yml"
+    prefix:   /things
 
 #register_user:
 #    path:     /register

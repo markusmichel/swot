@@ -2,6 +2,7 @@
 
 namespace Swot\NetworkBundle\Controller;
 
+use Swot\NetworkBundle\Entity\Ownership;
 use Swot\NetworkBundle\Entity\Rental;
 use Swot\NetworkBundle\Entity\Thing;
 use Swot\NetworkBundle\Entity\User;
@@ -41,6 +42,7 @@ class ThingController extends Controller
     }
 
     public function deleteAction(Request $request, $id) {
+        /** @var Thing $thing */
         $thing = $this->getDoctrine()->getRepository('SwotNetworkBundle:Thing')->find($id);
 
         if($thing === null) {
@@ -57,7 +59,28 @@ class ThingController extends Controller
         $form->handleRequest($request);
 
         if($form->isValid()) {
-            // @todo: delete thing
+            $manager = $this->getDoctrine()->getManager();
+
+            /** @var Ownership $ownership */
+            $ownership = $thing->getOwnership();
+            $ownership->getOwner()->removeOwnership($ownership);
+
+            /** @var Rental $rental */
+            foreach($thing->getRentals() as $rental) {
+                $rental->getThing()->removeRental($rental);
+                $rental->getUserFrom()->removeThingsRent($rental);
+                $rental->getUserFrom()->removeThingsLent($rental);
+                $rental->getUserTo()->removeThingsRent($rental);
+                $rental->getUserTo()->removeThingsLent($rental);
+
+                $manager->persist($rental->getUserFrom());
+                $manager->persist($rental->getUserTo());
+                $manager->remove($rental);
+            }
+
+            $manager->remove($ownership);
+            $manager->remove($thing);
+            $manager->flush();
         }
 
         return $this->redirectToRoute('my_things');

@@ -1,4 +1,6 @@
 <h1>Name: {{ thing.name }}</h1>
 <h2>Owner: {{ thing.owner.owner.username }}</h2>
 
-{{ form(delete_form) }}
+{% if is_granted('admin', thing) %}
+    {{ form(delete_form) }}
+{% endif %}

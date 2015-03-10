@@ -3,6 +3,9 @@
 namespace Swot\NetworkBundle\Controller;
 
 use Swot\NetworkBundle\Entity\Friendship;
+use Swot\NetworkBundle\Entity\Ownership;
+use Swot\NetworkBundle\Entity\Rental;
+use Swot\NetworkBundle\Entity\Thing;
 use Swot\NetworkBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -45,6 +48,9 @@ class FrontendController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function myThingsAction(Request $request) {
+//        $this->generateTestThings();
+//        $this->generateFriendWithThingAndLendToUser();
+
         return $this->render('SwotNetworkBundle:Frontend:myThings.html.twig');
     }
 
@@ -67,6 +73,24 @@ class FrontendController extends Controller
         $this->getDoctrine()->getManager()->flush();
     }
 
+    private function generateTestThings() {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        $thing = $this->generateTestThing();
+
+        $ownership = new Ownership();
+        $ownership->setOwner($user);
+        $ownership->setThing($thing);
+        $thing->setOwner($ownership);
+        $user->addOwnership($ownership);
+
+        $this->getDoctrine()->getManager()->persist($user);
+        $this->getDoctrine()->getManager()->persist($thing);
+        $this->getDoctrine()->getManager()->flush();
+
+    }
+
     private function generateTestUser() {
         /** @var PasswordEncoderInterface $encoder */
         $encoder = $this->get('security.password_encoder');
@@ -82,6 +106,35 @@ class FrontendController extends Controller
         $user->setPassword($encoder->encodePassword($user, "testuser"));
 
         return $user;
+    }
+
+    private function generateTestThing()
+    {
+        $thing = new Thing();
+        $thing->setAccessToken("token123");
+        $thing->setName(uniqid());
+        return $thing;
+    }
+
+    private function generateFriendWithThingAndLendToUser()
+    {
+        $thing = $this->generateTestThing();
+        $friend = $this->generateTestUser();
+        $ownership = new Ownership();
+        $ownership->setOwner($friend);
+        $ownership->setThing($thing);
+        $thing->setOwner($ownership);
+        $friend->addOwnership($ownership);
+
+        $rental = new Rental();
+        $rental->setThing($thing);
+        $rental->setUserFrom($friend);
+        $rental->setUserTo($this->getUser());
+
+        $this->getDoctrine()->getManager()->persist($friend);
+        $this->getDoctrine()->getManager()->persist($thing);
+        $this->getDoctrine()->getManager()->persist($rental);
+        $this->getDoctrine()->getManager()->flush();
     }
 
 }

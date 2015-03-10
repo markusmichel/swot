@@ -5,6 +5,12 @@
 {% block title %}SwotNetworkBundle:Frontend:newsfeed{% endblock %}
 
 {% block body %}
+    {# Flash messages #}
+    {% for flashMessage in app.session.flashbag.get('notice') %}
+        <div class="flash-notice">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
 
     <h1>My Things</h1>
     {% for ownership in app.user.ownerships %}

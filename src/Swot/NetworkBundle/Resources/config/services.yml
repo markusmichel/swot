@@ -8,3 +8,9 @@ services:
         public:     false
         tags:
            - { name: security.voter }
+
+    security.user_voter:
+        class:      Swot\NetworkBundle\Security\UserVoter
+        public:     false
+        tags:
+           - { name: security.voter }

@@ -9,7 +9,7 @@
     Swot\NetworkBundle\Controller\FrontendController#myThingsAction
 #}
 
-{{ thing.name }} <br/>
+<a href="{{ path('thing_show', {id: thing.id}) }}">{{ thing.name }}</a> <br/>
 {{ thing.ownerSince | date }} <br/>
 Owner: {{ thing.ownership.owner.username }} <br/>
 <hr/>

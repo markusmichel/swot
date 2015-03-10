@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Swot\NetworkBundle\Entity\RentalRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Rental
 {
@@ -31,14 +32,14 @@ class Rental
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="access_granted_until", type="datetime")
+     * @ORM\Column(name="access_granted_until", type="datetime", nullable=true)
      */
     private $accessGrantedUntil;
 
     /**
      * @var \DateTime
      *
-     * @ORM\Column(name="rental_finished", type="datetime")
+     * @ORM\Column(name="rental_finished", type="datetime", nullable=true)
      */
     private $rentalFinished;
 
@@ -67,6 +68,16 @@ class Rental
      */
     private $userTo;
 
+    public function __construct() {
+        $this->accessToken = "";
+    }
+
+    /**
+     * @ORM\PrePersist()
+     */
+    public function prePersist() {
+        $this->setStarted(new \DateTime());
+    }
 
     /**
      * Get id

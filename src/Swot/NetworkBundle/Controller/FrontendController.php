@@ -9,6 +9,7 @@ use Swot\NetworkBundle\Entity\Thing;
 use Swot\NetworkBundle\Entity\User;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
+use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface;
 
 class FrontendController extends Controller
@@ -52,6 +53,10 @@ class FrontendController extends Controller
 //        $this->generateFriendWithThingAndLendToUser();
 
         return $this->render('SwotNetworkBundle:Frontend:myThings.html.twig');
+    }
+
+    public function deleteThingAction(Request $request, $id) {
+        return new Response("delete " . $id);
     }
 
     private function generateTestFriends() {

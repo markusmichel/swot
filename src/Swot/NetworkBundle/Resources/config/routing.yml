@@ -21,6 +21,10 @@ my_things:
     path:     /things
     defaults: { _controller: SwotNetworkBundle:Frontend:myThings }
 
+delete_thing:
+    path:     /things/delete/{id}
+    defaults: { _controller: SwotNetworkBundle:Frontend:deleteThing }
+
 #register_user:
 #    path:     /register
 #    defaults: { _controller: SwotNetworkBundle:Security:register }

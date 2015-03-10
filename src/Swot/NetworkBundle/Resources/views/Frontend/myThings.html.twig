@@ -9,6 +9,9 @@
     <h1>My Things</h1>
     {% for ownership in app.user.ownerships %}
         {% include 'SwotNetworkBundle:Frontend:myThingsEntry.html.twig' with {thing: ownership.thing} %}
+        <form action="{{ path }}">
+            <button type="submit">Gegenstand löschen</button>
+        </form>
     {% endfor %}
 
     <h1>Things lent to me</h1>

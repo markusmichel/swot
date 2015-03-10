@@ -37,6 +37,8 @@ class ThingController extends Controller
         }
 
         // Check if user has permission to show the thing
+        // He has permission if he is the owner or the thing is lent to the user
+        // @todo: check if the thing is public or restricted + owner is a friend
         if(!$thing->getOwner()->getOwner() === $this->getUser() && !$isThingLent) {
             $request->getSession()->getFlashBag()->add('notice', 'You are not allowed to see this thing');
             return $this->redirect($this->generateUrl('my_things'));

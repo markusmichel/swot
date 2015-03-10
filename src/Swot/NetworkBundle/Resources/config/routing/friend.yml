@@ -1,0 +1,7 @@
+my_friends:
+    path:     /
+    defaults: { _controller: SwotNetworkBundle:Friend:myFriends }
+
+show:
+    path:     /{id}
+    defaults: { _controller: SwotNetworkBundle:Friend:show }

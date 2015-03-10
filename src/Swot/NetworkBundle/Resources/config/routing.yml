@@ -13,10 +13,6 @@ newsfeed:
     path:     /
     defaults: { _controller: SwotNetworkBundle:Frontend:newsfeed }
 
-my_friends:
-    path:     /friends
-    defaults: { _controller: SwotNetworkBundle:Frontend:myFriends }
-
 my_things:
     path:     /things
     defaults: { _controller: SwotNetworkBundle:Frontend:myThings }
@@ -24,6 +20,10 @@ my_things:
 swot_network_thing:
     resource: "@SwotNetworkBundle/Resources/config/routing/thing.yml"
     prefix:   /things
+
+swot_network_friend:
+    resource: "@SwotNetworkBundle/Resources/config/routing/friend.yml"
+    prefix:   /friends
 
 #register_user:
 #    path:     /register

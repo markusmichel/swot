@@ -1,3 +1,14 @@
+{#
+    This template should be included.
+    The passed variable is type of thing.
+    example:
+    {% include 'SwotNetworkBundle:Frontend:myThingsEntry.html.twig' with {thing: ownership.thing} %}
+
+    Used by SwotNetworkBundle:Frontend:myThings.html.twig
+    in
+    Swot\NetworkBundle\Controller\FrontendController#myThingsAction
+#}
+
 {{ thing.name }} <br/>
 {{ thing.ownerSince | date }} <br/>
 Owner: {{ thing.owner.owner.username }} <br/>

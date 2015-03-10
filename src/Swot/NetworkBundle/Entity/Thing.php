@@ -43,7 +43,7 @@ class Thing
     private $accessToken;
 
     /**
-     * @ORM\OneToOne(targetEntity="Ownership", mappedBy="thing")
+     * @ORM\OneToOne(targetEntity="Ownership", mappedBy="thing", cascade={"persist"})
      */
     private $owner;
 

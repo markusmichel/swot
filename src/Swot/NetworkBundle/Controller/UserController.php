@@ -12,7 +12,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class UserController extends Controller
 {
-
+    /**
+     * Shows the current user's profile.
+     * Renders the same template as FriendController::show but without break up form.
+     * @see Swot\NetworkBundle\Controller\FriendController::showAction
+     * @return Response
+     */
     public function profileAction() {
         /** @var User $user */
         $user = $this->getUser();

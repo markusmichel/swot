@@ -26,6 +26,11 @@ class FriendController extends Controller
         ));
     }
 
+    /**
+     * Shows any users profile if the current user has permission to see it.
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
     public function showAction($id)
     {
         /** @var Translator $translator */
@@ -53,6 +58,16 @@ class FriendController extends Controller
         ));
     }
 
+    /**
+     * Removes a friendship relation between the current user and another user.
+     *
+     * This is the result of a form action and only callable by POST|DELETE.
+     * This action is CSRF protected.
+     *
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
     public function removeFriendshipAction(Request $request, $id) {
         /** @var Translator $translator */
         $translator = $this->get('translator');
@@ -98,7 +113,7 @@ class FriendController extends Controller
         $manager->flush();
 
         $this->addFlash('notice', $translator->trans('user.friend.break_up.success', array('%username%' => $friend->getUsername())));
-        return $this->redirectToRoute('my_friends');
+        return $this->redirectToRoute('friend_show', array('id' => $friend->getId()));
     }
 
     /**

@@ -12,4 +12,34 @@ use Doctrine\ORM\EntityRepository;
  */
 class FriendshipRepository extends EntityRepository
 {
+    /**
+     * Find a friendship Entity between two users.
+     * @param User $user
+     * @param User $friend
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @return Friendship
+     */
+    public function findFriendshipBetween($user, $friend) {
+        $query = $this->getEntityManager()->createQuery(
+            'SELECT f
+             FROM SwotNetworkBundle:Friendship f
+             WHERE (
+                f.userWho = :user
+                AND f.userWith = :friend
+             )
+             OR (
+                f.userWho = :friend
+                AND f.userWith = :user
+             )
+             '
+        )
+            ->setParameter("user", $user)
+            ->setParameter("friend", $friend)
+        ;
+
+        /** @var Friendship $result */
+        $result = $query->getSingleResult();
+        return $result;
+    }
 }

@@ -3,3 +3,7 @@ user:
         show:
             not_authed:       You are not allowed to see this profile
             does_not_exist:   User does not exist
+
+    friend:
+        break_up:
+            success:          Successfully broke up with %username%

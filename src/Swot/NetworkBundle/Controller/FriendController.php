@@ -71,10 +71,11 @@ class FriendController extends Controller
         $form->handleRequest($request);
 
         if(!$form->isValid() || !$user->isFriendOf($friend)) {
-            return new Response("invalid");
+            return $this->redirectToRoute('my_friends');
         }
 
-        return new Response("valid");
+        $this->addFlash('notice', $translator->trans('user.friend.break_up.success', array('%username%' => $friend->getUsername())));
+        return $this->redirectToRoute('my_friends');
     }
 
     /**

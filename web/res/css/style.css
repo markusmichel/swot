@@ -57,12 +57,21 @@ body {
     background-image: url("../gfx/lock.png");
 }
 
-.thing-list-item {
-    width: 130px;
-    height: 130px;
+.hex-list {
+    padding-left: 33px;
+    padding-top: 71px;
+    padding-bottom: 100px;
 }
 
-.thing-list-item-inner {
+.hex-list-item {
+    width: 130px;
+    height: 130px;
+    position: absolute;
+    margin-left: 24px;
+    z-index: 100;
+}
+
+.hex-list-item-inner {
     width: 130px;
     height: 130px;
     display: table-cell;
@@ -70,11 +79,54 @@ body {
     vertical-align: middle;
 }
 
-.thing-list-item img {
-    opacity: 0.1;
-    width: 130px;
-    position: absolute;
+.hex-row {
+    clear: left;
+}
+.hex.even {
+    margin-top: 15px;
 }
 
+.hex {
+    position: relative;
+    display: inline-block;
+    width: 180px;
+    height: 158px;
+    overflow: hidden;
+    color: #fff;
+    -webkit-mask-image: url(../gfx/hexagon_mask.png);
+    mask: url(../gfx/hexagon_mask.png);
+    text-align: center;
+    background-color: #000;
+    float: left;
+    margin-left: -33px;
+    margin-top: -71px;
+}
 
+.maskborder{
+    width: 170px;
+    height: 149.22px;
+    -webkit-mask-box-image: url(../gfx/hexagon_mask.png);
 
+    margin-left: 5px;
+    margin-top: 4px;
+
+}
+
+.friend-default-picture {
+    background: transparent url(../gfx/person.jpg) no-repeat center center;
+    opacity: 0.5;
+    background-size: cover;
+}
+
+.thing-default-picture {
+    background: transparent url(../gfx/toaster.jpg) no-repeat center center;
+    opacity: 0.5;
+    background-size: cover;
+}
+
+.hex .content{
+    height: 186px;
+    width: 186px;
+    margin: auto;
+    margin-top: 16px;
+}

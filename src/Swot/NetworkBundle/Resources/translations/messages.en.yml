@@ -7,3 +7,6 @@ user:
     friend:
         break_up:
             success:          Successfully broke up with %username%
+
+        friendship:
+            does_not_exist:   You cannot break up with %username% as he/she is not a friend of you.

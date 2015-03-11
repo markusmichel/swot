@@ -2,6 +2,7 @@
 
 namespace Swot\NetworkBundle\Controller;
 
+use Swot\NetworkBundle\Entity\Friendship;
 use Swot\NetworkBundle\Entity\User;
 use Swot\NetworkBundle\Security\UserVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -73,6 +74,28 @@ class FriendController extends Controller
         if(!$form->isValid() || !$user->isFriendOf($friend)) {
             return $this->redirectToRoute('my_friends');
         }
+
+        /** @var Friendship $friendship */
+        $friendship = $this->getDoctrine()->getRepository('SwotNetworkBundle:Friendship')->findFriendshipBetween($user, $friend);
+
+        // Friendship between users does not exist.
+        // Should never happen as the form is CSRF protected
+        // and only shows up if the two users are friends.
+        if($friendship === null) {
+            $this->addFlash('notice', $translator->trans('user.friend.friendship.does_not_exist', array('username' => $friend->getUsername())));
+            return $this->redirectToRoute('friend_show', array('id' => $friend->getId()));
+        }
+
+        $manager = $this->getDoctrine()->getManager();
+        $user->removeFriendship($friendship);
+        $friend->removeFriendship($friendship);
+        $friendship->setUserWho(null);
+        $friendship->setUserWith(null);
+
+        $manager->persist($user);
+        $manager->persist($friend);
+        $manager->remove($friendship);
+        $manager->flush();
 
         $this->addFlash('notice', $translator->trans('user.friend.break_up.success', array('%username%' => $friend->getUsername())));
         return $this->redirectToRoute('my_friends');

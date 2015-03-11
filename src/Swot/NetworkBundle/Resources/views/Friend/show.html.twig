@@ -3,7 +3,13 @@
 {% block title %}SwotNetworkBundle:Friend:show{% endblock %}
 
 {% block body %}
-    {{ form(breakUpForm) }}
+    {#
+    Show break up form only if the current profile is not the user's profile
+    --> User cannot break up with himself
+    #}
+    {% if user != app.user %}
+        {{ form(breakUpForm) }}
+    {% endif %}
     <br/>
     {{ user.username }}
 {% endblock %}

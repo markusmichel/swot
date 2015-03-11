@@ -29,6 +29,10 @@ generate_test_data:
     path:     /test
     defaults: { _controller: SwotNetworkBundle:Test:generateTestData }
 
+profile:
+    path:     /profile
+    defaults: { _controller: SwotNetworkBundle:User:profile }
+
 #register_user:
 #    path:     /register
 #    defaults: { _controller: SwotNetworkBundle:Security:register }

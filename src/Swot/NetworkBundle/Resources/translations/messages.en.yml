@@ -6,6 +6,7 @@ user:
 
     friend:
         break_up:
+            label:            Break with %username%
             success:          Successfully broke up with %username%
 
         friendship:

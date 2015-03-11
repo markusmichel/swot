@@ -126,7 +126,7 @@ class FriendController extends Controller
             ->setAction($this->generateUrl('friend_remove_friendship', array('id' => $user->getId())))
             ->setMethod('POST')
             ->add('submit', 'submit', array(
-                'label' => $translator->trans('Break with %username%', array(
+                'label' => $translator->trans('user.friend.break_up.label', array(
                         "%username%" => $user->getUsername()
                     )
                 )

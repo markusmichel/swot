@@ -28,7 +28,7 @@ class UserSettingsType extends AbstractType
                 ),
                 'expanded' => true
             ))
-            ->add('access_level', 'choice', array(
+            ->add('accessLevel', 'choice', array(
                 'choices' => array(
                     User::ACCESS_TYPE_PRIVATE       => 'settings.access_type.private',
                     User::ACCESS_TYPE_RESTRICTED    => 'settings.access_type.restricted',
@@ -36,6 +36,7 @@ class UserSettingsType extends AbstractType
                 ),
                 'translation_domain' => 'messages',
             ))
+            ->add('profileImageFile')
         ;
     }
     

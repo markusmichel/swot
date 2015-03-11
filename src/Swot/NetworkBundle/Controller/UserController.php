@@ -42,6 +42,8 @@ class UserController extends Controller
             $this->getDoctrine()->getManager()->persist($user);
             $this->getDoctrine()->getManager()->flush();
 
+            $user->uploadProfileImage();
+
             $this->addFlash('success', $translator->trans('settings.save.success'));
         }
 

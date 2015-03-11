@@ -1,1 +1,5 @@
-user.profile.not_authed.show: You are not allowed to see this profile
+user:
+    profile:
+        show:
+            not_authed:       You are not allowed to see this profile
+            does_not_exist:   User does not exist

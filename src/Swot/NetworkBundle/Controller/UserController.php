@@ -4,6 +4,7 @@ namespace Swot\NetworkBundle\Controller;
 
 use Swot\NetworkBundle\Entity\Friendship;
 use Swot\NetworkBundle\Entity\User;
+use Swot\NetworkBundle\Form\UserSettingsType;
 use Swot\NetworkBundle\Security\UserVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
@@ -28,9 +29,24 @@ class UserController extends Controller
     }
 
 
-    public function settingsAction() {
-        return $this->render('SwotNetworkBundle:User:settings.html.twig', array(
+    public function settingsAction(Request $request) {
+        /** @var Translator $translator */
+        $translator = $this->get('translator');
 
+        /** @var User $user */
+        $user = $this->getUser();
+        $settingsForm = $this->createForm('user_settings', $user);
+
+        $settingsForm->handleRequest($request);
+        if($settingsForm->isValid()) {
+            $this->getDoctrine()->getManager()->persist($user);
+            $this->getDoctrine()->getManager()->flush();
+
+            $this->addFlash('success', $translator->trans('settings.save.success'));
+        }
+
+        return $this->render('SwotNetworkBundle:User:settings.html.twig', array(
+            'settingsForm'  => $settingsForm->createView(),
         ));
     }
 

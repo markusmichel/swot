@@ -9,6 +9,10 @@
 {% block body %}
     <h1>{% trans %}settings.page_title{% endtrans %}</h1>
 
+    <form action="{{ path('settings') }}" method="POST" {{ form_enctype(settingsForm) }}>
+        {{ form_widget(settingsForm) }}
 
+        <button type="submit">save</button>
+    </form>
 
 {% endblock %}

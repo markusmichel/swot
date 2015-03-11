@@ -20,3 +20,11 @@ user:
 settings:
     page_title:               Settings
     page_title:               Settings
+
+    access_type:
+        private:              private
+        restricted:           friends only
+        public:               public
+
+    save:
+        success:              Settings saved

@@ -5,6 +5,7 @@ namespace Swot\NetworkBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * User
@@ -15,6 +16,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface, \Serializable
 {
+
+    const ACCESS_TYPE_PUBLIC        = 'public';
+    const ACCESS_TYPE_RESTRICTED    = 'restricted';
+    const ACCESS_TYPE_PRIVATE       = 'private';
+
     /**
      * @var integer
      *
@@ -80,6 +86,7 @@ class User implements UserInterface, \Serializable
      * @var string
      *
      * @ORM\Column(name="gender", type="string", length=1)
+     * @todo: add choice validation constraint
      */
     private $gender;
 
@@ -110,12 +117,20 @@ class User implements UserInterface, \Serializable
     private $password;
 
     /**
+     * The user's access level. Indicates if everyone may see his profile information or not.
+     * @ORM\Column(type="string", length=255)
+     * @Assert\Choice(choices = {User::ACCESS_TYPE_PRIVATE, User::ACCESS_TYPE_RESTRICTED, User::ACCESS_TYPE_PUBLIC})
+     */
+    private $accessLevel;
+
+    /**
      * Constructor
      */
     public function __construct() {
         $this->friendships = new \Doctrine\Common\Collections\ArrayCollection();
         $this->ownerships = new \Doctrine\Common\Collections\ArrayCollection();
         $this->activated = false;
+        $this->accessLevel = "private";
     }
 
     /**
@@ -570,5 +585,28 @@ class User implements UserInterface, \Serializable
     public function getThingsLent()
     {
         return $this->thingsLent;
+    }
+
+    /**
+     * Set accessLevel
+     *
+     * @param string $accessLevel
+     * @return User
+     */
+    public function setAccessLevel($accessLevel)
+    {
+        $this->accessLevel = $accessLevel;
+
+        return $this;
+    }
+
+    /**
+     * Get accessLevel
+     *
+     * @return string 
+     */
+    public function getAccessLevel()
+    {
+        return $this->accessLevel;
     }
 }

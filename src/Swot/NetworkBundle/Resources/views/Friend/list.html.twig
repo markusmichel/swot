@@ -7,6 +7,11 @@
 {% block body %}
 
     <h1>My Friends</h1>
+    {% for flashMessage in app.session.flashbag.get('notice') %}
+        <div class="flash-notice">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
 
     {% for friendship in user.friendships %}
         {% set friend = friendship.otherUser(user) %}

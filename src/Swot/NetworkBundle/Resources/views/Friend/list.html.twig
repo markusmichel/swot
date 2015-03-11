@@ -9,16 +9,12 @@
     <h1>My Friends</h1>
 
     {% for friendship in user.friendships %}
-        {# Test if userWho or userWith is the "other" friend/user #}
-        {% if friendship.userWith == user %}
-            {% set friend = friendship.userWho %}
-        {% else %}
-            {% set friend = friendship.userWith %}
-        {% endif %}
-
         {% set friend = friendship.otherUser(user) %}
 
-        {{ friend.username }}<br/>
+        <a href="{{ path('friend_show', {id: friend.id}) }}">
+            {{ friend.username }}
+        </a>
+        <br/>
         {{ friend.firstName }}<br/>
         {{ friend.lastName }}<br/>
 

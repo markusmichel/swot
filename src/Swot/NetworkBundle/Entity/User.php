@@ -130,7 +130,7 @@ class User implements UserInterface, \Serializable
         $this->friendships = new \Doctrine\Common\Collections\ArrayCollection();
         $this->ownerships = new \Doctrine\Common\Collections\ArrayCollection();
         $this->activated = false;
-        $this->accessLevel = "private";
+        $this->accessLevel = User::ACCESS_TYPE_PRIVATE;
     }
 
     /**

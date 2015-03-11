@@ -12,6 +12,7 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class UserVoter implements VoterInterface {
 
     const SHOW      = 'show';
+    const FRIEND    = 'friend';
 
     /**
      * Checks if the voter supports the given attribute.
@@ -24,6 +25,7 @@ class UserVoter implements VoterInterface {
     {
         return in_array($attribute, array(
             self::SHOW,
+            self::FRIEND,
         ));
     }
 
@@ -85,6 +87,10 @@ class UserVoter implements VoterInterface {
 
         switch($attribute) {
             case self::SHOW:
+                if($user->isFriendOf($currentUser) || $user === $currentUser)
+                    return VoterInterface::ACCESS_GRANTED;
+                break;
+            case self::FRIEND:
                 if($user->isFriendOf($currentUser) || $user === $currentUser)
                     return VoterInterface::ACCESS_GRANTED;
                 break;

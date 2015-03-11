@@ -13,7 +13,12 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ThingController extends Controller
 {
-
+    /**
+     * Shows a thing's profile.
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
     public function showAction(Request $request, $id) {
         /** @var User $user */
         $user = $this->getUser();
@@ -41,6 +46,15 @@ class ThingController extends Controller
         ));
     }
 
+    /**
+     * Completely delete a thing.
+     * Removes it from the database, from the owner and all included rentals.
+     * Calls /deregister on the real related thing.
+     * @see createDeleteForm
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
     public function deleteAction(Request $request, $id) {
         /** @var Thing $thing */
         $thing = $this->getDoctrine()->getRepository('SwotNetworkBundle:Thing')->find($id);
@@ -86,8 +100,12 @@ class ThingController extends Controller
         return $this->redirectToRoute('my_things');
     }
 
-
-
+    /**
+     * Creates a delete form to delete a thing.
+     * @see deleteAction
+     * @param $id
+     * @return \Symfony\Component\Form\Form
+     */
     private function createDeleteForm($id)
     {
         return $this->createFormBuilder()

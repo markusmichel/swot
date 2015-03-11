@@ -3,8 +3,10 @@
 namespace Swot\NetworkBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Security\Core\Role\Role;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * User
@@ -15,6 +17,11 @@ use Symfony\Component\Security\Core\User\UserInterface;
  */
 class User implements UserInterface, \Serializable
 {
+
+    const ACCESS_TYPE_PUBLIC        = 'public';
+    const ACCESS_TYPE_RESTRICTED    = 'restricted';
+    const ACCESS_TYPE_PRIVATE       = 'private';
+
     /**
      * @var integer
      *
@@ -65,7 +72,7 @@ class User implements UserInterface, \Serializable
     /**
      * @var string
      *
-     * @ORM\Column(name="username", type="string", length=255)
+     * @ORM\Column(name="username", type="string", length=255, unique=true)
      */
     private $username;
 
@@ -80,6 +87,7 @@ class User implements UserInterface, \Serializable
      * @var string
      *
      * @ORM\Column(name="gender", type="string", length=1)
+     * @todo: add choice validation constraint
      */
     private $gender;
 
@@ -110,12 +118,20 @@ class User implements UserInterface, \Serializable
     private $password;
 
     /**
+     * The user's access level. Indicates if everyone may see his profile information or not.
+     * @ORM\Column(type="string", length=255)
+     * @Assert\Choice(choices = {User::ACCESS_TYPE_PRIVATE, User::ACCESS_TYPE_RESTRICTED, User::ACCESS_TYPE_PUBLIC})
+     */
+    private $accessLevel;
+
+    /**
      * Constructor
      */
     public function __construct() {
         $this->friendships = new \Doctrine\Common\Collections\ArrayCollection();
         $this->ownerships = new \Doctrine\Common\Collections\ArrayCollection();
         $this->activated = false;
+        $this->accessLevel = User::ACCESS_TYPE_PRIVATE;
     }
 
     /**
@@ -141,6 +157,87 @@ class User implements UserInterface, \Serializable
     {
         $this->registeredDate = new \DateTime();
     }
+
+    /**
+     ************************
+     * Profile image helpers
+     ************************
+     */
+
+    /**
+     * @Assert\File(maxSize="6000000")
+     */
+    private $profileImageFile;
+
+    public function setProfileImageFile(UploadedFile $file = null)
+    {
+        $this->profileImageFile = $file;
+    }
+
+    /**
+     * @return UploadedFile
+     */
+    public function getProfileImageFile()
+    {
+        return $this->profileImageFile;
+    }
+
+    public function getProfileImageAbsolutePath()
+    {
+        return null === $this->profileImage
+            ? null
+            : $this->getProfileImageUploadRootDir().'/'.$this->profileImage;
+    }
+
+    public function getProfileImageWebPath()
+    {
+        return null === $this->profileImage
+            ? null
+            : $this->getProfileImageUploadDir().'/'.$this->profileImage;
+    }
+
+    protected function getProfileImageUploadRootDir()
+    {
+        // the absolute directory path where uploaded
+        // documents should be saved
+        return __DIR__.'/../../../../web/'.$this->getProfileImageUploadDir();
+    }
+
+    protected function getProfileImageUploadDir()
+    {
+        // get rid of the __DIR__ so it doesn't screw up
+        // when displaying uploaded doc/image in the view.
+        return 'uploads/profileimages';
+    }
+
+    public function uploadProfileImage()
+    {
+        // the file property can be empty if the field is not required
+        if (null === $this->getProfileImageFile()) {
+            return;
+        }
+
+        // use the original file name here but you should
+        // sanitize it at least to avoid any security issues
+
+        // move takes the target directory and then the
+        // target filename to move to
+        $this->getProfileImageFile()->move(
+            $this->getProfileImageUploadRootDir(),
+            $this->getProfileImageFile()->getClientOriginalName()
+        );
+
+        // set the path property to the filename where you've saved the file
+        $this->profileImage = $this->getProfileImageFile()->getClientOriginalName();
+
+        // clean up the file property as you won't need it anymore
+        $this->profileImageFile = null;
+    }
+    /**
+     ************************
+     * Profile image helpers end
+     ************************
+     */
 
     /**
      * Get id
@@ -570,5 +667,28 @@ class User implements UserInterface, \Serializable
     public function getThingsLent()
     {
         return $this->thingsLent;
+    }
+
+    /**
+     * Set accessLevel
+     *
+     * @param string $accessLevel
+     * @return User
+     */
+    public function setAccessLevel($accessLevel)
+    {
+        $this->accessLevel = $accessLevel;
+
+        return $this;
+    }
+
+    /**
+     * Get accessLevel
+     *
+     * @return string 
+     */
+    public function getAccessLevel()
+    {
+        return $this->accessLevel;
     }
 }

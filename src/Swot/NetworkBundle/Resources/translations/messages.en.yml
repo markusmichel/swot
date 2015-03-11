@@ -1,0 +1,30 @@
+user:
+    does_not_exist:           User does not exist
+    profile:
+        show:
+            not_authed:       You are not allowed to see this profile
+            does_not_exist:   User does not exist
+
+    friend:
+        break_up:
+            label:            Break with %username%
+            success:          Successfully broke up with %username%
+
+        friendship:
+            does_not_exist:   You cannot break up with %username% as he/she is not a friend of you.
+            invite:
+                label:        invite %username%
+                success:      You are now a friend of %username%
+            already_friends:  You are already friends
+
+settings:
+    page_title:               Settings
+    page_title:               Settings
+
+    access_type:
+        private:              private
+        restricted:           friends only
+        public:               public
+
+    save:
+        success:              Settings saved

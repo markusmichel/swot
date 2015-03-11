@@ -331,6 +331,12 @@ bzw:
 {% endif %}
 ```
 
+### ThingVoter
+Prüft auf Rechte von Nutzern für Aktionen auf Nutzer/Profile.
+Unterstützte Aktionen:
+- view
+- friend
+
 --------------------------------------------------------
 
 # Ausblick

@@ -6,9 +6,15 @@
     {#
     Show break up form only if the current profile is not the user's profile
     --> User cannot break up with himself
+
+    Also hide if user has not the friend rights.
     #}
     {% if user != app.user %}
-        {{ form(breakUpForm) }}
+        {% if is_granted('friend', user) %}
+            {{ form(breakUpForm) }}
+        {% else %}
+            {{ form(sendInviteForm) }}
+        {% endif %}
     {% endif %}
     <br/>
     {{ user.username }}

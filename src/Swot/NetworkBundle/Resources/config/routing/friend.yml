@@ -10,3 +10,8 @@ friend_remove_friendship:
     path:     /{id}/remove
     defaults: { _controller: SwotNetworkBundle:Friend:removeFriendship }
     methods:  [POST, DELETE]
+
+friend_invite:
+    path:     /{id}/invite
+    defaults: { _controller: SwotNetworkBundle:Friend:sendInvite }
+    methods:  [POST, DELETE]

@@ -47,14 +47,16 @@ class FriendController extends Controller
             return $this->redirectToRoute('my_friends');
         }
 
-        if(!$this->isGranted(UserVoter::SHOW, $user)) {
-            $this->addFlash('notice', $translator->trans('user.profile.show.not_authed'));
-            return $this->redirectToRoute('my_friends');
-        }
+        // @todo: what to do with private profiles? show restricted profile or completely restrict access?
+//        if(!$this->isGranted(UserVoter::SHOW, $user)) {
+//            $this->addFlash('notice', $translator->trans('user.profile.show.not_authed'));
+//            return $this->redirectToRoute('my_friends');
+//        }
 
         return $this->render('SwotNetworkBundle:Friend:show.html.twig', array(
-            'user'  => $user,
-            'breakUpForm' => $this->createRemoveFriendshipForm($user)->createView(),
+            'user'              => $user,
+            'breakUpForm'       => $this->createRemoveFriendshipForm($user)->createView(),
+            'sendInviteForm'    => $this->createSendInviteForm($user)->createView(),
         ));
     }
 
@@ -97,7 +99,7 @@ class FriendController extends Controller
         // Should never happen as the form is CSRF protected
         // and only shows up if the two users are friends.
         if($friendship === null) {
-            $this->addFlash('notice', $translator->trans('user.friend.friendship.does_not_exist', array('username' => $friend->getUsername())));
+            $this->addFlash('notice', $translator->trans('user.friend.friendship.does_not_exist', array('%username%' => $friend->getUsername())));
             return $this->redirectToRoute('friend_show', array('id' => $friend->getId()));
         }
 
@@ -117,6 +119,62 @@ class FriendController extends Controller
     }
 
     /**
+     * Send a freandship invite from the current user to the requested user.
+     * Redirects to the friend's profile if they are already friends.
+     *
+     * Currently makes them immediately to friends without invitiation.
+     * @todo: Send invite which must be accepted by the other user
+     *
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    public function sendInviteAction(Request $request, $id) {
+        /** @var Translator $translator */
+        $translator = $this->get('translator');
+
+        /** @var User $user */
+        $user = $this->getUser();
+
+        /** @var User $friend */
+        $friend = $this->getDoctrine()->getRepository("SwotNetworkBundle:User")->find($id);
+
+        if($friend === null) {
+            $this->addFlash('notice', $translator->trans('user.does_not_exist'));
+            return $this->redirectToRoute('my_friends');
+        }
+
+        // User cannot be a friend of himself
+        // Should never happen
+        if($friend === $user) {
+            $this->addFlash('notice', $translator->trans('user.does_not_exist'));
+            return $this->redirectToRoute('my_friends');
+        }
+
+        // Cancel if the users are already friends
+        if($this->isGranted('friend', $friend)) {
+            $this->addFlash('notice', $translator->trans('user.friend.friendship.already_friends'));
+            return $this->redirectToRoute('friend_show', array('id' => $friend->getId()));
+        }
+
+        // Make them friends
+        $friendship = new Friendship();
+        $friendship->setUserWho($friend);
+        $friendship->setUserWith($user);
+        $user->addFriendship($friendship);
+        $friend->addFriendship($friendship);
+
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($friendship);
+        $manager->persist($user);
+        $manager->persist($friend);
+        $manager->flush();
+
+        $this->addFlash('notice', $translator->trans('user.friend.friendship.invite.success', array('%username%' => $friend->getUsername())));
+        return $this->redirectToRoute('friend_show', array('id' => $friend->getId()));
+    }
+
+    /**
      * @param $user User
      * @return \Symfony\Component\Form\Form
      */
@@ -127,6 +185,27 @@ class FriendController extends Controller
             ->setMethod('POST')
             ->add('submit', 'submit', array(
                 'label' => $translator->trans('user.friend.break_up.label', array(
+                        "%username%" => $user->getUsername()
+                    )
+                )
+            ))
+            ->getForm();
+
+        return $form;
+    }
+
+    /**
+     * Create a form to send a friendship invite.
+     * @param $user User
+     * @return \Symfony\Component\Form\Form
+     */
+    public function createSendInviteForm($user) {
+        $translator = $this->get('translator');
+        $form = $this->createFormBuilder()
+            ->setAction($this->generateUrl('friend_invite', array('id' => $user->getId())))
+            ->setMethod('POST')
+            ->add('submit', 'submit', array(
+                'label' => $translator->trans('user.friend.friendship.invite.label', array(
                         "%username%" => $user->getUsername()
                     )
                 )

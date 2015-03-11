@@ -25,13 +25,13 @@ swot_network_friend:
     resource: "@SwotNetworkBundle/Resources/config/routing/friend.yml"
     prefix:   /friends
 
+swot_network_user:
+    resource: "@SwotNetworkBundle/Resources/config/routing/user.yml"
+    prefix:   /
+
 generate_test_data:
     path:     /test
     defaults: { _controller: SwotNetworkBundle:Test:generateTestData }
-
-profile:
-    path:     /profile
-    defaults: { _controller: SwotNetworkBundle:User:profile }
 
 #register_user:
 #    path:     /register

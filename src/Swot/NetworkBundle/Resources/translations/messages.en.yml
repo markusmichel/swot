@@ -16,3 +16,7 @@ user:
                 label:        invite %username%
                 success:      You are now a friend of %username%
             already_friends:  You are already friends
+
+settings:
+    page_title:               Settings
+    page_title:               Settings

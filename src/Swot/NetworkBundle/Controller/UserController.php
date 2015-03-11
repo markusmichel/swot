@@ -27,4 +27,11 @@ class UserController extends Controller
         ));
     }
 
+
+    public function settingsAction() {
+        return $this->render('SwotNetworkBundle:User:settings.html.twig', array(
+
+        ));
+    }
+
 }

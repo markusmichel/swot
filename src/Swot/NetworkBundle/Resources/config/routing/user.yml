@@ -1,0 +1,7 @@
+profile:
+    path:     /profile
+    defaults: { _controller: SwotNetworkBundle:User:profile }
+
+settings:
+    path:     /settings
+    defaults: { _controller: SwotNetworkBundle:User:settings }

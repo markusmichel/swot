@@ -182,57 +182,6 @@ class User implements UserInterface, \Serializable
         return $this->profileImageFile;
     }
 
-    public function getProfileImageAbsolutePath()
-    {
-        return null === $this->profileImage
-            ? null
-            : $this->getProfileImageUploadRootDir().'/'.$this->profileImage;
-    }
-
-    public function getProfileImageWebPath()
-    {
-        return null === $this->profileImage
-            ? null
-            : $this->getProfileImageUploadDir().'/'.$this->profileImage;
-    }
-
-    protected function getProfileImageUploadRootDir()
-    {
-        // the absolute directory path where uploaded
-        // documents should be saved
-        return __DIR__.'/../../../../web/'.$this->getProfileImageUploadDir();
-    }
-
-    protected function getProfileImageUploadDir()
-    {
-        // get rid of the __DIR__ so it doesn't screw up
-        // when displaying uploaded doc/image in the view.
-        return 'uploads/profileimages';
-    }
-
-    public function uploadProfileImage()
-    {
-        // the file property can be empty if the field is not required
-        if (null === $this->getProfileImageFile()) {
-            return;
-        }
-
-        // use the original file name here but you should
-        // sanitize it at least to avoid any security issues
-
-        // move takes the target directory and then the
-        // target filename to move to
-        $this->getProfileImageFile()->move(
-            $this->getProfileImageUploadRootDir(),
-            $this->getProfileImageFile()->getClientOriginalName()
-        );
-
-        // set the path property to the filename where you've saved the file
-        $this->profileImage = $this->getProfileImageFile()->getClientOriginalName();
-
-        // clean up the file property as you won't need it anymore
-        $this->profileImageFile = null;
-    }
     /**
      ************************
      * Profile image helpers end

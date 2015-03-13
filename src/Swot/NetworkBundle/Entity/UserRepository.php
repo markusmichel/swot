@@ -12,4 +12,30 @@ use Doctrine\ORM\EntityRepository;
  */
 class UserRepository extends EntityRepository
 {
+    /**
+     * Returns all Users who are activated and friends of the passed user.
+     * The passed user will be excluded from the list.
+     * @param User $user
+     * @return array
+     */
+    public function findFriendsOf(User $user) {
+        $query = $this->getEntityManager()->createQuery(
+            'SELECT u
+             FROM SwotNetworkBundle:Friendship f
+             JOIN SwotNetworkBundle:User u
+             WHERE (
+                f.userWho = :user
+                OR f.userWho = :user
+             )
+             AND u != :user
+             AND u.activated = TRUE
+             '
+        )
+            ->setParameter("user", $user)
+        ;
+
+        $result = $query->getResult();
+
+        return $result;
+    }
 }

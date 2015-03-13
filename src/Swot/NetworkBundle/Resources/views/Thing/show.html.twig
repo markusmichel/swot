@@ -1,6 +1,14 @@
-<h1>Name: {{ thing.name }}</h1>
-<h2>Owner: {{ thing.ownership.owner.username }}</h2>
+{% extends "::base.html.twig" %}
 
-{% if is_granted('admin', thing) %}
-    {{ form(delete_form) }}
-{% endif %}
+{% block title %}SwotNetworkBundle:Frontend:newsfeed{% endblock %}
+
+{% block body %}
+
+    <h1>Name: {{ thing.name }}</h1>
+    <h2>Owner: {{ thing.ownership.owner.username }}</h2>
+
+    {% if is_granted('admin', thing) %}
+        {{ form(delete_form) }}
+    {% endif %}
+
+{% endblock %}

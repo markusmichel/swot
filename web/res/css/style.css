@@ -8,6 +8,10 @@ body {
     font-family: 'Slabo 27px', serif;
 }
 
+ul {
+    list-style-type: none;
+}
+
 
 .top-bar .toggle-topbar{
 	left:0;
@@ -23,15 +27,49 @@ body {
 .top-bar {
 	background-color: #FEAF10;
 	margin-bottom: 40px;
+    height: 100px;
+    padding-top: 25px;
+    position: relative;
+}
+
+.top-bar:before {
+    content: '';
+    position: absolute;
+    top: 0; right: 0;
+    border-top: 50px solid white;
+    border-bottom: 50px solid white;
+    border-left: 50px solid #FEAF10;
+    width: 0;
+}
+
+.top-bar:after {
+    content: '';
+    position: absolute;
+    top: 0; left: 0;
+    border-top: 50px solid white;
+    border-bottom: 50px solid white;
+    border-right: 50px solid #FEAF10;
+    width: 0;
 }
 
 .nav-item {
-	height: 36px;
-	padding-left: 42px;
-	padding-top: 8px;
-	background-position: left center;
-	background-repeat: no-repeat;
-}	
+    height: 45px;
+    padding-left: 49px;
+    padding-top: 11px;
+    background-color: #FEAF10;
+    color: white;
+    width: 150px;
+    background-position: 7px center;
+    background-repeat: no-repeat;
+    margin-bottom: 15px;
+}
+
+.nav-item:hover {
+    -webkit-transform: scale(1.1);
+    -moz-transform:    scale(1.1);
+    -o-transform:      scale(1.1);
+    -ms-transform:     scale(1.1);
+}
 
 .news-icon {
 	background-image: url("../gfx/calendar-text.png");

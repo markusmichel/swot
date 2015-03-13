@@ -2,10 +2,10 @@ conversations:
     path:     /
     defaults: { _controller: SwotNetworkBundle:Message:conversations }
 
+new_message:
+    path:     /write
+    defaults: { _controller: SwotNetworkBundle:Message:newMessage }
+
 conversation:
     path:     /{id}
     defaults: { _controller: SwotNetworkBundle:Message:conversation }
-
-new_message:
-    path:     /write
-    defaults: { _controller: SwotNetworkBundle:Message:write }

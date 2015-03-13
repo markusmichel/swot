@@ -125,6 +125,15 @@ class User implements UserInterface, \Serializable
     private $accessLevel;
 
     /**
+     * @ORM\ManyToMany(targetEntity="Conversation")
+     * @ORM\JoinTable(name="users_conversations",
+     *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
+     *      inverseJoinColumns={@ORM\JoinColumn(name="conversation_id", referencedColumnName="id", unique=true)}
+     * ))
+     */
+    private $conversations;
+
+    /**
      * Constructor
      */
     public function __construct() {
@@ -639,5 +648,38 @@ class User implements UserInterface, \Serializable
     public function getAccessLevel()
     {
         return $this->accessLevel;
+    }
+
+    /**
+     * Add conversations
+     *
+     * @param \Swot\NetworkBundle\Entity\Conversation $conversations
+     * @return User
+     */
+    public function addConversation(\Swot\NetworkBundle\Entity\Conversation $conversations)
+    {
+        $this->conversations[] = $conversations;
+
+        return $this;
+    }
+
+    /**
+     * Remove conversations
+     *
+     * @param \Swot\NetworkBundle\Entity\Conversation $conversations
+     */
+    public function removeConversation(\Swot\NetworkBundle\Entity\Conversation $conversations)
+    {
+        $this->conversations->removeElement($conversations);
+    }
+
+    /**
+     * Get conversations
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getConversations()
+    {
+        return $this->conversations;
     }
 }

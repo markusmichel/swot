@@ -7,19 +7,30 @@
 {% block body %}
 
     <h1>My Friends</h1>
-    {% for friendship in user.friendships %}
+   <div class="hex-list">
+        {% for friendship in user.friendships %}
+
+        {# Test if userWho or userWith is the "other" friend/user #}
+        {% if friendship.userWith == user %}
+            {% set friend = friendship.userWho %}
+        {% else %}
+            {% set friend = friendship.userWith %}
+        {% endif %}
+
         {% set friend = friendship.otherUser(user) %}
 
-        <a href="{{ path('friend_show', {id: friend.id}) }}">
-            {{ friend.username }}
-        </a>
-        <br/>
-        {{ friend.id }}
-        {{ friend.firstName }}<br/>
-        {{ friend.lastName }}<br/>
-
-        <hr/>
-
-    {% endfor %}
+        {% if loop.index0 is divisibleby(4) %}
+            {% if loop.first == false %}</div>{% endif %}
+            <div class="hex-row">
+            {% if loop.last %}</div>{% endif %}
+            {% set counter = 0 %}
+        {% endif %}
+        {% set counter = counter + 1 %}
+        <div class="hex {{ cycle(['even', ''], counter) }}">
+            {% include 'SwotNetworkBundle:Friend:friendListEntry.html.twig' with {friend: friend} %}
+            <div class="maskborder friend-default-picture"></div>
+        </div>
+        {% endfor %}
+    </div>
 
 {% endblock %}

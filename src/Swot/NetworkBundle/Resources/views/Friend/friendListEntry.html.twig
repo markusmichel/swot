@@ -11,13 +11,8 @@
 
 <div class="hex-list-item">
     <div class="hex-list-item-inner">
-        <a href="{{ path('thing_show', {id: thing.id}) }}">{{ thing.name }}</a> <br/>
-        {{ thing.ownerSince | date }} <br/>
-        {% if thing.ownership.owner != app.user %}
-            Owner: <a href="{{ path('friend_show', {id: thing.ownership.owner.id}) }}">{{ thing.ownership.owner.username }}</a>
-        {% endif %}
-        <br/>
+        <a href="{{ path('friend_show', {id: friend.id}) }}">{{ friend.username }}</a> <br/>
+        {{ friend.firstname }} {{ friend.lastname }} <br/>
     </div>
-
 </div>
 

@@ -28,16 +28,10 @@
                 <div class="row">
                     <div class="large-12 small-centered columns">
                         <div class="row">
-                            <div class="large-2 columns show-for-large-up">
+                            <div class="medium-2 columns show-for-medium-up">
                                 {% include 'navigation.html.twig' %}
                             </div>
-                            <div class="large-9 large-offset-1 columns">
-                                {% for flashMessage in app.session.flashbag.get('notice') %}
-                                    <div class="flash-notice">{{ flashMessage }}</div>
-                                {% endfor %}
-                                {% for flashMessage in app.session.flashbag.get('success') %}
-                                    <div class="flash-success">{{ flashMessage }}</div>
-                                {% endfor %}
+                            <div class="medium-9 medium columns">
                                 {% block body %}{% endblock %}
                             </div>
                         </div>

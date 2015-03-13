@@ -5,21 +5,47 @@
 {% block title %}SwotNetworkBundle:Frontend:newsfeed{% endblock %}
 
 {% block body %}
+
+    {# Flash messages #}
+    {% for flashMessage in app.session.flashbag.get('notice') %}
+        <div class="flash-notice">
+            {{ flashMessage }}
+        </div>
+    {% endfor %}
+
     <h1>My Things</h1>
-        <ul class="small-block-grid-2 large-block-grid-4">
+
+        <div class="hex-list">
             {% for ownership in app.user.ownerships %}
-                <li>
+                {% if loop.index0 is divisibleby(4) %}
+                {% if loop.first == false %}</div>{% endif %}
+                    <div class="hex-row">
+                {% if loop.last %}</div>{% endif %}
+                {% set counter = 0 %}
+                {% endif %}
+                {% set counter = counter + 1 %}
+                <div class="hex {{ cycle(['even', ''], counter) }}">
                     {% include 'SwotNetworkBundle:Frontend:myThingsEntry.html.twig' with {thing: ownership.thing} %}
-                </li>
+                    <div class="maskborder thing-default-picture"></div>
+                </div>
             {% endfor %}
-        </ul>
-
-
+        </div>
+        </div>
     <h1>Things lent to me</h1>
-        <ul class="small-block-grid-2 large-block-grid-4">
-            {% for thing in app.user.thingsLent %}
-                {% include 'SwotNetworkBundle:Frontend:myThingsEntry.html.twig' with {thing: thing.thing} %}
-            {% endfor %}
-        </ul>
+     <div class="hex-list">
+        {% for thing in app.user.thingsLent %}
 
+            {% if loop.index0 is divisibleby(4) %}
+            {% if loop.first == false %}</div>{% endif %}
+                <div class="hex-row">
+            {% if loop.last %}</div>{% endif %}
+            {% set counter = 0 %}
+            {% endif %}
+            {% set counter = counter + 1 %}
+            <div class="hex {{ cycle(['even', ''], counter) }}">
+                {% include 'SwotNetworkBundle:Frontend:myThingsEntry.html.twig' with {thing: thing.thing} %}
+                <div class="maskborder thing-default-picture"></div>
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

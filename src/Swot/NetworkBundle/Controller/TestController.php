@@ -64,6 +64,7 @@ class TestController extends Controller
         $username = uniqid();
 
         $user = new User();
+        $user->setActivated(true);
         $user->setUsername($username);
         $user->setFirstName("Max");
         $user->setLastName("Mustermann");

@@ -29,6 +29,10 @@ swot_network_user:
     resource: "@SwotNetworkBundle/Resources/config/routing/user.yml"
     prefix:   /
 
+swot_network_message:
+    resource: "@SwotNetworkBundle/Resources/config/routing/message.yml"
+    prefix:   /conversation
+
 generate_test_data:
     path:     /test
     defaults: { _controller: SwotNetworkBundle:Test:generateTestData }

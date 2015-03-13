@@ -28,3 +28,9 @@ settings:
 
     save:
         success:              Settings saved
+
+conversations:
+    page_title:               Messages
+
+conversation:
+    page_title:               Conversation with %username%

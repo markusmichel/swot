@@ -4,6 +4,7 @@ namespace Swot\NetworkBundle\Controller;
 
 use Swot\NetworkBundle\Entity\Friendship;
 use Swot\NetworkBundle\Entity\User;
+use Swot\NetworkBundle\File\ImageUploader;
 use Swot\NetworkBundle\Form\UserSettingsType;
 use Swot\NetworkBundle\Security\UserVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -39,10 +40,15 @@ class UserController extends Controller
 
         $settingsForm->handleRequest($request);
         if($settingsForm->isValid()) {
+            /** @var ImageUploader $uploader */
+            $uploader = $this->get('swot.image_uploader');
+
+            $uploader->setFile($user->getProfileImageFile());
+            $filename = $uploader->upload();
+            $user->setProfileImage($filename);
+
             $this->getDoctrine()->getManager()->persist($user);
             $this->getDoctrine()->getManager()->flush();
-
-            $user->uploadProfileImage();
 
             $this->addFlash('success', $translator->trans('settings.save.success'));
         }

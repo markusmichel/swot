@@ -1,8 +1,12 @@
-services:
-#    swot_network.example:
-#        class: Swot\NetworkBundle\Example
-#        arguments: [@service_id, "plain_value", %parameter%]
+parameters:
+    swot.directory.upload.profile_images:   'uploads/profileimages/'
 
+services:
+    swot.image_uploader:
+        class:      Swot\NetworkBundle\File\ImageUploader
+        arguments: [%kernel.root_dir%, %swot.directory.upload.profile_images%]
+
+    # Security Voters
     security.thing_voter:
         class:      Swot\NetworkBundle\Security\ThingVoter
         public:     false

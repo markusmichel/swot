@@ -108,28 +108,30 @@ Doctrine Datenmodell
 ========================
 
 ## Person (User)
-| title             | type          | Kardinalität      | required
+| title             | type          | Kardinalität      | required		
 |-------------------|---------------|-------------------|---------------
-| firstName         | string 255    |                   |
-| lastName          | string 255    |                   |
-| username          | string 255    |                   |
-| birthdate         | Date/DateTime |                   |
-| gender            | string 1      |                   |
-| profileImage      | string 255    |                   |
-| activated         | boolean       |                   |
-| registeredDate    | DateTime      |                   |
-| password          | string 255    |                   |
-| friendships       | Friendship    | ManyToMany        |
-| ownerships        | Ownership     | OneToMany         |
-| things_rent       | Rental        | OneToMany         |
-| things_lent       | Rental        | OneToMany         |
+| firstName         | string 255    |                   | true			 
+| lastName          | string 255    |                   | true				 
+| username          | string 255    |                   | true			 
+| birthdate         | Date/DateTime |                   | true			 
+| gender            | string 1      |                   | true				 
+| profileImage      | string 255    |                   | false		 
+| activated         | boolean       |                   | true				 
+| registeredDate    | DateTime      |                   | 	 
+| password          | string 255    |                   | true 
+| accessLevel       | string 255    |                   | true			 
+| friendships       | Friendship    | ManyToMany        | 				 
+| ownerships        | Ownership     | OneToMany         |				 
+| things_rent       | Rental        | OneToMany         |				 
+| things_lent       | Rental        | OneToMany         |				 
 
 ## Gegenstand (Thing)
 | Titel             | Typ           | Kardinalität      | required
 |-------------------|---------------|-------------------|-------------
-| title             | string 255    |                   |
-| access_token      | string 255    |                   |
-| owner             | Ownership     | ManyToOne         |
+| name              | string 255    |                   | true
+| access_token      | string 255    |                   | false
+| owner_since       | DateTime	    |                   | true
+| owner             | Ownership     | ManyToOne         | 
 | rentals           | Rental        | OneToMany         |
 
 ## Verleih (Rental)
@@ -164,6 +166,21 @@ Doctrine Datenmodell
 ## Transfer
 | Titel             | Typ           | Kardinalität  | required
 |-------------------|---------------|---------------|-------------
+
+## Nachricht (Message)
+| Titel             | Typ           | Kardinalität  | required
+|-------------------|---------------|---------------|-------------
+| message			| text			|				| true
+| sent				| DateTime		|				| true
+| deleted			| boolean		|				| true (default false)
+| from				| User			| ManyToOne
+| to				| User			| ManyToOne
+| conversation		| Conversation	| ManyToOne
+
+## Unterhaltung (Conversation)
+| Titel             | Typ           | Kardinalität  | required
+|-------------------|---------------|---------------|-------------
+| messages			| Message		| OneToMany
 
 --------------------------------------------------------------------------------
 

@@ -2,6 +2,14 @@ parameters:
     swot.directory.upload.profile_images:   'uploads/profileimages/'
 
 services:
+    # repositories
+    swot.user_repository:
+        class: Doctrine\ORM\EntityRepository
+        factory_service: doctrine.orm.entity_manager
+        factory_method: getRepository
+        arguments:
+            - Swot\NetworkBundle\Entity\User
+
     swot.image_uploader:
         class:      Swot\NetworkBundle\File\ImageUploader
         arguments: [%kernel.root_dir%, %swot.directory.upload.profile_images%]
@@ -24,3 +32,10 @@ services:
         class:      Swot\NetworkBundle\Form\UserSettingsType
         tags:
            - { name: form.type, alias: user_settings }
+
+    swot.form.type.new_message:
+        class:      Swot\NetworkBundle\Form\NewMessageType
+        arguments: [@swot.user_repository, @security.token_storage]
+        tags:
+           - { name: form.type, alias: new_message }
+

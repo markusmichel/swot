@@ -12,4 +12,27 @@ use Doctrine\ORM\EntityRepository;
  */
 class ConversationRepository extends EntityRepository
 {
+    public function findConversationBetween(User $user1, User $user2) {
+        $query = $this->getEntityManager()->createQuery("
+            SELECT c FROM SwotNetworkBundle:Conversation c
+            JOIN c.messages m
+            JOIN m.from userFrom
+            JOIN m.to userTo
+            WHERE (
+                userFrom = :user1
+                AND userTo = :user2
+            ) OR (
+                userFrom = :user2
+                AND userTo = :user1
+            )
+        ")
+        ->setParameter("user1", $user1)
+        ->setParameter("user2", $user2)
+        ;
+
+        /** @var Conversation $conversation */
+        $conversation = $query->getOneOrNullResult();
+
+        return $conversation;
+    }
 }

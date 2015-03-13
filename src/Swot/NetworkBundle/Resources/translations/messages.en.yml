@@ -30,7 +30,18 @@ settings:
         success:              Settings saved
 
 conversations:
+    new:
+        page_title:           Write a message
+        link_title:           write Message
+        send_label:           Send
     page_title:               Messages
 
 conversation:
     page_title:               Conversation with %username%
+
+entity:
+    message:
+        validation:
+            message:
+                not_blank:    Please fill in a text to send
+

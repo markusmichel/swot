@@ -1,0 +1,20 @@
+{# Starts a new conversation #}
+
+{% extends "::base.html.twig" %}
+
+{% block title %}
+    {% trans %}conversations.new.page_title{% endtrans %}
+{% endblock %}
+
+{% block body %}
+    <h1>{% trans %}conversations.new.page_title{% endtrans %}</h1>
+
+    <form action="{{ path('new_message') }}" method="post" {{ form_enctype(newMessageForm) }} novalidate="novalidate">
+        {{ form_widget(newMessageForm) }}
+
+        <button type="submit">
+            {% trans %}conversations.new.send_label{% endtrans %}
+        </button>
+    </form>
+
+{% endblock %}

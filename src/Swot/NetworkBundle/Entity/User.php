@@ -128,7 +128,7 @@ class User implements UserInterface, \Serializable
      * @ORM\ManyToMany(targetEntity="Conversation")
      * @ORM\JoinTable(name="users_conversations",
      *      joinColumns={@ORM\JoinColumn(name="user_id", referencedColumnName="id")},
-     *      inverseJoinColumns={@ORM\JoinColumn(name="conversation_id", referencedColumnName="id", unique=true)}
+     *      inverseJoinColumns={@ORM\JoinColumn(name="conversation_id", referencedColumnName="id")}
      * ))
      */
     private $conversations;
@@ -651,6 +651,16 @@ class User implements UserInterface, \Serializable
     }
 
     /**
+     * Get conversations
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getConversations()
+    {
+        return $this->conversations;
+    }
+
+    /**
      * Add conversations
      *
      * @param \Swot\NetworkBundle\Entity\Conversation $conversations
@@ -658,7 +668,8 @@ class User implements UserInterface, \Serializable
      */
     public function addConversation(\Swot\NetworkBundle\Entity\Conversation $conversations)
     {
-        $this->conversations[] = $conversations;
+        if(!$this->getConversations()->contains($conversations))
+            $this->conversations[] = $conversations;
 
         return $this;
     }
@@ -671,15 +682,5 @@ class User implements UserInterface, \Serializable
     public function removeConversation(\Swot\NetworkBundle\Entity\Conversation $conversations)
     {
         $this->conversations->removeElement($conversations);
-    }
-
-    /**
-     * Get conversations
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getConversations()
-    {
-        return $this->conversations;
     }
 }

@@ -1,12 +1,37 @@
 {# Shows all conversations where the current user is involved #}
 
 {% extends "::base.html.twig" %}
+{% set partner_username = partner.username %}
 
 {% block title %}
-    {% trans %}conversation.page_title{% endtrans %}
+    {% trans with {'%username%': partner.username}%}conversation.page_title %username%{% endtrans %}
 {% endblock %}
 
 {% block body %}
-    <h1>{% trans %}conversation.page_title{% endtrans %}</h1>
+    <h1>
+        {% trans with {'%username%': partner.username} %}conversation.page_title %username%{% endtrans %}
+    </h1>
+    {{ partner.username }}
+    <br/>
+
+    {% for message in messages %}
+        <div>
+            sender:
+            {# only link partner, not the user himself #}
+            {% if message.from == partner %}
+                <a href="{{ path('friend_show', {id: partner.id}) }}">
+                    {{ message.from.username }}
+                </a>
+            {% else %}
+                you
+            {% endif %}
+        </div>
+        <div>date: {{ message.sent|date }}</div>
+        <div>{{ message.text }}</div>
+
+        <a href="">TODO: löschen</a>
+        
+        <hr/>
+    {% endfor %}
 
 {% endblock %}

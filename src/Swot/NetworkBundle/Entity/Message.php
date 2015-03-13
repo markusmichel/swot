@@ -3,15 +3,24 @@
 namespace Swot\NetworkBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Message
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Swot\NetworkBundle\Entity\MessageRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Message
 {
+    /**
+     * @ORM\PrePersist()
+     */
+    public function updateTimeSent() {
+        $this->setSent(new \DateTime());
+    }
+
     /**
      * @var integer
      *
@@ -30,6 +39,7 @@ class Message
 
     /**
      * @ORM\Column(name="text", type="text")
+     * @Assert\NotBlank(message = "entity.message.validation.message.not_blank")
      */
     private $text;
 
@@ -48,9 +58,13 @@ class Message
     /**
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(name="user_to_id", referencedColumnName="id")
+     *
      **/
     private $to;
 
+    public function getOtherUser(User $user) {
+        return $this->from === $user ? $this->to : $this->from;
+    }
 
     /**
      * Get id

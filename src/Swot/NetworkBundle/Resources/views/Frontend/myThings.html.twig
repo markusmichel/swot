@@ -20,7 +20,7 @@
                 {% if loop.index0 is divisibleby(4) %}
                 {% if loop.first == false %}</div>{% endif %}
                     <div class="hex-row">
-                {% if loop.last %}</div>{% endif %}
+
                 {% set counter = 0 %}
                 {% endif %}
                 {% set counter = counter + 1 %}
@@ -28,9 +28,10 @@
                     {% include 'SwotNetworkBundle:Frontend:myThingsEntry.html.twig' with {thing: ownership.thing} %}
                     <div class="maskborder thing-default-picture"></div>
                 </div>
+                {% if loop.last %}</div>{% endif %}
             {% endfor %}
         </div>
-        </div>
+
     <h1>Things lent to me</h1>
      <div class="hex-list">
         {% for thing in app.user.thingsLent %}
@@ -38,7 +39,6 @@
             {% if loop.index0 is divisibleby(4) %}
             {% if loop.first == false %}</div>{% endif %}
                 <div class="hex-row">
-            {% if loop.last %}</div>{% endif %}
             {% set counter = 0 %}
             {% endif %}
             {% set counter = counter + 1 %}
@@ -46,6 +46,7 @@
                 {% include 'SwotNetworkBundle:Frontend:myThingsEntry.html.twig' with {thing: thing.thing} %}
                 <div class="maskborder thing-default-picture"></div>
             </div>
+            {% if loop.last %}</div>{% endif %}
         {% endfor %}
     </div>
 {% endblock %}

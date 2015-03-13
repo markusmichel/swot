@@ -12,52 +12,65 @@ ul {
     list-style-type: none;
 }
 
-
-.top-bar .toggle-topbar{
-	left:0;
-	right: auto;
+h1 {
+    font-family: 'Slabo 27px', serif;
+    margin: 20px 0 20px 20px;
 }
 
-.top-bar .name {
-	background: transparent url("../gfx/title.png") no-repeat center center;
-	width: 180px;
-	margin: auto;
-}
-
-.top-bar {
-	background-color: #FEAF10;
-	margin-bottom: 40px;
-    height: 100px;
-    padding-top: 25px;
+.header {
+    background: #588C73 none;
+    height: 80px;
+    width: 100%;
     position: relative;
 }
 
-.top-bar:before {
-    content: '';
-    position: absolute;
-    top: 0; right: 0;
-    border-top: 50px solid white;
-    border-bottom: 50px solid white;
-    border-left: 50px solid #FEAF10;
-    width: 0;
+.logo {
+    background: transparent url("../gfx/logo.png") no-repeat center center;
+    height: 80px;
+    width: 225px;
+    margin: 0 auto 0 auto;
 }
 
-.top-bar:after {
-    content: '';
+.logout {
+    width: 36px;
+    height: 36px;
     position: absolute;
-    top: 0; left: 0;
-    border-top: 50px solid white;
-    border-bottom: 50px solid white;
-    border-right: 50px solid #FEAF10;
-    width: 0;
+    right: 25px;
+    top: 23px;
+    cursor: pointer;
+    background: transparent url("../gfx/logout.png") no-repeat center center;
+}
+
+.logout:hover {
+    -webkit-transform: scale(1.1);
+    -moz-transform:    scale(1.1);
+    -o-transform:      scale(1.1);
+    -ms-transform:     scale(1.1);
+}
+
+.main {
+    margin-top: 40px;
+}
+
+.icons-only div {
+    display: inline-block;
+}
+
+.icons-only .nav-item {
+    width: auto;
+}
+
+.icons-only.nav {
+    width: 309px;
+    margin-left: auto;
+    margin-right: auto;
 }
 
 .nav-item {
     height: 45px;
     padding-left: 49px;
     padding-top: 11px;
-    background-color: #FEAF10;
-    color: white;
+    color: black;
     width: 150px;
     background-position: 7px center;
     background-repeat: no-repeat;
@@ -95,10 +108,10 @@ ul {
     background-image: url("../gfx/lock.png");
 }
 
-.hex-list {
-    padding-left: 33px;
-    padding-top: 71px;
-    padding-bottom: 100px;
+.cssmasks.hex-list {
+    overflow: hidden;
+    padding-left: 30px;
+    padding-top: 64px;
 }
 
 .hex-list-item {
@@ -110,8 +123,8 @@ ul {
 }
 
 .hex-list-item-inner {
-    width: 130px;
-    height: 130px;
+    width: 101px;
+    height: 131px;
     display: table-cell;
     text-align: center;
     vertical-align: middle;
@@ -120,34 +133,39 @@ ul {
 .hex-row {
     clear: left;
 }
-.hex.even {
-    margin-top: 15px;
+.cssmasks .hex.even {
+    margin-top: 4px !important;
 }
 
 .hex {
     position: relative;
     display: inline-block;
-    width: 180px;
-    height: 158px;
+    width: 150px;
+    height: 132px;
     overflow: hidden;
     color: #fff;
     -webkit-mask-image: url(../gfx/hexagon_mask.png);
     mask: url(../gfx/hexagon_mask.png);
     text-align: center;
-    background-color: #000;
+    background-color: #588C73;
     float: left;
-    margin-left: -33px;
-    margin-top: -71px;
+}
+
+.cssmasks .hex {
+    margin-left: -30px;
+    margin-top: -64px;
+}
+
+.no-cssmasks .hex {
+    margin-top: 5px;
 }
 
 .maskborder{
-    width: 170px;
-    height: 149.22px;
+    width: 146px;
+    height: 128PX;
     -webkit-mask-box-image: url(../gfx/hexagon_mask.png);
-
-    margin-left: 5px;
-    margin-top: 4px;
-
+    margin-left: 2px;
+    margin-top: 2px;
 }
 
 .friend-default-picture {
@@ -157,7 +175,7 @@ ul {
 }
 
 .thing-default-picture {
-    background: transparent url(../gfx/toaster.jpg) no-repeat center center;
+    background: transparent url(../gfx/thing.jpg) no-repeat center center;
     opacity: 0.5;
     background-size: cover;
 }

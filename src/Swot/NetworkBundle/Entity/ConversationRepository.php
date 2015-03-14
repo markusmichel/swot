@@ -12,6 +12,33 @@ use Doctrine\ORM\EntityRepository;
  */
 class ConversationRepository extends EntityRepository
 {
+    /**
+     * Return a users' conversations ordered by last updated date.
+     * @param User $user
+     * @return Conversation
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
+    public function findUsersConversations(User $user) {
+        $query = $this->getEntityManager()->createQuery('
+            SELECT c
+            FROM SwotNetworkBundle:Conversation c
+            JOIN SwotNetworkBundle:User u
+            WHERE u = :user
+            ORDER BY c.updated DESC
+        ')->setParameter('user', $user);
+
+        /** @var Conversation $conversation */
+        $conversation = $query->getResult();
+        return $conversation;
+    }
+
+    /**
+     * Returns a Conversation between two users if it already exists or null.
+     * @param User $user1
+     * @param User $user2
+     * @return Conversation
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     */
     public function findConversationBetween(User $user1, User $user2) {
         $query = $this->getEntityManager()->createQuery("
             SELECT c FROM SwotNetworkBundle:Conversation c

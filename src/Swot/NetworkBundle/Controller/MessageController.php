@@ -4,6 +4,7 @@ namespace Swot\NetworkBundle\Controller;
 
 use Doctrine\ORM\EntityRepository;
 use Swot\NetworkBundle\Entity\Conversation;
+use Swot\NetworkBundle\Entity\ConversationRepository;
 use Swot\NetworkBundle\Entity\Message;
 use Swot\NetworkBundle\Entity\User;
 use Swot\NetworkBundle\Form\NewMessageType;
@@ -15,13 +16,26 @@ use Symfony\Component\HttpFoundation\Response;
 class MessageController extends Controller
 {
 
+    /**
+     * Lists all vonversations of the current user.
+     * @return Response
+     */
     public function conversationsAction() {
-        return $this->render('SwotNetworkBundle:Message:conversations.html.twig', array(
+        /** @var ConversationRepository $repo */
+        $repo = $this->getDoctrine()->getRepository('SwotNetworkBundle:Conversation');
 
+        $conversations = $repo->findUsersConversations($this->getUser());
+
+        return $this->render('SwotNetworkBundle:Message:conversations.html.twig', array(
+            'conversations' => $conversations,
         ));
     }
 
-
+    /**
+     * Lists all messages in one specific conversation involving the current user.
+     * @param $id
+     * @return Response
+     */
     public function conversationAction($id) {
         /** @var User $user */
         $user = $this->getUser();
@@ -62,7 +76,13 @@ class MessageController extends Controller
         ));
     }
 
-
+    /**
+     * Displays a new message form.
+     * The receiver is not known yet so the form displays a message input and a friend selector.
+     *
+     * @param Request $request
+     * @return Response
+     */
     public function newMessageAction(Request $request) {
         /** @var User $user */
         $user = $this->getUser();

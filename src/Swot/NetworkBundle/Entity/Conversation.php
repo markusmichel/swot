@@ -9,6 +9,7 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Swot\NetworkBundle\Entity\ConversationRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class Conversation
 {
@@ -26,6 +27,18 @@ class Conversation
      */
     private $messages;
 
+    /**
+     * @ORM\Column(name="updated", type="datetime")
+     */
+    private $updated;
+
+    /**
+     * @ORM\PrePersist()
+     * @ORM\PreUpdate()
+     */
+    public function updateUpdatedValue() {
+        $this->updated = new \DateTime();
+    }
 
     /**
      * Get id
@@ -75,5 +88,28 @@ class Conversation
     public function getMessages()
     {
         return $this->messages;
+    }
+
+    /**
+     * Set updated
+     *
+     * @param \DateTime $updated
+     * @return Conversation
+     */
+    public function setUpdated($updated)
+    {
+        $this->updated = $updated;
+
+        return $this;
+    }
+
+    /**
+     * Get updated
+     *
+     * @return \DateTime 
+     */
+    public function getUpdated()
+    {
+        return $this->updated;
     }
 }

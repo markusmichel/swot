@@ -52,13 +52,14 @@ class Message
     /**
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(name="user_from_id", referencedColumnName="id")
+     * @Assert\NotNull()
      **/
     private $from;
 
     /**
      * @ORM\ManyToOne(targetEntity="User")
      * @ORM\JoinColumn(name="user_to_id", referencedColumnName="id")
-     *
+     * @Assert\NotNull()
      **/
     private $to;
 

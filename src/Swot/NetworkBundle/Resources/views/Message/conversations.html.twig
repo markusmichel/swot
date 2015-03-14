@@ -15,10 +15,12 @@
         </a>
     </div>
 
-    {% for conversation in app.user.conversations %}
-
+    {% for conversation in conversations %}
         {% set partner = (conversation.messages|last).otherUser(app.user) %}
+
+        <hr/>
         <div>
+            <div>from: {{ conversation.updated|date }}</div>
             <a href="{{ path('conversation', {id: partner.id}) }}">
                 {{ partner.username }}
             </a>

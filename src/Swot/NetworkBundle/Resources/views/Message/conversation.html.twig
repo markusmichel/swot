@@ -1,4 +1,4 @@
-{# Shows all conversations where the current user is involved #}
+{# Shows all messages between the current user and one of his friends. #}
 
 {% extends "::base.html.twig" %}
 {% set partner_username = partner.username %}
@@ -11,7 +11,7 @@
     <h1>
         {% trans with {'%username%': partner.username} %}conversation.page_title %username%{% endtrans %}
     </h1>
-    {{ partner.username }}
+
     <br/>
 
     {% for message in messages %}
@@ -26,10 +26,12 @@
                 you
             {% endif %}
         </div>
+        <div>id: {{ message.id }}</div>
+        <div>conversation id: {{ message.conversation.id }}</div>
         <div>date: {{ message.sent|date }}</div>
         <div>{{ message.text }}</div>
 
-        <a href="">TODO: löschen</a>
+        {{ form(deleteForms[message.id]) }}
         
         <hr/>
     {% endfor %}

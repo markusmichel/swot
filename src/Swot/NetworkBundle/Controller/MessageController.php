@@ -8,6 +8,7 @@ use Swot\NetworkBundle\Entity\ConversationRepository;
 use Swot\NetworkBundle\Entity\Message;
 use Swot\NetworkBundle\Entity\User;
 use Swot\NetworkBundle\Form\NewMessageType;
+use Swot\NetworkBundle\Security\MessageVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
 use Symfony\Component\HttpFoundation\Request;
@@ -70,9 +71,15 @@ class MessageController extends Controller
 
         }
 
+        $deleteForms = array();
+        foreach($conversation->getMessages() as $message) {
+            $deleteForms[$message->getId()] = $this->createDeleteMessageForm($message)->createView();
+        }
+
         return $this->render('SwotNetworkBundle:Message:conversation.html.twig', array(
             'messages'  => $conversation->getMessages(),
             'partner'   => $partner,
+            'deleteForms' => $deleteForms,
         ));
     }
 
@@ -118,5 +125,51 @@ class MessageController extends Controller
         return $this->render('SwotNetworkBundle:Message:new_message.html.twig', array(
             'newMessageForm' => $form->createView(),
         ));
+    }
+
+
+    public function deleteMessageAction(Request $request, $id) {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        /** @var Message $message */
+        $message = $this->getDoctrine()->getRepository('SwotNetworkBundle:Message')->find($id);
+
+        if(!$this->isGranted(MessageVoter::DELETE, $message)) {
+            $this->addFlash('error', 'you may not remove this message');
+            return $this->redirectToRoute('conversations');
+        }
+
+        $form = $this->createDeleteMessageForm($message);
+        $form->handleRequest($request);
+        if($form->isValid()) {
+            /** @var Conversation $conversation */
+            $conversation = $message->getConversation();
+            echo "message text = " . $message->getText();
+            echo "<br>";
+            die("conversation id = " . $conversation->getId());
+            $conversation->removeMessage($message);
+            $message->setConversation(null);
+
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($conversation);
+            $manager->remove($message);
+            $manager->flush();
+
+            $this->addFlash('success', 'Message removed');
+            return $this->redirectToRoute('conversation', array('id' => $conversation->getId()));
+        }
+    }
+
+    private function createDeleteMessageForm(Message $message) {
+        $form = $this->createFormBuilder($message)
+            ->setAction($this->generateUrl('delete_message', array('id' => $message->getId())))
+            ->setMethod('POST')
+            ->add('button', 'submit', array(
+                'label' => 'delete',
+            ))
+            ->getForm();
+
+        return $form;
     }
 }

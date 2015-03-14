@@ -27,6 +27,12 @@ services:
         tags:
            - { name: security.voter }
 
+    security.message_voter:
+        class:      Swot\NetworkBundle\Security\MessageVoter
+        public:     false
+        tags:
+           - { name: security.voter }
+
     # Register form types
     swot.form.type.user_settings:
         class:      Swot\NetworkBundle\Form\UserSettingsType

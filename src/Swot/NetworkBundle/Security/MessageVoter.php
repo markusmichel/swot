@@ -4,15 +4,15 @@ namespace Swot\NetworkBundle\Security;
 
 
 use Swot\NetworkBundle\Entity\Friendship;
+use Swot\NetworkBundle\Entity\Message;
 use Swot\NetworkBundle\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
 use Symfony\Component\Security\Core\Authorization\Voter\VoterInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 
-class UserVoter implements VoterInterface {
+class MessageVoter implements VoterInterface {
 
-    const SHOW      = 'show';
-    const FRIEND    = 'friend';
+    const DELETE      = 'delete';
 
     /**
      * Checks if the voter supports the given attribute.
@@ -24,8 +24,7 @@ class UserVoter implements VoterInterface {
     public function supportsAttribute($attribute)
     {
         return in_array($attribute, array(
-            self::SHOW,
-            self::FRIEND,
+            self::DELETE,
         ));
     }
 
@@ -38,7 +37,7 @@ class UserVoter implements VoterInterface {
      */
     public function supportsClass($class)
     {
-        $supportedClass = 'Swot\NetworkBundle\Entity\User';
+        $supportedClass = 'Swot\NetworkBundle\Entity\Message';
         return $supportedClass === $class || is_subclass_of($class, $supportedClass);
     }
 
@@ -49,7 +48,7 @@ class UserVoter implements VoterInterface {
      * ACCESS_GRANTED, ACCESS_DENIED, or ACCESS_ABSTAIN.
      *
      * @param TokenInterface $token A TokenInterface instance
-     * @param User $message
+     * @param Message $message
      * @param array $attributes An array of attributes associated with the method being invoked
      * @return int either ACCESS_GRANTED, ACCESS_ABSTAIN, or ACCESS_DENIED
      */
@@ -77,7 +76,7 @@ class UserVoter implements VoterInterface {
             return VoterInterface::ACCESS_ABSTAIN;
         }
 
-        /** @var User $message */
+        /** @var User $currentUser */
         $currentUser = $token->getUser();
 
         // Check if the user is logged in and the user exists
@@ -86,12 +85,8 @@ class UserVoter implements VoterInterface {
         }
 
         switch($attribute) {
-            case self::SHOW:
-                if($message->isFriendOf($currentUser) || $message === $currentUser)
-                    return VoterInterface::ACCESS_GRANTED;
-                break;
-            case self::FRIEND:
-                if($message->isFriendOf($currentUser) || $message === $currentUser)
+            case self::DELETE:
+                if($message->getFrom() === $currentUser || $message->getTo() === $currentUser)
                     return VoterInterface::ACCESS_GRANTED;
                 break;
         }

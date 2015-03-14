@@ -349,11 +349,16 @@ bzw:
 {% endif %}
 ```
 
-### ThingVoter
+### UserVoter
 Prüft auf Rechte von Nutzern für Aktionen auf Nutzer/Profile.
 Unterstützte Aktionen:
 - view
 - friend
+
+### MessageVoter
+Prüft auf Rechte von Nutzern für Aktionen auf einzelne Nachrichten.
+Unterstützte Aktionen:
+- delete
 
 --------------------------------------------------------
 

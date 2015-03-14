@@ -181,6 +181,7 @@ Doctrine Datenmodell
 | Titel             | Typ           | Kardinalität  | required
 |-------------------|---------------|---------------|-------------
 | messages			| Message		| OneToMany
+| updated			| DateTime		| 
 
 --------------------------------------------------------------------------------
 

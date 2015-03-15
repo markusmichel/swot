@@ -2,6 +2,12 @@ parameters:
     swot.directory.upload.profile_images:   'uploads/profileimages/'
 
 services:
+
+    # file uploaders
+    swot.image_uploader:
+        class:      Swot\NetworkBundle\File\ImageUploader
+        arguments: [%kernel.root_dir%, %swot.directory.upload.profile_images%, @liip_imagine.data.manager, @liip_imagine.filter.manager]
+
     # repositories
     swot.user_repository:
         class: Doctrine\ORM\EntityRepository
@@ -9,10 +15,6 @@ services:
         factory_method: getRepository
         arguments:
             - Swot\NetworkBundle\Entity\User
-
-    swot.image_uploader:
-        class:      Swot\NetworkBundle\File\ImageUploader
-        arguments: [%kernel.root_dir%, %swot.directory.upload.profile_images%]
 
     # Security Voters
     security.thing_voter:

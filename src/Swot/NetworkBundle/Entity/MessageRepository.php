@@ -24,7 +24,7 @@ class MessageRepository extends EntityRepository
             FROM SwotNetworkBundle:Message m
             JOIN m.conversation c
             WHERE c = :conversation
-            ORDER BY m.sent DESC
+            ORDER BY m.sent ASC
         ')->setParameter('conversation', $conversation);
 
         return $query->getResult();

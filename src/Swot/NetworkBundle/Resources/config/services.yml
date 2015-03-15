@@ -1,6 +1,3 @@
-parameters:
-    swot.directory.upload.profile_images:   'uploads/profileimages/'
-
 services:
 
     # file uploaders

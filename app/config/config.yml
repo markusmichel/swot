@@ -30,6 +30,8 @@ framework:
 twig:
     debug:            "%kernel.debug%"
     strict_variables: "%kernel.debug%"
+    globals:
+        profile_image_folder:   "%swot.directory.upload.profile_images%"
 
 # Assetic Configuration
 assetic:
@@ -72,3 +74,6 @@ swiftmailer:
     username:  "%mailer_user%"
     password:  "%mailer_password%"
     spool:     { type: memory }
+
+parameters:
+    swot.directory.upload.profile_images:   'uploads/profileimages/'

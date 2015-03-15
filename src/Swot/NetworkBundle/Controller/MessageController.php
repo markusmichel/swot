@@ -51,6 +51,8 @@ class MessageController extends Controller
             return $this->redirectToRoute('conversations');
         }
 
+        $messages = $this->getDoctrine()->getRepository('SwotNetworkBundle:Message')->findMessagesInConversation($conversation);
+
         /** @var User $partner */
         $partner = $conversation->getMessages()->last()->getOtherUser($user);
 
@@ -62,12 +64,13 @@ class MessageController extends Controller
         }
 
         $deleteForms = array();
-        foreach($conversation->getMessages() as $message) {
+        /** @var Message $message */
+        foreach($messages as $message) {
             $deleteForms[$message->getId()] = $this->createDeleteMessageForm($message)->createView();
         }
 
         return $this->render('SwotNetworkBundle:Message:conversation.html.twig', array(
-            'messages'  => $conversation->getMessages(),
+            'messages'  => $messages,
             'partner'   => $partner,
             'deleteForms' => $deleteForms,
         ));

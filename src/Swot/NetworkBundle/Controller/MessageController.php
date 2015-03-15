@@ -34,41 +34,31 @@ class MessageController extends Controller
 
     /**
      * Lists all messages in one specific conversation involving the current user.
-     * @param $id
+     * @param $id ID of the user the current user has a conversation with.
      * @return Response
      */
     public function conversationAction($id) {
         /** @var User $user */
         $user = $this->getUser();
 
-        $partner = $this->getDoctrine()->getRepository('SwotNetworkBundle:User')->find($id);
-
-        // partner does not exist
-        if($partner === null) {
-
-        }
-
-        // user is a friend of partner
-        if(!$this->isGranted('friend', $partner)) {
-
-        }
-
         /** @var Conversation $conversation */
-        $conversation = $this->getDoctrine()->getRepository('SwotNetworkBundle:Conversation')->findConversationBetween($user, $partner);
+        $conversation = $this->getDoctrine()->getRepository('SwotNetworkBundle:Conversation')->find($id);
 
         // Entity not found
-        if($conversation === null) {
-
+        if($conversation === null || $conversation->getMessages()->last() === null) {
+            // @todo: message string in translation file
+            $this->addFlash('error', 'Conversation does not exist');
+            return $this->redirectToRoute('conversations');
         }
+
+        /** @var User $partner */
+        $partner = $conversation->getMessages()->last()->getOtherUser($user);
 
         // User not involved in the requested conversation
         if(!$user->getConversations()->contains($conversation)) {
-
-        }
-
-        // Conversation has no messages
-        if($conversation->getMessages()->isEmpty()) {
-
+            // @todo: message string in translation file
+            $this->addFlash('error', 'You are not allowed to see this conversation');
+            return $this->redirectToRoute('conversations');
         }
 
         $deleteForms = array();
@@ -145,9 +135,6 @@ class MessageController extends Controller
         if($form->isValid()) {
             /** @var Conversation $conversation */
             $conversation = $message->getConversation();
-            echo "message text = " . $message->getText();
-            echo "<br>";
-            die("conversation id = " . $conversation->getId());
             $conversation->removeMessage($message);
             $message->setConversation(null);
 

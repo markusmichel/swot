@@ -16,14 +16,16 @@
     </div>
 
     {% for conversation in conversations %}
-        {% set partner = (conversation.messages|last).otherUser(app.user) %}
+        {% if conversation.messages|length > 0 %}
+            {% set partner = (conversation.messages|last).otherUser(app.user) %}
 
-        <hr/>
-        <div>
-            <div>from: {{ conversation.updated|date }}</div>
-            <a href="{{ path('conversation', {id: partner.id}) }}">
-                {{ partner.username }}
-            </a>
-        </div>
+            <hr/>
+            <div>
+                <div>from: {{ conversation.updated|date }}</div>
+                <a href="{{ path('conversation', {id: conversation.id}) }}">
+                    {{ partner.username }}
+                </a>
+            </div>
+        {% endif %}
     {% endfor %}
 {% endblock %}

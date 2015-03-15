@@ -12,5 +12,21 @@ use Doctrine\ORM\EntityRepository;
  */
 class MessageRepository extends EntityRepository
 {
-//    public function findM
+    /**
+     * Finds all Messages in a conversation ordered by sent DESC.
+     *
+     * @param Conversation $conversation
+     * @return array
+     */
+    public function findMessagesInConversation(Conversation $conversation) {
+        $query = $this->getEntityManager()->createQuery('
+            SELECT m
+            FROM SwotNetworkBundle:Message m
+            JOIN m.conversation c
+            WHERE c = :conversation
+            ORDER BY m.sent DESC
+        ')->setParameter('conversation', $conversation);
+
+        return $query->getResult();
+    }
 }

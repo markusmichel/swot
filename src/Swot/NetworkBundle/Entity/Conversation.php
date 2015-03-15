@@ -33,11 +33,22 @@ class Conversation
     private $updated;
 
     /**
+     * @ORM\ManyToMany(targetEntity="User", mappedBy="conversations")
+     */
+    private $involvedUsers;
+
+    /**
      * @ORM\PrePersist()
      * @ORM\PreUpdate()
      */
     public function updateUpdatedValue() {
         $this->updated = new \DateTime();
+    }
+
+    public function getAllUsersBut(User $user) {
+        return $this->getInvolvedUsers()->filter(function($entry) use ($user) {
+            return $entry->getId() !== $user->getId();
+        });
     }
 
     /**
@@ -111,5 +122,38 @@ class Conversation
     public function getUpdated()
     {
         return $this->updated;
+    }
+
+    /**
+     * Add involvedUsers
+     *
+     * @param \Swot\NetworkBundle\Entity\User $involvedUsers
+     * @return Conversation
+     */
+    public function addInvolvedUser(\Swot\NetworkBundle\Entity\User $involvedUsers)
+    {
+        $this->involvedUsers[] = $involvedUsers;
+
+        return $this;
+    }
+
+    /**
+     * Remove involvedUsers
+     *
+     * @param \Swot\NetworkBundle\Entity\User $involvedUsers
+     */
+    public function removeInvolvedUser(\Swot\NetworkBundle\Entity\User $involvedUsers)
+    {
+        $this->involvedUsers->removeElement($involvedUsers);
+    }
+
+    /**
+     * Get involvedUsers
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getInvolvedUsers()
+    {
+        return $this->involvedUsers;
     }
 }

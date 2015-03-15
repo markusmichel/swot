@@ -6,6 +6,10 @@ new_message:
     path:     /write
     defaults: { _controller: SwotNetworkBundle:Message:newMessage }
 
+new_conversation:
+    path:     /{id}/new
+    defaults: { _controller: SwotNetworkBundle:Message:newConversation }
+
 delete_message:
     path:     /{id}/delete
     defaults: { _controller: SwotNetworkBundle:Message:deleteMessage }

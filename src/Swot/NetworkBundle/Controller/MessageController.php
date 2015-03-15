@@ -45,7 +45,7 @@ class MessageController extends Controller
         $conversation = $this->getDoctrine()->getRepository('SwotNetworkBundle:Conversation')->find($id);
 
         // Entity not found
-        if($conversation === null || $conversation->getMessages()->last() === null) {
+        if($conversation === null) {
             // @todo: message string in translation file
             $this->addFlash('error', 'Conversation does not exist');
             return $this->redirectToRoute('conversations');
@@ -54,7 +54,8 @@ class MessageController extends Controller
         $messages = $this->getDoctrine()->getRepository('SwotNetworkBundle:Message')->findMessagesInConversation($conversation);
 
         /** @var User $partner */
-        $partner = $conversation->getMessages()->last()->getOtherUser($user);
+        $partners = $conversation->getAllUsersBut($user);
+        $partner = $partners->first();
 
         // User not involved in the requested conversation
         if(!$user->getConversations()->contains($conversation)) {
@@ -74,6 +75,43 @@ class MessageController extends Controller
             'partner'   => $partner,
             'deleteForms' => $deleteForms,
         ));
+    }
+
+    /**
+     * Starts a new conversation with the specified user.
+     *
+     * @param Request $request
+     * @param $id ID of the user to start a new conversation with.
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function newConversationAction(Request $request, $id) {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        /** @var User $partner */
+        $partner = $this->getDoctrine()->getRepository('SwotNetworkBundle:User')->find($id);
+
+        if($partner === null) {
+            $this->addFlash('error', 'User does not exist');
+            return $this->redirectToRoute('newsfeed');
+        }
+
+        /** @var Conversation $conversation */
+        $conversation = $this->getDoctrine()->getRepository('SwotNetworkBundle:Conversation')->findConversationBetween($user, $partner);
+
+        if($conversation === null) {
+            $conversation = new Conversation();
+            $user->addConversation($conversation);
+            $partner->addConversation($conversation);
+
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($conversation);
+            $manager->persist($user);
+            $manager->persist($partner);
+            $manager->flush();
+        }
+
+        return $this->redirectToRoute('conversation', array('id' => $conversation->getId()));
     }
 
     /**

@@ -53,10 +53,16 @@ class FriendController extends Controller
 //            return $this->redirectToRoute('my_friends');
 //        }
 
+        $conversation = $this->getDoctrine()->getRepository('SwotNetworkBundle:Conversation')->findConversationBetween($this->getUser(), $user);
+        $sendMessageLink = $conversation !== null ?
+            $this->generateUrl('conversation', array('id' => $conversation->getId())) :
+            $this->generateUrl('new_message');
+
         return $this->render('SwotNetworkBundle:Friend:show.html.twig', array(
             'user'              => $user,
             'breakUpForm'       => $this->createRemoveFriendshipForm($user)->createView(),
             'sendInviteForm'    => $this->createSendInviteForm($user)->createView(),
+            'sendMessageLink'   => $sendMessageLink,
         ));
     }
 

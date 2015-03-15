@@ -12,6 +12,7 @@
     {% if user != app.user %}
         {% if is_granted('friend', user) %}
             {{ form(breakUpForm) }}
+            <a href="{{ path('new_conversation', {id: user.id}) }}">send message</a>
         {% else %}
             {{ form(sendInviteForm) }}
         {% endif %}

@@ -7,6 +7,7 @@ use Swot\NetworkBundle\Entity\Conversation;
 use Swot\NetworkBundle\Entity\ConversationRepository;
 use Swot\NetworkBundle\Entity\Message;
 use Swot\NetworkBundle\Entity\User;
+use Swot\NetworkBundle\Form\NewMessageToUserType;
 use Swot\NetworkBundle\Form\NewMessageType;
 use Swot\NetworkBundle\Security\MessageVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -37,7 +38,7 @@ class MessageController extends Controller
      * @param $id ID of the user the current user has a conversation with.
      * @return Response
      */
-    public function conversationAction($id) {
+    public function conversationAction(Request $request, $id) {
         /** @var User $user */
         $user = $this->getUser();
 
@@ -70,10 +71,30 @@ class MessageController extends Controller
             $deleteForms[$message->getId()] = $this->createDeleteMessageForm($message)->createView();
         }
 
+        $message = new Message();
+        $message->setFrom($user);
+        $message->setTo($partner);
+        $message->setConversation($conversation);
+
+        $messageForm = $this->createForm(new NewMessageToUserType(), $message);
+        $messageForm->handleRequest($request);
+        if($messageForm->isValid()) {
+            $conversation->addMessage($message);
+
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($message);
+            $manager->persist($conversation);
+            $manager->flush();
+
+            return $this->redirectToRoute('conversation', array('id' => $conversation->getId()));
+        }
+
         return $this->render('SwotNetworkBundle:Message:conversation.html.twig', array(
             'messages'  => $messages,
+            'conversation' => $conversation,
             'partner'   => $partner,
             'deleteForms' => $deleteForms,
+            'messageForm' => $messageForm->createView(),
         ));
     }
 

@@ -14,6 +14,12 @@
 
     <br/>
 
+    <form action="{{ path('conversation', {id: conversation.id}) }}" method="post" {{ form_enctype(messageForm) }}>
+        {{ form_widget(messageForm) }}
+
+        <button type="submit">send</button>
+    </form>
+
     {% for message in messages %}
         <div>
             sender:

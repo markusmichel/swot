@@ -28,6 +28,12 @@
                 <div class="small-12 large-9 medium columns">
                     {% include 'flash-messages.html.twig' %}
 
+                    {% if app.user != null %}
+                        CHANGE ME in base.html.twig: Profile Image
+                        <img src="{{ (profile_image_folder ~ app.user.profileImage) | imagine_filter('profile_image_thumb') }}" alt="Profile Image"/>
+                    {% endif %}
+
+
                     {% block body %}{% endblock %}
                 </div>
             </div>

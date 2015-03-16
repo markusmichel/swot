@@ -53,6 +53,11 @@ class Thing
     private $rentals;
 
     /**
+     * @ORM\OneToMany(targetEntity="ThingFunction", mappedBy="thing")
+     */
+    private $functions;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -198,5 +203,38 @@ class Thing
     public function getRentals()
     {
         return $this->rentals;
+    }
+
+    /**
+     * Add functions
+     *
+     * @param \Swot\NetworkBundle\Entity\ThingFunction $functions
+     * @return Thing
+     */
+    public function addFunction(\Swot\NetworkBundle\Entity\ThingFunction $functions)
+    {
+        $this->functions[] = $functions;
+
+        return $this;
+    }
+
+    /**
+     * Remove functions
+     *
+     * @param \Swot\NetworkBundle\Entity\ThingFunction $functions
+     */
+    public function removeFunction(\Swot\NetworkBundle\Entity\ThingFunction $functions)
+    {
+        $this->functions->removeElement($functions);
+    }
+
+    /**
+     * Get functions
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getFunctions()
+    {
+        return $this->functions;
     }
 }

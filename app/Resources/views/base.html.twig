@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <html>
     <head>
-        <meta charset="UTF-8" />
+
+        <meta name="viewport" content="width=device-width" />
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}
             <link rel="stylesheet" type="text/css" href="{{ asset('res/css/foundation.css') }}">
@@ -22,6 +23,7 @@
         </div>
         <div class="row main">
             <div class="row">
+
                 <div class="small-2 columns show-for-large-up">
                     {% include 'navigation.html.twig' %}
                 </div>
@@ -50,23 +52,38 @@
             <script src="{{ asset('res/js/foundation.min.js') }}"></script>
             <script>
                 $(document).foundation();
+                $(document).ready(function() {
 
-                // handles hexagon classes if css mask is not supported
-                if ( document.body.style[ '-webkit-mask-repeat' ] !== undefined ) {
-                    Modernizr.cssmasks = true;
-                    $('.hex-list').addClass('cssmasks');
-                } else {
-                    Modernizr.cssmasks = false;
-                    $('.hex-list').addClass('no-cssmasks');
-                }
+                    // handles hexagon classes if css mask is not supported
+                    if ( document.body.style[ '-webkit-mask-repeat' ] !== undefined ) {
+                        Modernizr.cssmasks = true;
+                        $('.hex-list').addClass('cssmasks');
+                    } else {
+                        Modernizr.cssmasks = false;
+                        $('.hex-list').addClass('no-cssmasks');
+                    }
 
-                // sets Profile Picture if available
-                {% if app.user != null %}
+                    //make sidebar nav sticky if scrolled down
+                    $(window).scroll(function() {
+                        var height = $(window).scrollTop();
+                        var headerHeight = $('.header').height();
+                        if(height  > headerHeight) {
+                            $('.nav').addClass('sticky');
+                        }
+                        if(height  < headerHeight) {
+                            $('.nav').removeClass('sticky');
+                        }
+                    });
+
+                    // sets Profile Picture if available
+                    {% if app.user != null %}
                     var profilePicturePath = "{{ (profile_image_folder ~ app.user.profileImage) | imagine_filter('profile_image_thumb') }}";
                     if (profilePicturePath != null && profilePicturePath.length > 0) {
                         $('.profile-picture').css('background-image', 'url("{{ (profile_image_folder ~ app.user.profileImage) | imagine_filter('profile_image_thumb') }}")');
                     }
-                {% endif %}
+                    {% endif %}
+                });
+
             </script>
         {% endblock %}
     </body>

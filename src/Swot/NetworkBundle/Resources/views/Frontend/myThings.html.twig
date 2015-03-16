@@ -19,18 +19,12 @@
 
         <div class="hex-list">
             {% for ownership in app.user.ownerships %}
-                {% if loop.index0 is divisibleby(4) %}
-                {% if loop.first == false %}</div>{% endif %}
-                    <div class="hex-row">
 
-                {% set counter = 0 %}
-                {% endif %}
-                {% set counter = counter + 1 %}
-                <div class="hex {{ cycle(['even', ''], counter) }}">
+                <div class="hex">
                     {% include 'SwotNetworkBundle:Frontend:myThingsEntry.html.twig' with {thing: ownership.thing} %}
                     <div class="maskborder thing-default-picture"></div>
                 </div>
-                {% if loop.last %}</div>{% endif %}
+
             {% endfor %}
         </div>
 

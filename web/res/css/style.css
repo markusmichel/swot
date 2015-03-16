@@ -1,3 +1,8 @@
+ul.magellan {width: 240px}
+@media only screen and (max-width: 767px) {
+    ul.magellan {position: static !important; width: 100%}
+}
+
 @font-face {
     font-family: Vonique64;
     src: url(Vonique%2064%20Bold.ttf);
@@ -65,15 +70,21 @@ h2 {
     margin-top: 40px;
 }
 
-.icons-only div {
+.sticky {
+    position: fixed;
+    float: left;
+    top: 35px;
+}
+
+.icons-nav div {
     display: inline-block;
 }
 
-.icons-only .nav-item {
+.icons-nav .nav-item {
     width: auto;
 }
 
-.icons-only.nav {
+.icons-nav {
     width: 309px;
     margin-left: auto;
     margin-right: auto;
@@ -121,11 +132,13 @@ h2 {
     background-image: url("../gfx/lock.png");
 }
 
+/*
 .cssmasks.hex-list {
     overflow: hidden;
     padding-left: 30px;
     padding-top: 64px;
 }
+*/
 
 .hex-list-item {
     width: 130px;
@@ -150,6 +163,14 @@ h2 {
     margin-top: 4px !important;
 }
 
+
+/*
+.cssmasks .hex {
+    margin-left: -30px;
+    margin-top: -64px;
+}*/
+
+
 .hex {
     position: relative;
     display: inline-block;
@@ -162,11 +183,71 @@ h2 {
     text-align: center;
     background-color: #588C73;
     float: left;
+    margin-left: 80px;
+    margin-top: -65px;
 }
 
-.cssmasks .hex {
-    margin-left: -30px;
-    margin-top: -64px;
+
+
+@media all and (min-width: 846px) {
+    .hex:nth-child(8n+1) {
+        background: yellow;
+        margin-left: 0;
+    }
+
+    .hex:nth-child(8n-3) {
+        background: orange;
+        margin-left: 115px;
+    }
+
+    .hex:nth-child(-n+4) {
+        margin-top: 0;
+    }
+}
+
+@media all and (max-width: 696px) {
+    .hex:nth-child(6n+1) {
+        background: yellow;
+        margin-left: 0;
+    }
+
+    .hex:nth-child(6n-2) {
+        background: orange;
+        margin-left: 115px;
+    }
+
+    .hex:nth-child(-n+3) {
+        margin-top: 0;
+    }
+}
+
+@media all and (max-width: 581px) {
+    .hex:nth-child(4n+1) {
+        margin-left: 0;
+    }
+
+    .hex:nth-child(4n-1) {
+        margin-left: 115px;
+    }
+
+    .hex:nth-child(-n+2) {
+        margin-top: 0;
+    }
+}
+
+@media all and (max-width: 431px) {
+    .hex:nth-child(2n+1) {
+        margin-left: 0;
+    }
+
+    .hex:nth-child(2n) {
+        margin-left: 115px;
+    }
+
+    .hex:nth-child(-n+1) {
+        margin-top: 0;
+    }
+
 }
 
 .no-cssmasks .hex {
@@ -251,7 +332,7 @@ h2 {
 }
 
 .long-hex-after  {
-     width: 36px;
+     width: 45px;
      height: 88px;
      overflow: hidden;
      -webkit-mask-image: url(../gfx/hexagon_long_after.png);

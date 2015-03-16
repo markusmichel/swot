@@ -11,8 +11,15 @@
     {{ dump(thing) }}
 
     <ul>
-        {% for functionForm in functionForms %}
-            <li>{{ form(functionForm) }}</li>
+        {% for function in thing.functions %}
+            {% set functionForm = functionForms[function.id] %}
+            <li>
+                <form action="{{ path('thing_activate_function', {id: thing.id, functionId: function.id}) }}" method="post">
+                    {{ form(functionForm) }}
+
+                    <button type="submit">activate</button>
+                </form>
+            </li>
         {% endfor %}
     </ul>
 

@@ -6,6 +6,25 @@
 
     <h1>Name: {{ thing.name }}</h1>
     <h2>Owner: {{ thing.ownership.owner.username }}</h2>
+    <h2>Classification: {{ status.device.classification }}</h2>
+
+    {{ dump(thing) }}
+
+    <ul>
+        {% for function in thing.functions %}
+            {% set functionForm = functionForms[function.id] %}
+            <li>
+                {#<form action="{{ path('thing_activate_function', {id: thing.id, functionId: function.id}) }}" method="post" novalidate="novalidate" name="{{ function.id }}">#}
+                <form action="{{ path('thing_show', {id: thing.id}) }}" method="post" novalidate="novalidate" name="{{ function.id }}">
+                    {{ form_widget(functionForm.createView()) }}
+
+                    <input type="hidden" name="_fid" value="{{ function.id }}"/>
+
+                    <button type="submit">activate</button>
+                </form>
+            </li>
+        {% endfor %}
+    </ul>
 
     {% if is_granted('admin', thing) %}
         {{ form(delete_form) }}

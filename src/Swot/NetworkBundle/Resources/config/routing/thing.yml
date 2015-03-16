@@ -1,3 +1,7 @@
+register_thing:
+    path:   /register
+    defaults: { _controller: "SwotNetworkBundle:Thing:register" }
+
 thing_show:
     path:   /{id}
     defaults: { _controller: "SwotNetworkBundle:Thing:show" }
@@ -6,3 +10,8 @@ thing_delete:
     path:     /{id}/delete
     defaults: { _controller: "SwotNetworkBundle:Thing:delete" }
     methods:  [POST, DELETE]
+
+thing_activate_function:
+    path:     /{id}/activate/{functionId}
+    defaults: { _controller: "SwotNetworkBundle:Thing:activateFunction" }
+    methods:  [POST]

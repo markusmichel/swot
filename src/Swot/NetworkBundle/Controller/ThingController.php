@@ -13,6 +13,7 @@ use Swot\NetworkBundle\Fixtures\ThingFixtures;
 use Swot\NetworkBundle\Form\ThingFunctionType;
 use Swot\NetworkBundle\Security\ThingVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -49,6 +50,19 @@ class ThingController extends Controller
         $thingStatus = json_decode(ThingFixtures::$thingResponse);
 
         $functionForms = $this->createActivateFunctionForms($thing);
+
+        if($request->getMethod() === "POST" && $request->request->has('_fid')) {
+            $fid = $request->request->get('_fid');
+
+            /** @var Form $form */
+            $form = $functionForms[$fid];
+
+            $form->handleRequest($request);
+            if($form->isValid() === true) {
+                // @todo: activate thing function
+                $this->addFlash('success', 'Function activated');
+            }
+        }
 
         return $this->render("SwotNetworkBundle:Thing:show.html.twig", array(
             'delete_form'   => $deleteForm->createView(),
@@ -108,17 +122,21 @@ class ThingController extends Controller
 
     }
 
-    public function activateThingFunction(Request $request, $id) {
+    public function activateFunctionAction(Request $request, $id, $functionId) {
         /** @var User $user */
         $user = $this->getUser();
 
         /** @var Thing $thing */
-        $thing = $this->getDoctrine()->getRepository('SwotNetworBundle:Thing')->find($id);
+        $thing = $this->getDoctrine()->getRepository('SwotNetworkBundle:Thing')->find($id);
 
-        if($thing === null || !$this->isGranted('ACCESS', $thing)) {
-            $this->addFlash('error', 'You may not use this thing');
-            return $this->redirectToRoute('thing_show', array('id' => $id));
-        }
+//        if($thing === null || !$this->isGranted('ACCESS', $thing)) {
+//            $this->addFlash('error', 'You may not use this thing');
+//            return $this->redirectToRoute('thing_show', array('id' => $id));
+//        }
+
+        echo "<pre>";
+        print_r($request);
+        die();
 
         $thingStatus = json_decode(ThingFixtures::$thingResponse);
         $functionUrl = "";
@@ -206,7 +224,7 @@ class ThingController extends Controller
 
         /** @var ThingFunction $func */
         foreach($thing->getFunctions() as $func) {
-            $forms[$func->getId()] = $this->createActivateFunctionForm($func)->createView();
+            $forms[$func->getId()] = $this->createActivateFunctionForm($func);
         }
 
         return $forms;

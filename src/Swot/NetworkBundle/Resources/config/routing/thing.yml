@@ -6,6 +6,10 @@ thing_show:
     path:   /{id}
     defaults: { _controller: "SwotNetworkBundle:Thing:show" }
 
+thing_settings:
+    path:     /{id}/settings
+    defaults: { _controller: "SwotNetworkBundle:Thing:settings" }
+
 thing_delete:
     path:     /{id}/delete
     defaults: { _controller: "SwotNetworkBundle:Thing:delete" }

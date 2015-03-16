@@ -1,0 +1,23 @@
+{% extends "::base.html.twig" %}
+
+{% block title %}Settings for {{ thing.name }}{% endblock %}
+
+{% block body %}
+
+    <h1>Settings for {{ thing.name }}</h1>
+
+    <form action="#" method="post" {{ form_enctype(form) }}>
+        {{ form_widget(form) }}
+
+        <button type="submit">save</button>
+    </form>
+
+    <p>
+        TODO:
+        <ul>
+            <li>Verleihungen anzeigen</li>
+            <li>Verleihungen beenden</li>
+        </ul>
+    </p>
+
+{% endblock %}

@@ -11,6 +11,7 @@ use Swot\NetworkBundle\Entity\ThingFunction;
 use Swot\NetworkBundle\Entity\User;
 use Swot\NetworkBundle\Fixtures\ThingFixtures;
 use Swot\NetworkBundle\Form\ThingFunctionType;
+use Swot\NetworkBundle\Form\ThingType;
 use Swot\NetworkBundle\Security\ThingVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Form;
@@ -83,6 +84,37 @@ class ThingController extends Controller
             'thing'         => $thing,
             'status'        => $thingStatus,
             'functionForms' => $functionForms,
+        ));
+    }
+
+    /**
+     * Shows a thing's settings.
+     * Only accessible by the thing's owner.
+     *
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
+    public function settingsAction(Request $request, $id) {
+        /** @var Thing $thing */
+        $thing = $this->getDoctrine()->getRepository("SwotNetworkBundle:Thing")->find($id);
+
+        if($thing === null) {
+            $this->addFlash("error", "Thing does not exist");
+            return $this->redirectToRoute('my_things');
+        }
+
+        if(!$this->isGranted(ThingVoter::ADMIN, $thing)) {
+            $this->addFlash('error', 'Only a device\'s admin can access the settings page');
+            $this->redirectToRoute('thing_show', array('id' => $id));
+        }
+
+        $form = $this->createForm(new ThingType(), $thing);
+        $form->handleRequest($request);
+
+        return $this->render('SwotNetworkBundle:Thing:settings.html.twig', array(
+            'thing' => $thing,
+            'form' => $form->createView(),
         ));
     }
 

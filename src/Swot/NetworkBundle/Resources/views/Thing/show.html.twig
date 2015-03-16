@@ -15,7 +15,7 @@
             {% set functionForm = functionForms[function.id] %}
             <li>
                 <form action="{{ path('thing_activate_function', {id: thing.id, functionId: function.id}) }}" method="post">
-                    {{ form(functionForm) }}
+                    {{ form_widget(functionForm) }}
 
                     <button type="submit">activate</button>
                 </form>

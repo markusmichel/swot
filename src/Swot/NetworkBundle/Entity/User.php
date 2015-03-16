@@ -17,11 +17,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class User implements UserInterface, \Serializable
 {
-
-    const ACCESS_TYPE_PUBLIC        = 'public';
-    const ACCESS_TYPE_RESTRICTED    = 'restricted';
-    const ACCESS_TYPE_PRIVATE       = 'private';
-
     /**
      * @var integer
      *
@@ -120,7 +115,7 @@ class User implements UserInterface, \Serializable
     /**
      * The user's access level. Indicates if everyone may see his profile information or not.
      * @ORM\Column(type="string", length=255)
-     * @Assert\Choice(choices = {User::ACCESS_TYPE_PRIVATE, User::ACCESS_TYPE_RESTRICTED, User::ACCESS_TYPE_PUBLIC})
+     * @Assert\Choice(choices = {AccessType::ACCESS_TYPE_PRIVATE, AccessType::ACCESS_TYPE_RESTRICTED, AccessType::ACCESS_TYPE_PUBLIC})
      */
     private $accessLevel;
 

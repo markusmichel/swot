@@ -4,6 +4,7 @@ namespace Swot\NetworkBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
+use Swot\NetworkBundle\Security\AccessType;
 
 /**
  * Thing
@@ -13,11 +14,6 @@ use Symfony\Component\Validator\Constraints as Assert;
  */
 class Thing
 {
-
-    const ACCESS_TYPE_PUBLIC        = 'public';
-    const ACCESS_TYPE_RESTRICTED    = 'restricted';
-    const ACCESS_TYPE_PRIVATE       = 'private';
-
     /**
      * @var integer
      *
@@ -65,7 +61,7 @@ class Thing
 
     /**
      * @ORM\Column(type="string", length=255)
-     * @Assert\Choice(choices = {Thing::ACCESS_TYPE_PRIVATE, Thing::ACCESS_TYPE_RESTRICTED, Thing::ACCESS_TYPE_PUBLIC})
+     * @Assert\Choice(choices = {AccessType::ACCESS_TYPE_PRIVATE, AccessType::ACCESS_TYPE_RESTRICTED, AccessType::ACCESS_TYPE_PUBLIC})
      */
     private $accessType;
 

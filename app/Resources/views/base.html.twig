@@ -29,10 +29,16 @@
                     {% include 'flash-messages.html.twig' %}
 
                     {% if app.user != null %}
-                        CHANGE ME in base.html.twig: Profile Image
-                        <img src="{{ (profile_image_folder ~ app.user.profileImage) | imagine_filter('profile_image_thumb') }}" alt="Profile Image"/>
-                    {% endif %}
 
+
+                        <div class="profile-picture-container">
+                            <div class="profile-picture-hex">
+                                <div class="maskborder profile-picture"></div>
+                            </div>
+                            <div class="long-hex"></div>
+                            <div class="long-hex-after"></div>
+                        </div>
+                    {% endif %}
 
                     {% block body %}{% endblock %}
                 </div>
@@ -44,6 +50,8 @@
             <script src="{{ asset('res/js/foundation.min.js') }}"></script>
             <script>
                 $(document).foundation();
+
+                // handles hexagon classes if css mask is not supported
                 if ( document.body.style[ '-webkit-mask-repeat' ] !== undefined ) {
                     Modernizr.cssmasks = true;
                     $('.hex-list').addClass('cssmasks');
@@ -51,6 +59,14 @@
                     Modernizr.cssmasks = false;
                     $('.hex-list').addClass('no-cssmasks');
                 }
+
+                // sets Profile Picture if available
+                {% if app.user != null %}
+                    var profilePicturePath = "{{ (profile_image_folder ~ app.user.profileImage) | imagine_filter('profile_image_thumb') }}";
+                    if (profilePicturePath != null && profilePicturePath.length > 0) {
+                        $('.profile-picture').css('background-image', 'url("{{ (profile_image_folder ~ app.user.profileImage) | imagine_filter('profile_image_thumb') }}")');
+                    }
+                {% endif %}
             </script>
         {% endblock %}
     </body>

@@ -3,6 +3,7 @@
 namespace Swot\NetworkBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Swot\NetworkBundle\Fixtures\ThingFixtures;
 
 /**
  * Function
@@ -12,6 +13,30 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class ThingFunction
 {
+
+    /**
+     * @param string $accessToken
+     * @return mixed|string
+     */
+    public function activate($accessToken = "") {
+        $parameters = array();
+        /** @var FunctionParameter $param */
+        foreach($this->getParameters() as $param) {
+            $parameters[$param->getName()] = $param->getValue();
+        }
+
+        $parameters["token"] = $accessToken;
+
+        $url = $this->getUrl() . "?" . http_build_query($parameters);
+
+        // @TODO: retrieve dynamic values
+//        $response = file_get_contents($url);
+        $response = ThingFixtures::$activateFunctionResponse;
+        $response = json_decode($response);
+
+        return $response;
+    }
+
     /**
      * @var integer
      *

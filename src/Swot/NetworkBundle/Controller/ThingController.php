@@ -45,22 +45,36 @@ class ThingController extends Controller
         }
 
         $deleteForm = $this->createDeleteForm($id);
-
-        // @todo: check if user may use this thing
         $thingStatus = json_decode(ThingFixtures::$thingResponse);
 
         $functionForms = $this->createActivateFunctionForms($thing);
 
-        if($request->getMethod() === "POST" && $request->request->has('_fid')) {
+        // Check if ONE form was submitted and which was it was.
+        // Validate the form and activate the function on the thing if valid.
+        // @todo: check if admin function
+        if($request->getMethod() === "POST" && $request->request->has('_fid') && $this->isGranted(ThingVoter::ACCESS, $thing)) {
             $fid = $request->request->get('_fid');
 
             /** @var Form $form */
             $form = $functionForms[$fid];
 
+            /** @var ThingFunction $function */
+            $function = $this->getDoctrine()->getRepository('SwotNetworkBundle:ThingFunction')->find($fid);
+
             $form->handleRequest($request);
             if($form->isValid() === true) {
-                // @todo: activate thing function
-                $this->addFlash('success', 'Function activated');
+
+                $accessToken = $thing->getAccessToken();
+                $res = $function->activate($accessToken);
+                if(strcasecmp($res->status, "success") == 0) {
+                    $this->addFlash('success', 'Function activated');
+                    return $this->redirectToRoute('thing_show', array('id' => $thing->getId()));
+
+                } else {
+                    $this->addFlash('error', 'Function could not be activated');
+
+
+                }
             }
         }
 

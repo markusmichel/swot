@@ -245,7 +245,26 @@ API
 
 	```JSON
 	{
-	
+		"statusCode":				200|400,
+		"status":					"success|error",
+		"message":					"Temperature was set to 10 degrees",
+
+		"request": {
+			"requestedUrl": 		"http://.....",
+			"functionName": 		"Name-A",
+			"params": [	
+				{
+					"name": 		"Param A",
+					"type": 		"text/int/double/email...",
+					"required": 	true
+				}, 
+				{
+					"name": 		"Param B",
+					"type": 		"text/int/double/email...",
+					"required": 	false
+				}
+			]
+		}
 	}
 	```
 

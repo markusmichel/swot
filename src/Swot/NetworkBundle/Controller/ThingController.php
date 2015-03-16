@@ -10,6 +10,7 @@ use Swot\NetworkBundle\Entity\Thing;
 use Swot\NetworkBundle\Entity\ThingFunction;
 use Swot\NetworkBundle\Entity\User;
 use Swot\NetworkBundle\Fixtures\ThingFixtures;
+use Swot\NetworkBundle\Form\RentalType;
 use Swot\NetworkBundle\Form\ThingFunctionType;
 use Swot\NetworkBundle\Form\ThingType;
 use Swot\NetworkBundle\Security\ThingVoter;
@@ -115,6 +116,45 @@ class ThingController extends Controller
         return $this->render('SwotNetworkBundle:Thing:settings.html.twig', array(
             'thing' => $thing,
             'form' => $form->createView(),
+        ));
+    }
+
+    /**
+     * Lend a thing to another user.
+     * Only the owner can lend things.
+     *
+     * @param Request $request
+     * @param $id
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
+     */
+    public function lendAction(Request $request, $id) {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        /** @var Thing $thing */
+        $thing = $this->getDoctrine()->getRepository("SwotNetworkBundle:Thing")->find($id);
+
+        if($thing === null) {
+            $this->addFlash("error", "Thing does not exist");
+            return $this->redirectToRoute('my_things');
+        }
+
+        if(!$this->isGranted(ThingVoter::ADMIN, $thing)) {
+            $this->addFlash("error", "You may not lend this thing");
+            return $this->redirectToRoute('my_things');
+        }
+
+        $rental = new Rental();
+        $rental->setUserFrom($user);
+        $rental->setAccessToken($thing->getAccessToken());
+        $rental->setStarted(new \DateTime());
+        $rental->setThing($thing);
+
+        $form = $this->createForm(new RentalType(), $rental);
+
+        return $this->render('SwotNetworkBundle:Thing:lend.html.twig', array(
+            'form' => $form->createView(),
+            'thing' => $thing,
         ));
     }
 

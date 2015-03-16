@@ -15,6 +15,10 @@ thing_delete:
     defaults: { _controller: "SwotNetworkBundle:Thing:delete" }
     methods:  [POST, DELETE]
 
+thing_lend:
+    path:     /{id}/lend
+    defaults: { _controller: "SwotNetworkBundle:Thing:lend" }
+
 thing_activate_function:
     path:     /{id}/activate/{functionId}
     defaults: { _controller: "SwotNetworkBundle:Thing:activateFunction" }

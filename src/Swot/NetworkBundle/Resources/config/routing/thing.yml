@@ -1,3 +1,7 @@
+register_thing:
+    path:   /register
+    defaults: { _controller: "SwotNetworkBundle:Thing:register" }
+
 thing_show:
     path:   /{id}
     defaults: { _controller: "SwotNetworkBundle:Thing:show" }

@@ -2,10 +2,14 @@
 
 namespace Swot\NetworkBundle\Controller;
 
+use Swot\NetworkBundle\Entity\FunctionParameter;
 use Swot\NetworkBundle\Entity\Ownership;
+use Swot\NetworkBundle\Entity\ParameterConstraint;
 use Swot\NetworkBundle\Entity\Rental;
 use Swot\NetworkBundle\Entity\Thing;
+use Swot\NetworkBundle\Entity\ThingFunction;
 use Swot\NetworkBundle\Entity\User;
+use Swot\NetworkBundle\Fixtures\ThingFixtures;
 use Swot\NetworkBundle\Security\ThingVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -40,10 +44,87 @@ class ThingController extends Controller
 
         $deleteForm = $this->createDeleteForm($id);
 
+        // @todo: check if user may use this thing
+        $thingStatus = json_decode(ThingFixtures::$thingResponse);
+        $functionForms = array();
+        foreach($thingStatus->device->functions as $function) {
+            $functionForms[] = $this->createFormBuilder()
+                ->setMethod("POST")
+                ->add("input", 'submit', array('label' => $function->name))
+                ->getForm()
+                ->createView();
+        }
+
         return $this->render("SwotNetworkBundle:Thing:show.html.twig", array(
             'delete_form'   => $deleteForm->createView(),
             'thing'         => $thing,
+            'status'        => $thingStatus,
+            'functionForms' => $functionForms,
         ));
+    }
+
+    public function registerAction(Request $request) {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        // @todo: remove fixture data
+        $thing = new Thing();
+        $thing->setName("Test Thing");
+        $thing->setAccessToken("asdadasds");
+
+        $ownership = new Ownership();
+        $ownership->setThing($thing);
+        $ownership->setOwner($user);
+        $user->addOwnership($ownership);
+        $thing->setOwnership($ownership);
+
+        $func = new ThingFunction();
+        $func->setThing($thing);
+        $func->setName("Set temperature");
+        $func->setUrl("http://www.example.com");
+
+        $param = new FunctionParameter();
+        $param->setName("temperature");
+        $param->setThingFunction($func);
+        $param->setType("integer");
+
+        $param2 = new FunctionParameter();
+        $param2->setName("temperature-2");
+        $param2->setThingFunction($func);
+        $param2->setType("integer");
+
+        $param3 = new FunctionParameter();
+        $param3->setName("temperature-3");
+        $param3->setThingFunction($func);
+        $param3->setType("integer");
+
+        $constraint = new ParameterConstraint();
+        $constraint->setType("NotNull");
+        $constraint->setFunctionParameter($param);
+        $constraint->setMessage("Temperature may not be empty");
+
+        $thing->addFunction($func);
+        $func->addParameter($param);
+        $func->addParameter($param2);
+        $func->addParameter($param3);
+        $param->addConstraint($constraint);
+        $param2->addConstraint($constraint);
+        $param2->addConstraint($constraint);
+
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($ownership);
+        $manager->persist($user);
+        $manager->persist($thing);
+        $manager->persist($func);
+        $manager->persist($param);
+        $manager->persist($param2);
+        $manager->persist($param3);
+        $manager->persist($constraint);
+        $manager->flush();
+
+        $this->addFlash("success", "Thing added");
+        return $this->redirectToRoute('my_things');
+
     }
 
     /**

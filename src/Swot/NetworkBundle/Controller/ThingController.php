@@ -10,6 +10,7 @@ use Swot\NetworkBundle\Entity\Thing;
 use Swot\NetworkBundle\Entity\ThingFunction;
 use Swot\NetworkBundle\Entity\User;
 use Swot\NetworkBundle\Fixtures\ThingFixtures;
+use Swot\NetworkBundle\Form\ThingFunctionType;
 use Swot\NetworkBundle\Security\ThingVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
@@ -46,14 +47,8 @@ class ThingController extends Controller
 
         // @todo: check if user may use this thing
         $thingStatus = json_decode(ThingFixtures::$thingResponse);
-        $functionForms = array();
-        foreach($thingStatus->device->functions as $function) {
-            $functionForms[] = $this->createFormBuilder()
-                ->setMethod("POST")
-                ->add("input", 'submit', array('label' => $function->name))
-                ->getForm()
-                ->createView();
-        }
+
+        $functionForms = $this->createActivateFunctionForms($thing);
 
         return $this->render("SwotNetworkBundle:Thing:show.html.twig", array(
             'delete_form'   => $deleteForm->createView(),
@@ -63,6 +58,13 @@ class ThingController extends Controller
         ));
     }
 
+    /**
+     * Registers a new thing to the network/user.
+     * The thing itself should throw an error if it is not available for registration.
+     *
+     * @param Request $request
+     * @return \Symfony\Component\HttpFoundation\RedirectResponse
+     */
     public function registerAction(Request $request) {
         /** @var User $user */
         $user = $this->getUser();
@@ -78,38 +80,8 @@ class ThingController extends Controller
         $user->addOwnership($ownership);
         $thing->setOwnership($ownership);
 
-        $func = new ThingFunction();
-        $func->setThing($thing);
-        $func->setName("Set temperature");
-        $func->setUrl("http://www.example.com");
-
-        $param = new FunctionParameter();
-        $param->setName("temperature");
-        $param->setThingFunction($func);
-        $param->setType("integer");
-
-        $param2 = new FunctionParameter();
-        $param2->setName("temperature-2");
-        $param2->setThingFunction($func);
-        $param2->setType("integer");
-
-        $param3 = new FunctionParameter();
-        $param3->setName("temperature-3");
-        $param3->setThingFunction($func);
-        $param3->setType("integer");
-
-        $constraint = new ParameterConstraint();
-        $constraint->setType("NotNull");
-        $constraint->setFunctionParameter($param);
-        $constraint->setMessage("Temperature may not be empty");
-
-        $thing->addFunction($func);
-        $func->addParameter($param);
-        $func->addParameter($param2);
-        $func->addParameter($param3);
-        $param->addConstraint($constraint);
-        $param2->addConstraint($constraint);
-        $param2->addConstraint($constraint);
+        list($func, $param, $param2, $param3, $constraint) = $this->generateTestFunction($thing);
+        list($func2, $param4, $param5, $param6, $constraint2) = $this->generateTestFunction($thing);
 
         $manager = $this->getDoctrine()->getManager();
         $manager->persist($ownership);
@@ -120,11 +92,36 @@ class ThingController extends Controller
         $manager->persist($param2);
         $manager->persist($param3);
         $manager->persist($constraint);
+
+        $manager->persist($func2);
+        $manager->persist($param4);
+        $manager->persist($param5);
+        $manager->persist($param6);
+        $manager->persist($constraint2);
+
+
+
         $manager->flush();
 
         $this->addFlash("success", "Thing added");
         return $this->redirectToRoute('my_things');
 
+    }
+
+    public function activateThingFunction(Request $request, $id) {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        /** @var Thing $thing */
+        $thing = $this->getDoctrine()->getRepository('SwotNetworBundle:Thing')->find($id);
+
+        if($thing === null || !$this->isGranted('ACCESS', $thing)) {
+            $this->addFlash('error', 'You may not use this thing');
+            return $this->redirectToRoute('thing_show', array('id' => $id));
+        }
+
+        $thingStatus = json_decode(ThingFixtures::$thingResponse);
+        $functionUrl = "";
     }
 
     /**
@@ -195,5 +192,75 @@ class ThingController extends Controller
             ->add('submit', 'submit', array('label' => 'Delete'))
             ->getForm()
             ;
+    }
+
+    /**
+     * Creates one ActivationForm for every function of the thing.
+     * Array indexes are the functions' ids.
+     *
+     * @param Thing $thing
+     * @return array
+     */
+    private function createActivateFunctionForms(Thing $thing) {
+        $forms = array();
+
+        /** @var ThingFunction $func */
+        foreach($thing->getFunctions() as $func) {
+            $forms[$func->getId()] = $this->createActivateFunctionForm($func)->createView();
+        }
+
+        return $forms;
+    }
+
+    /**
+     * Create an ActiviationForm containing the function's parameters.
+     *
+     * @param ThingFunction $function
+     * @return \Symfony\Component\Form\Form
+     */
+    private function createActivateFunctionForm(ThingFunction $function) {
+        $form = $this->createForm(new ThingFunctionType(), $function);
+        return $form;
+    }
+
+    /**
+     * @param $thing
+     * @return array
+     */
+    private function generateTestFunction($thing)
+    {
+        $func = new ThingFunction();
+        $func->setThing($thing);
+        $func->setName("Set temperature");
+        $func->setUrl("http://www.example.com");
+
+        $param = new FunctionParameter();
+        $param->setName("temperature");
+        $param->setThingFunction($func);
+        $param->setType("integer");
+
+        $param2 = new FunctionParameter();
+        $param2->setName("temperature-2");
+        $param2->setThingFunction($func);
+        $param2->setType("integer");
+
+        $param3 = new FunctionParameter();
+        $param3->setName("temperature-3");
+        $param3->setThingFunction($func);
+        $param3->setType("integer");
+
+        $constraint = new ParameterConstraint();
+        $constraint->setType("NotNull");
+        $constraint->setFunctionParameter($param);
+        $constraint->setMessage("Temperature may not be empty");
+
+        $thing->addFunction($func);
+        $func->addParameter($param);
+        $func->addParameter($param2);
+        $func->addParameter($param3);
+        $param->addConstraint($constraint);
+        $param2->addConstraint($constraint);
+        $param2->addConstraint($constraint);
+        return array($func, $param, $param2, $param3, $constraint);
     }
 }

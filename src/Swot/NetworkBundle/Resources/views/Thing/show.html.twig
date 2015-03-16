@@ -6,6 +6,15 @@
 
     <h1>Name: {{ thing.name }}</h1>
     <h2>Owner: {{ thing.ownership.owner.username }}</h2>
+    <h2>Classification: {{ status.device.classification }}</h2>
+
+    {{ dump(thing) }}
+
+    <ul>
+        {% for functionForm in functionForms %}
+            <li>{{ form(functionForm) }}</li>
+        {% endfor %}
+    </ul>
 
     {% if is_granted('admin', thing) %}
         {{ form(delete_form) }}

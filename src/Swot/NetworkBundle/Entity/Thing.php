@@ -3,6 +3,7 @@
 namespace Swot\NetworkBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Thing
@@ -12,6 +13,11 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Thing
 {
+
+    const ACCESS_TYPE_PUBLIC        = 'public';
+    const ACCESS_TYPE_RESTRICTED    = 'restricted';
+    const ACCESS_TYPE_PRIVATE       = 'private';
+
     /**
      * @var integer
      *
@@ -56,6 +62,12 @@ class Thing
      * @ORM\OneToMany(targetEntity="ThingFunction", mappedBy="thing")
      */
     private $functions;
+
+    /**
+     * @ORM\Column(type="string", length=255)
+     * @Assert\Choice(choices = {Thing::ACCESS_TYPE_PRIVATE, Thing::ACCESS_TYPE_RESTRICTED, Thing::ACCESS_TYPE_PUBLIC})
+     */
+    private $accessType;
 
     /**
      * Get id
@@ -236,5 +248,28 @@ class Thing
     public function getFunctions()
     {
         return $this->functions;
+    }
+
+    /**
+     * Set accessType
+     *
+     * @param string $accessType
+     * @return Thing
+     */
+    public function setAccessType($accessType)
+    {
+        $this->accessType = $accessType;
+
+        return $this;
+    }
+
+    /**
+     * Get accessType
+     *
+     * @return string 
+     */
+    public function getAccessType()
+    {
+        return $this->accessType;
     }
 }

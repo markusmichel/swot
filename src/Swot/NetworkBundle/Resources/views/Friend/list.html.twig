@@ -19,18 +19,12 @@
 
         {% set friend = friendship.otherUser(user) %}
 
-        {% if loop.index0 is divisibleby(4) %}
-            {% if loop.first == false %}</div>{% endif %}
-            <div class="hex-row">
 
-            {% set counter = 0 %}
-        {% endif %}
-        {% set counter = counter + 1 %}
-        <div class="hex {{ cycle(['even', ''], counter) }}">
+        <div class="hex">
             {% include 'SwotNetworkBundle:Friend:friendListEntry.html.twig' with {friend: friend} %}
             <div class="maskborder friend-default-picture"></div>
         </div>
-        {% if loop.last %}</div>{% endif %}
+
         {% endfor %}
     </div>
 

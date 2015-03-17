@@ -101,13 +101,6 @@ h2 {
     margin-bottom: 15px;
 }
 
-.nav-item:hover {
-    -webkit-transform: scale(1.1);
-    -moz-transform:    scale(1.1);
-    -o-transform:      scale(1.1);
-    -ms-transform:     scale(1.1);
-}
-
 .news-icon {
 	background-image: url("../gfx/calendar-text.png");
 }
@@ -132,13 +125,29 @@ h2 {
     background-image: url("../gfx/lock.png");
 }
 
-/*
-.cssmasks.hex-list {
-    overflow: hidden;
-    padding-left: 30px;
-    padding-top: 64px;
+.news-icon:hover {
+    background-image: url("../gfx/iconhover/calendar-text.png");
 }
-*/
+
+.profile-icon:hover {
+    background-image: url("../gfx/iconhover/account-star.png");
+}
+
+.messages-icon:hover {
+    background-image: url("../gfx/iconhover/comment.png");
+}
+
+.friends-icon:hover {
+    background-image: url("../gfx/iconhover/account-multiple.png");
+}
+
+.devices-icon:hover {
+    background-image: url("../gfx/iconhover/hexagon-outline.png");
+}
+
+.account-icon:hover {
+    background-image: url("../gfx/iconhover/lock.png");
+}
 
 .hex-list-item {
     width: 130px;
@@ -156,21 +165,6 @@ h2 {
     vertical-align: middle;
 }
 
-.hex-row {
-    clear: left;
-}
-.cssmasks .hex.even {
-    margin-top: 4px !important;
-}
-
-
-/*
-.cssmasks .hex {
-    margin-left: -30px;
-    margin-top: -64px;
-}*/
-
-
 .hex {
     position: relative;
     display: inline-block;
@@ -182,37 +176,24 @@ h2 {
     mask: url(../gfx/hexagon_mask.png);
     text-align: center;
     background-color: #588C73;
-    float: left;
-    margin-left: 80px;
-    margin-top: -65px;
+    margin-left: 77px;
+    margin-top: -72px;
 }
 
-
-
-@media all and (min-width: 846px) {
-    .hex:nth-child(8n+1) {
-        background: yellow;
-        margin-left: 0;
-    }
-
-    .hex:nth-child(8n-3) {
-        background: orange;
-        margin-left: 115px;
-    }
-
-    .hex:nth-child(-n+4) {
-        margin-top: 0;
-    }
+.hex-list {
+    margin: 0 auto 0 auto;
 }
 
-@media all and (max-width: 696px) {
+@media all and (min-width: 64.063em) {
+    .hex-list {
+        width: 725px;
+    }
+
     .hex:nth-child(6n+1) {
-        background: yellow;
         margin-left: 0;
     }
 
     .hex:nth-child(6n-2) {
-        background: orange;
         margin-left: 115px;
     }
 
@@ -221,37 +202,71 @@ h2 {
     }
 }
 
-@media all and (max-width: 581px) {
-    .hex:nth-child(4n+1) {
+@media only screen and (min-width: 55.750em) and (max-width: 64.063em) {
+    .hex-list {
+        width: 955px;
+    }
+
+    .hex:nth-child(8n+1) {
         margin-left: 0;
     }
 
-    .hex:nth-child(4n-1) {
+    .hex:nth-child(8n-3) {
         margin-left: 115px;
     }
 
+    .hex:nth-child(-n+4) {
+        margin-top: 0;
+    }
+}
+
+
+@media only screen and (min-width: 41.313em) and (max-width: 55.750em) {
+    .hex-list {
+        width: 725px;
+    }
+
+    .hex:nth-child(6n+1) {
+        margin-left: 0;
+    }
+
+    .hex:nth-child(6n-2) {
+        margin-left: 115px;
+    }
+
+    .hex:nth-child(-n+3) {
+        margin-top: 0;
+    }
+}
+
+@media only screen and (min-width: 26.938em) and (max-width: 41.313em) {
+    .hex-list {
+        width: 495px;
+    }
+    .hex:nth-child(4n+1) {
+        margin-left: 0;
+    }
+    .hex:nth-child(4n-1) {
+        margin-left: 115px;
+    }
     .hex:nth-child(-n+2) {
         margin-top: 0;
     }
 }
 
-@media all and (max-width: 431px) {
+@media only screen and (max-width: 26.938em) {
+    .hex-list {
+        width: 265px;
+    }
     .hex:nth-child(2n+1) {
         margin-left: 0;
     }
-
     .hex:nth-child(2n) {
         margin-left: 115px;
     }
-
     .hex:nth-child(-n+1) {
         margin-top: 0;
     }
-
-}
-
-.no-cssmasks .hex {
-    margin-top: 5px;
 }
 
 .maskborder{

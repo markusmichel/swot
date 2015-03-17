@@ -178,6 +178,7 @@ class Thing
     public function __construct()
     {
         $this->rentals = new \Doctrine\Common\Collections\ArrayCollection();
+        $this->accessType = AccessType::ACCESS_TYPE_PRIVATE;
     }
 
     /**

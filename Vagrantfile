@@ -20,6 +20,10 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	# Mount shared folder directly into webserver directory
 	config.vm.synced_folder ".", "/var/www", type: "nfs"
 
+    # just copy files to a tmp folder, because copying will be done by the SSH user
+    # who does not have root privileges.
+    config.vm.provision "file", source: "vagrant_files/etc/apache2/sites-available/000-default.conf", destination: "/tmp/000-default.conf"
+
 	# Provisioning the box with a shell script:
 	config.vm.provision :shell, :path => "Vagrant_provision.sh"
 end

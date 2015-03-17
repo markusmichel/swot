@@ -68,6 +68,10 @@ class ThingController extends Controller
 
                 $accessToken = $thing->getAccessToken();
                 $res = $function->activate($accessToken);
+
+                var_dump($res);
+                die();
+
                 if(strcasecmp($res->status, "success") == 0) {
                     $this->addFlash('success', 'Function activated');
                     return $this->redirectToRoute('thing_show', array('id' => $thing->getId()));
@@ -220,12 +224,18 @@ class ThingController extends Controller
 //            return $this->redirectToRoute('thing_show', array('id' => $id));
 //        }
 
-        echo "<pre>";
-        print_r($request);
-        die();
+        /** @var ThingFunction $function */
+        $function = $this->getDoctrine()->getRepository('SwotNetworkBundle:ThingFunction')->find($functionId);
+        if(!$thing->getFunctions()->contains($function)) {
+            $this->addFlash('error', 'This function does not belong to the thing');
+            return $this->redirectToRoute('thing_show', array('id' => $id));
+        }
 
-        $thingStatus = json_decode(ThingFixtures::$thingResponse);
-        $functionUrl = "";
+//        echo "<pre>";
+//        print_r($request);
+//        die();
+
+        $function->activate($thing->getAccessToken());
     }
 
     /**

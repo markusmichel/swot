@@ -28,11 +28,46 @@ class ThingFunction
         $parameters["token"] = $accessToken;
 
         $url = $this->getUrl() . "?" . http_build_query($parameters);
+        $url = "http://www.google.de";
 
-        // @TODO: retrieve dynamic values
-//        $response = file_get_contents($url);
-        $response = ThingFixtures::$activateFunctionResponse;
-        $response = json_decode($response);
+        // Callback will use reference to this variable
+        $response = null;
+
+        $curl = new \Zebra_cURL();
+        $curl->get($url, function($result) use (&$response) {
+            // everything went well at cURL level
+            if ($result->response[1] == CURLE_OK) {
+
+                // if server responded with code 200 (meaning that everything went well)
+                // see http://httpstatus.es/ for a list of possible response codes
+                if ($result->info['http_code'] == 200) {
+
+                    $body = $result->body;
+
+                    // see all the returned data
+//                    print_r('<pre>');
+//                    print_r($result);
+//                    die();
+
+                    $response = ThingFixtures::$activateFunctionResponse;
+
+                    // @todo: change me
+//                    $response = json_decode($body);
+                    $response = json_decode($response);
+
+
+                }
+                // @todo: create exception
+                else die('Server responded with code ' . $result->info['http_code']);
+
+
+            }
+
+            // something went wrong
+            // ($result still contains all data that could be gathered)
+            // @todo: create exception
+            else die('cURL responded with: ' . $result->response[0]);
+        });
 
         return $response;
     }

@@ -7,6 +7,7 @@ user:
             does_not_exist:   User does not exist
 
     friend:
+        title:                My Friends
         break_up:
             label:            Break with %username%
             success:          Successfully broke up with %username%
@@ -17,6 +18,9 @@ user:
                 label:        invite %username%
                 success:      You are now a friend of %username%
             already_friends:  You are already friends
+
+    thing:
+        title:                My Things
 
 settings:
     page_title:               Settings

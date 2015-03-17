@@ -7,7 +7,7 @@
 {% endblock %}
 
 {% block body %}
-    <h1>{% trans %}conversations.new.page_title{% endtrans %}</h1>
+    <h2>{% trans %}conversations.new.page_title{% endtrans %}</h2>
 
     <form action="{{ path('new_message') }}" method="post" {{ form_enctype(newMessageForm) }} novalidate="novalidate">
         {{ form_widget(newMessageForm) }}

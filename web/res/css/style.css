@@ -1,7 +1,3 @@
-ul.magellan {width: 240px}
-@media only screen and (max-width: 767px) {
-    ul.magellan {position: static !important; width: 100%}
-}
 
 @font-face {
     font-family: Vonique64;
@@ -10,13 +6,11 @@ ul.magellan {width: 240px}
 
 html, body{
     height:100%;
-
 }
 
 body {
-    padding: 0;
-    margin: 0;
     font-family: 'Slabo 27px', serif;
+    min-width: 362px;
 }
 
 ul {
@@ -25,7 +19,6 @@ ul {
 
 h1 {
     font-family: 'Vonique64';
-    margin: 13px 0 40px 70px;
     color: #fff;
 }
 
@@ -33,6 +26,13 @@ h2 {
     font-family: 'Vonique64';
     margin: 20px 0 20px 0;
     color: #3E3E3F;
+}
+
+button, .button {
+    padding-top: 0.5rem;
+    padding-right: 1rem;
+    padding-bottom: 0.5rem;
+    padding-left: 1rem;
 }
 
 .header {
@@ -301,6 +301,13 @@ h2 {
     margin-top: 16px;
 }
 
+.profile-picture-title {
+    position: absolute;
+    z-index: 1;
+    left: 83px;
+    top: 11px;
+}
+
 .profile-picture-hex {
     position: absolute;
     width: 100px;
@@ -333,8 +340,7 @@ h2 {
     align-items: flex-start;
     width: 100%;
     height: 88px;
-    position: absolute;
-    z-index: -1;
+    margin-bottom: 40px;
 }
 
 .long-hex {

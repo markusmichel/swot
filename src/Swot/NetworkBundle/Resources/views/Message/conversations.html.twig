@@ -6,11 +6,12 @@
     {% trans %}conversations.page_title{% endtrans %}
 {% endblock %}
 
+{% block headline %}{% trans %}conversations.page_title{% endtrans %}{% endblock %}
+
 {% block body %}
-    <h1>{% trans %}conversations.page_title{% endtrans %}</h1>
 
     <div>
-        <a href="{{ path('new_message') }}">
+        <a class="button" href="{{ path('new_message') }}">
             {% trans %}conversations.new.link_title{% endtrans %}
         </a>
     </div>

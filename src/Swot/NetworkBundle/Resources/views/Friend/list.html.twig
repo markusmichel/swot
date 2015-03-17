@@ -3,10 +3,9 @@
 {% extends "::base.html.twig" %}
 
 {% block title %}SwotNetworkBundle:Frontend:newsfeed{% endblock %}
-
+{% block headline %}{% trans %}user.friend.title{% endtrans %}{% endblock %}
 {% block body %}
 
-    <h1>My Friends</h1>
    <div class="hex-list">
         {% for friendship in user.friendships %}
 

@@ -150,7 +150,7 @@ class ThingController extends Controller
         $rental->setStarted(new \DateTime());
         $rental->setThing($thing);
 
-        $form = $this->createForm(new RentalType(), $rental);
+        $form = $this->createForm('rental', $rental);
 
         return $this->render('SwotNetworkBundle:Thing:lend.html.twig', array(
             'form' => $form->createView(),

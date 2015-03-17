@@ -44,3 +44,8 @@ services:
         tags:
            - { name: form.type, alias: new_message }
 
+    swot.form.type.rental:
+        class:      Swot\NetworkBundle\Form\RentalType
+        arguments: [@swot.user_repository, @security.token_storage]
+        tags:
+           - { name: form.type, alias: rental }

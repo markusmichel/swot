@@ -45,3 +45,11 @@ entity:
             message:
                 not_blank:    Please fill in a text to send
 
+navigation:
+    newsfeed:                 Newsfeed
+    profile:                  Profile
+    friends:                  Friends
+    messages:                 Messages
+    things:                   Things
+    account:                  Account
+

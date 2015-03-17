@@ -172,6 +172,8 @@ class MessageController extends Controller
             $manager->persist($conversation);
 
             $manager->flush();
+
+            return $this->redirectToRoute('conversation', array('id' => $conversation->getId()));
         }
 
         return $this->render('SwotNetworkBundle:Message:new_message.html.twig', array(

@@ -3,6 +3,7 @@
 namespace Swot\NetworkBundle\Form;
 
 use Swot\NetworkBundle\Entity\User;
+use Swot\NetworkBundle\Security\AccessType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
@@ -30,9 +31,9 @@ class UserSettingsType extends AbstractType
             ))
             ->add('accessLevel', 'choice', array(
                 'choices' => array(
-                    User::ACCESS_TYPE_PRIVATE       => 'settings.access_type.private',
-                    User::ACCESS_TYPE_RESTRICTED    => 'settings.access_type.restricted',
-                    User::ACCESS_TYPE_PUBLIC        => 'settings.access_type.public'
+                    AccessType::ACCESS_TYPE_PRIVATE       => 'settings.access_type.private',
+                    AccessType::ACCESS_TYPE_RESTRICTED    => 'settings.access_type.restricted',
+                    AccessType::ACCESS_TYPE_PUBLIC        => 'settings.access_type.public'
                 ),
                 'translation_domain' => 'messages',
             ))

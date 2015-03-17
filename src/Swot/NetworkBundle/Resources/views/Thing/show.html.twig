@@ -28,6 +28,9 @@
 
     {% if is_granted('admin', thing) %}
         {{ form(delete_form) }}
+
+        <a href="{{ path('thing_settings', {id: thing.id}) }}" class="button primary">Settings</a>
+        <a href="{{ path('thing_lend', {id: thing.id}) }}" class="button primary">Lend</a>
     {% endif %}
 
 {% endblock %}

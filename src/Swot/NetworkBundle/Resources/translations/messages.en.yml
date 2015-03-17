@@ -1,6 +1,7 @@
 user:
     does_not_exist:           User does not exist
     profile:
+        title:                My Profile
         show:
             not_authed:       You are not allowed to see this profile
             does_not_exist:   User does not exist

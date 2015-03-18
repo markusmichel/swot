@@ -9,6 +9,22 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table()
  * @ORM\Entity()
+ * @ORM\InheritanceType("SINGLE_TABLE")
+ * @ORM\DiscriminatorColumn(name="discr", type="string")
+ * @ORM\DiscriminatorMap({
+ *      "not_null" = "NotNull",
+ *      "choice" = "Choice",
+ *      "country" = "Country",
+ *      "date" = "Date",
+ *      "datetime" = "DateTime",
+ *      "greater_than" = "GreaterThan",
+ *      "language" = "Language",
+ *      "less_than" = "LessThan",
+ *      "locale" = "Locale",
+ *      "not_blank" = "NotBlank",
+ *      "not_null" = "NotNull",
+ *      "time" = "Time"
+ * })
  */
 class AbstractConstraint
 {

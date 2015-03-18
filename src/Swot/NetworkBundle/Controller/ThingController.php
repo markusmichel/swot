@@ -188,20 +188,12 @@ class ThingController extends Controller
         $user->addOwnership($ownership);
         $thing->setOwnership($ownership);
 
-        list($func, $param, $param2, $param3, $constraint, $constraint2, $constraint3) = $this->generateTestFunction($thing);
+        $this->generateTestFunction($thing);
 
         $manager = $this->getDoctrine()->getManager();
         $manager->persist($ownership);
         $manager->persist($user);
         $manager->persist($thing);
-        $manager->persist($func);
-        $manager->persist($param);
-        $manager->persist($param2);
-        $manager->persist($param3);
-        $manager->persist($constraint);
-        $manager->persist($constraint2);
-        $manager->persist($constraint3);
-
 
         $manager->flush();
 
@@ -336,53 +328,53 @@ class ThingController extends Controller
     }
 
     /**
-     * @param $thing
+     * @param $thing Thing
      * @return array
      */
     private function generateTestFunction($thing)
     {
-        $func = new Action();
-        $func->setThing($thing);
-        $func->setName("Set temperature");
-        $func->setUrl("http://www.example.com");
+        $res = json_decode(ThingFixtures::$thingResponse);
+        $functionsData = $res->device->functions;
 
-        $param = new Parameter();
-        $param->setName("temperature");
-        $param->setAction($func);
-        $param->setType("integer");
+        $manager = $this->getDoctrine()->getManager();
 
-        $param2 = new Parameter();
-        $param2->setName("temperature-2");
-        $param2->setAction($func);
-        $param2->setType("integer");
+        foreach($functionsData as $func) {
+            $function = new Action();
+            $function->setThing($thing);
+            $function->setName($func->name);
+            $function->setUrl($func->url);
 
-        $param3 = new Parameter();
-        $param3->setName("temperature-3");
-        $param3->setAction($func);
-        $param3->setType("integer");
+            foreach($func->parameters as $param) {
+                $parameter = new Parameter();
+                $parameter->setName($param->name);
+                $parameter->setAction($function);
+                $parameter->setType($param->type);
 
-        $constraint = new NotNull();
-        $constraint->setType("NotNull");
-        $constraint->setFunctionParameter($param);
-        $constraint->setMessage("Temperature1 may not be empty");
+                if(isset($param->constraints)) {
+                    foreach($param->constraints as $con) {
+                        $className = "\\Swot\\FormMapperBundle\\Entity\\" . $con->type;
+                        if(!class_exists($className)) continue;
 
-        $constraint2 = new NotNull();
-        $constraint2->setType("NotNull");
-        $constraint2->setFunctionParameter($param2);
-        $constraint2->setMessage("Temperature2 may not be empty");
+                        /** @var AbstractConstraint $constraint */
+                        $constraint = new $className;
+                        $constraint->init($con);
+                        $constraint->setMessage($con->message);
+                        $constraint->setFunctionParameter($parameter);
 
-        $constraint3 = new NotBlank();
-        $constraint3->setType("NotBlank");
-        $constraint3->setFunctionParameter($param3);
-        $constraint3->setMessage("Temperature3 may not be empty");
+                        $parameter->addConstraint($constraint);
+                        $manager->persist($constraint);
+                    }
+                }
 
-        $thing->addFunction($func);
-        $func->addParameter($param);
-        $func->addParameter($param2);
-        $func->addParameter($param3);
-        $param->addConstraint($constraint);
-        $param2->addConstraint($constraint2);
-        $param3->addConstraint($constraint3);
-        return array($func, $param, $param2, $param3, $constraint, $constraint2, $constraint3);
+                $function->addParameter($parameter);
+                $manager->persist($parameter);
+            }
+
+            $thing->addFunction($function);
+            $manager->persist($function);
+            $manager->persist($thing);
+        }
+
+        $manager->flush();
     }
 }

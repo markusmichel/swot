@@ -2,6 +2,7 @@
 
 namespace Swot\NetworkBundle\Controller;
 
+use Swot\FormMapperBundle\Entity\NotBlank;
 use Swot\FormMapperBundle\Entity\NotNull;
 use Swot\FormMapperBundle\Entity\Parameter;
 use Swot\FormMapperBundle\Entity\Action;
@@ -70,8 +71,8 @@ class ThingController extends Controller
                 $accessToken = $thing->getAccessToken();
                 $res = $function->activate($accessToken);
 
-                var_dump($res);
-                die();
+//                var_dump($res);
+//                die();
 
                 if(strcasecmp($res->status, "success") == 0) {
                     $this->addFlash('success', 'Function activated');
@@ -185,8 +186,7 @@ class ThingController extends Controller
         $user->addOwnership($ownership);
         $thing->setOwnership($ownership);
 
-        list($func, $param, $param2, $param3, $constraint) = $this->generateTestFunction($thing);
-        list($func2, $param4, $param5, $param6, $constraint2) = $this->generateTestFunction($thing);
+        list($func, $param, $param2, $param3, $constraint, $constraint2, $constraint3) = $this->generateTestFunction($thing);
 
         $manager = $this->getDoctrine()->getManager();
         $manager->persist($ownership);
@@ -197,13 +197,8 @@ class ThingController extends Controller
         $manager->persist($param2);
         $manager->persist($param3);
         $manager->persist($constraint);
-
-        $manager->persist($func2);
-        $manager->persist($param4);
-        $manager->persist($param5);
-        $manager->persist($param6);
         $manager->persist($constraint2);
-
+        $manager->persist($constraint3);
 
 
         $manager->flush();
@@ -369,13 +364,23 @@ class ThingController extends Controller
         $constraint->setFunctionParameter($param);
         $constraint->setMessage("Temperature may not be empty");
 
+        $constraint2 = new NotNull();
+        $constraint2->setType("NotNull");
+        $constraint2->setFunctionParameter($param);
+        $constraint2->setMessage("Temperature may not be empty");
+
+        $constraint3 = new NotBlank();
+        $constraint3->setType("NotBlank");
+        $constraint3->setFunctionParameter($param);
+        $constraint3->setMessage("Temperature may not be empty");
+
         $thing->addFunction($func);
         $func->addParameter($param);
         $func->addParameter($param2);
         $func->addParameter($param3);
         $param->addConstraint($constraint);
-        $param2->addConstraint($constraint);
-        $param2->addConstraint($constraint);
-        return array($func, $param, $param2, $param3, $constraint);
+        $param2->addConstraint($constraint2);
+        $param2->addConstraint($constraint3);
+        return array($func, $param, $param2, $param3, $constraint, $constraint2, $constraint3);
     }
 }

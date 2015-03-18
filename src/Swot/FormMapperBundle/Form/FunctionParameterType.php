@@ -47,10 +47,6 @@ class FunctionParameterType extends AbstractType
 
         return $constraints;
     }
-
-    private function transformParameterToFormType() {
-
-    }
     
     /**
      * @param OptionsResolverInterface $resolver

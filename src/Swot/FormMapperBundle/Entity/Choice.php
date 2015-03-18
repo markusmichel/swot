@@ -19,6 +19,13 @@ class Choice extends AbstractConstraint
     {
         // TODO: Implement createConstraint() method.
     }
+
+    /**
+     * @inheritDoc
+     */
+    public function initFromArray(array $arr) {
+        
+    }
     
     /**
      * @var integer

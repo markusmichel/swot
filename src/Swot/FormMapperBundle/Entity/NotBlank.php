@@ -17,6 +17,15 @@ class NotBlank extends AbstractConstraint
      */
     public function createConstraint()
     {
+        return new \Symfony\Component\Validator\Constraints\NotBlank(array(
+            'message' => $this->getMessage(),
+        ));
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function initFromArray(array $arr) {
         // TODO: Implement createConstraint() method.
     }
 

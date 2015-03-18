@@ -65,6 +65,13 @@ abstract class AbstractConstraint
     public abstract function createConstraint();
 
     /**
+     * Sets values from PHP array.
+     * @param array $arr
+     * @return mixed
+     */
+    public abstract function initFromArray(array $arr);
+
+    /**
      * Get id
      *
      * @return integer 

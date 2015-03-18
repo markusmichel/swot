@@ -21,6 +21,13 @@ class Language extends AbstractConstraint
     }
 
     /**
+     * @inheritDoc
+     */
+    public function initFromArray(array $arr) {
+        // TODO: Implement createConstraint() method.
+    }
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="id", type="integer")

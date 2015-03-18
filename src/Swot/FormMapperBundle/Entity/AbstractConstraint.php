@@ -26,7 +26,7 @@ use Doctrine\ORM\Mapping as ORM;
  *      "time" = "Time"
  * })
  */
-class AbstractConstraint
+abstract class AbstractConstraint
 {
     /**
      * @var integer
@@ -56,6 +56,13 @@ class AbstractConstraint
      * @ORM\JoinColumn(name="parameter_id", referencedColumnName="id")
      */
     private $functionParameter;
+
+    /**
+     * Creates a Symfony/Doctrine compatible constraint.
+     * @see \Symfony\Component\Validator\Constraints
+     * @return mixed
+     */
+    public abstract function createConstraint();
 
     /**
      * Get id

@@ -13,6 +13,16 @@ use Doctrine\ORM\Mapping as ORM;
 class NotNull extends AbstractConstraint
 {
     /**
+     * @inheritDoc
+     */
+    public function createConstraint()
+    {
+        return new \Symfony\Component\Validator\Constraints\NotNull(array(
+            'message' => $this->getMessage(),
+        ));
+    }
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="id", type="integer")

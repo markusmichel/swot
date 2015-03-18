@@ -13,6 +13,14 @@ use Doctrine\ORM\Mapping as ORM;
 class Language extends AbstractConstraint
 {
     /**
+     * @inheritDoc
+     */
+    public function createConstraint()
+    {
+        // TODO: Implement createConstraint() method.
+    }
+
+    /**
      * @var integer
      *
      * @ORM\Column(name="id", type="integer")

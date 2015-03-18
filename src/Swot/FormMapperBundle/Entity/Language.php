@@ -17,7 +17,9 @@ class Language extends AbstractConstraint
      */
     public function createConstraint()
     {
-        // TODO: Implement createConstraint() method.
+        return new \Symfony\Component\Validator\Constraints\Language(array(
+            'message' => $this->getMessage(),
+        ));
     }
 
     /**

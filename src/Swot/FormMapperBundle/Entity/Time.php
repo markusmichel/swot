@@ -17,7 +17,9 @@ class Time extends AbstractConstraint
      */
     public function createConstraint()
     {
-        // TODO: Implement createConstraint() method.
+        return new \Symfony\Component\Validator\Constraints\Time(array(
+            'message' => $this->getMessage(),
+        ));
     }
 
     /**

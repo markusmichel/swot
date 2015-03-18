@@ -17,7 +17,9 @@ class Country extends AbstractConstraint
      */
     public function createConstraint()
     {
-        // TODO: Implement createConstraint() method.
+        return new \Symfony\Component\Validator\Constraints\Country(array(
+            'message' => $this->getMessage(),
+        ));
     }
 
     /**

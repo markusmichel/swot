@@ -17,7 +17,10 @@ class LessThan extends AbstractConstraint
      */
     public function createConstraint()
     {
-        // TODO: Implement createConstraint() method.
+        return new \Symfony\Component\Validator\Constraints\LessThan(array(
+            'message' => $this->getMessage(),
+            'value' => $this->getMaxValue(),
+        ));
     }
 
     /**

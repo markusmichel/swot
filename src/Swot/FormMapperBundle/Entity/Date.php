@@ -17,7 +17,9 @@ class Date extends AbstractConstraint
      */
     public function createConstraint()
     {
-        // TODO: Implement createConstraint() method.
+        return new \Symfony\Component\Validator\Constraints\Date(array(
+            'message' => $this->getMessage(),
+        ));
     }
 
     /**

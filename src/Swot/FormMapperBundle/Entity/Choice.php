@@ -17,7 +17,9 @@ class Choice extends AbstractConstraint
      */
     public function createConstraint()
     {
-        // TODO: Implement createConstraint() method.
+        return new \Symfony\Component\Validator\Constraints\Choice(array(
+            'message' => $this->getMessage(),
+        ));
     }
 
     /**

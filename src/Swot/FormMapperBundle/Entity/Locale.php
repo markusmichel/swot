@@ -17,7 +17,9 @@ class Locale extends AbstractConstraint
      */
     public function createConstraint()
     {
-        // TODO: Implement createConstraint() method.
+        return new \Symfony\Component\Validator\Constraints\Locale(array(
+            'message' => $this->getMessage(),
+        ));
     }
 
     /**

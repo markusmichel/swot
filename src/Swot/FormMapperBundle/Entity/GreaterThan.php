@@ -17,7 +17,10 @@ class GreaterThan extends AbstractConstraint
      */
     public function createConstraint()
     {
-        // TODO: Implement createConstraint() method.
+        return new \Symfony\Component\Validator\Constraints\GreaterThan(array(
+            'message' => $this->getMessage(),
+            'value' => $this->getMinValue(),
+        ));
     }
 
     /**
@@ -41,7 +44,7 @@ class GreaterThan extends AbstractConstraint
      *
      * @ORM\Column(name="manValue", type="float")
      */
-    private $manValue;
+    private $minValue;
 
 
     /**
@@ -57,12 +60,12 @@ class GreaterThan extends AbstractConstraint
     /**
      * Set manValue
      *
-     * @param float $manValue
+     * @param float $minValue
      * @return GreaterThan
      */
-    public function setManValue($manValue)
+    public function setMinValue($minValue)
     {
-        $this->manValue = $manValue;
+        $this->minValue = $minValue;
 
         return $this;
     }
@@ -72,8 +75,8 @@ class GreaterThan extends AbstractConstraint
      *
      * @return float 
      */
-    public function getManValue()
+    public function getMinValue()
     {
-        return $this->manValue;
+        return $this->minValue;
     }
 }

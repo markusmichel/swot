@@ -17,7 +17,9 @@ class DateTime extends AbstractConstraint
      */
     public function createConstraint()
     {
-        // TODO: Implement createConstraint() method.
+        return new \Symfony\Component\Validator\Constraints\DateTime(array(
+            'message' => $this->getMessage(),
+        ));
     }
 
     /**

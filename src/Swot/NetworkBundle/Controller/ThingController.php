@@ -68,6 +68,8 @@ class ThingController extends Controller
             $form->handleRequest($request);
             if($form->isValid() === true) {
 
+                die("valid");
+
                 $accessToken = $thing->getAccessToken();
                 $res = $function->activate($accessToken);
 
@@ -362,17 +364,17 @@ class ThingController extends Controller
         $constraint = new NotNull();
         $constraint->setType("NotNull");
         $constraint->setFunctionParameter($param);
-        $constraint->setMessage("Temperature may not be empty");
+        $constraint->setMessage("Temperature1 may not be empty");
 
         $constraint2 = new NotNull();
         $constraint2->setType("NotNull");
-        $constraint2->setFunctionParameter($param);
-        $constraint2->setMessage("Temperature may not be empty");
+        $constraint2->setFunctionParameter($param2);
+        $constraint2->setMessage("Temperature2 may not be empty");
 
         $constraint3 = new NotBlank();
         $constraint3->setType("NotBlank");
-        $constraint3->setFunctionParameter($param);
-        $constraint3->setMessage("Temperature may not be empty");
+        $constraint3->setFunctionParameter($param3);
+        $constraint3->setMessage("Temperature3 may not be empty");
 
         $thing->addFunction($func);
         $func->addParameter($param);
@@ -380,7 +382,7 @@ class ThingController extends Controller
         $func->addParameter($param3);
         $param->addConstraint($constraint);
         $param2->addConstraint($constraint2);
-        $param2->addConstraint($constraint3);
+        $param3->addConstraint($constraint3);
         return array($func, $param, $param2, $param3, $constraint, $constraint2, $constraint3);
     }
 }

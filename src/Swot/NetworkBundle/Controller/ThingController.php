@@ -11,7 +11,7 @@ use Swot\NetworkBundle\Entity\ThingFunction;
 use Swot\NetworkBundle\Entity\User;
 use Swot\NetworkBundle\Fixtures\ThingFixtures;
 use Swot\NetworkBundle\Form\RentalType;
-use Swot\NetworkBundle\Form\ThingFunctionType;
+use Swot\FormMapperBundle\Form\FunctionType;
 use Swot\NetworkBundle\Form\ThingType;
 use Swot\NetworkBundle\Security\ThingVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -333,7 +333,7 @@ class ThingController extends Controller
      * @return \Symfony\Component\Form\Form
      */
     private function createActivateFunctionForm(ThingFunction $function) {
-        $form = $this->createForm(new ThingFunctionType(), $function);
+        $form = $this->createForm(new FunctionType(), $function);
         return $form;
     }
 

@@ -1,8 +1,8 @@
 <?php
 
-namespace Swot\NetworkBundle\Form;
+namespace Swot\FormMapperBundle\Form;
 
-use Swot\NetworkBundle\Entity\FunctionParameter;
+use Swot\FormMapperBundle\Entity\AbstractParameter;
 use Swot\NetworkBundle\Entity\ThingFunction;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -10,7 +10,7 @@ use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ThingFunctionType extends AbstractType
+class FunctionType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -26,13 +26,11 @@ class ThingFunctionType extends AbstractType
 
                 if($function === null) return;
 
-                /** @var FunctionParameter $param */
-//                foreach($function->getParameters() as $param) {
-                    $form->add('parameters', 'collection', array(
-                        'type' => new FunctionParameterType(),
-                        'label' => $function->getName(),
-                    ));
-//                }
+                /** @var AbstractParameter $param */
+                $form->add('parameters', 'collection', array(
+                    'type' => new FunctionParameterType(),
+                    'label' => $function->getName(),
+                ));
             });
     }
     

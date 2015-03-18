@@ -1,8 +1,8 @@
 <?php
 
-namespace Swot\NetworkBundle\Form;
+namespace Swot\FormMapperBundle\Form;
 
-use Swot\FormMapperBundle\Entity\AbstractParameter as FunctionParameter;
+use Swot\FormMapperBundle\Entity\AbstractParameter;
 use Swot\NetworkBundle\Entity\ParameterConstraint;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -24,7 +24,7 @@ class FunctionParameterType extends AbstractType
         $converter = $this;
         $builder
             ->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) use ($converter) {
-                /** @var FunctionParameter $param */
+                /** @var AbstractParameter $param */
                 $param = $event->getData();
                 $form = $event->getForm();
 
@@ -35,7 +35,7 @@ class FunctionParameterType extends AbstractType
             });
     }
 
-    public  function getConstraintsFromParam(FunctionParameter $parameter) {
+    public  function getConstraintsFromParam(AbstractParameter $parameter) {
         $constraints = array();
 
         /** @var ParameterConstraint $constraint */

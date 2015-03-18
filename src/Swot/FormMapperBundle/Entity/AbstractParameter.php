@@ -54,10 +54,10 @@ class AbstractParameter
     private $type;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Swot\NetworkBundle\Entity\ThingFunction", inversedBy="parameters")
+     * @ORM\ManyToOne(targetEntity="Action", inversedBy="parameters")
      * @ORM\JoinColumn(name="function_id", referencedColumnName="id")
      */
-    private $thingFunction;
+    private $action;
 
     /**
      * @ORM\OneToMany(targetEntity="Swot\NetworkBundle\Entity\ParameterConstraint", mappedBy="functionParameter")
@@ -128,29 +128,6 @@ class AbstractParameter
     }
 
     /**
-     * Set thingFunction
-     *
-     * @param \Swot\NetworkBundle\Entity\ThingFunction $thingFunction
-     * @return AbstractParameter
-     */
-    public function setThingFunction(\Swot\NetworkBundle\Entity\ThingFunction $thingFunction = null)
-    {
-        $this->thingFunction = $thingFunction;
-
-        return $this;
-    }
-
-    /**
-     * Get thingFunction
-     *
-     * @return \Swot\NetworkBundle\Entity\ThingFunction
-     */
-    public function getThingFunction()
-    {
-        return $this->thingFunction;
-    }
-
-    /**
      * Add constraints
      *
      * @param \Swot\NetworkBundle\Entity\ParameterConstraint $constraints
@@ -181,5 +158,28 @@ class AbstractParameter
     public function getConstraints()
     {
         return $this->constraints;
+    }
+
+    /**
+     * Set action
+     *
+     * @param \Swot\FormMapperBundle\Entity\Action $action
+     * @return AbstractParameter
+     */
+    public function setAction(\Swot\FormMapperBundle\Entity\Action $action = null)
+    {
+        $this->action = $action;
+
+        return $this;
+    }
+
+    /**
+     * Get action
+     *
+     * @return \Swot\FormMapperBundle\Entity\Action 
+     */
+    public function getAction()
+    {
+        return $this->action;
     }
 }

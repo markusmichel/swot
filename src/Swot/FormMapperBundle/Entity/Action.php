@@ -1,17 +1,18 @@
 <?php
 
-namespace Swot\NetworkBundle\Entity;
+namespace Swot\FormMapperBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Swot\FormMapperBundle\Entity\AbstractParameter;
 use Swot\NetworkBundle\Fixtures\ThingFixtures;
 
 /**
  * Function
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Swot\NetworkBundle\Entity\FunctionRepository")
+ * @ORM\Entity()
  */
-class ThingFunction
+class Action
 {
 
     /**
@@ -20,7 +21,7 @@ class ThingFunction
      */
     public function activate($accessToken = "") {
         $parameters = array();
-        /** @var FunctionParameter $param */
+        /** @var AbstractParameter $param */
         foreach($this->getParameters() as $param) {
             $parameters[$param->getName()] = $param->getValue();
         }
@@ -96,13 +97,13 @@ class ThingFunction
     private $url;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Thing", inversedBy="functions")
+     * @ORM\ManyToOne(targetEntity="Swot\NetworkBundle\Entity\Thing", inversedBy="functions")
      * @ORM\JoinColumn(name="thing_id", referencedColumnName="id")
      */
     private $thing;
 
     /**
-     * @ORM\OneToMany(targetEntity="Swot\FormMapperBundle\Entity\AbstractParameter", mappedBy="thingFunction")
+     * @ORM\OneToMany(targetEntity="AbstractParameter", mappedBy="action")
      */
     private $parameters;
 
@@ -170,29 +171,6 @@ class ThingFunction
     }
 
     /**
-     * Set thing
-     *
-     * @param \Swot\NetworkBundle\Entity\Thing $thing
-     * @return ThingFunction
-     */
-    public function setThing(\Swot\NetworkBundle\Entity\Thing $thing = null)
-    {
-        $this->thing = $thing;
-
-        return $this;
-    }
-
-    /**
-     * Get thing
-     *
-     * @return \Swot\NetworkBundle\Entity\Thing 
-     */
-    public function getThing()
-    {
-        return $this->thing;
-    }
-
-    /**
      * Add parameters
      *
      * @param \Swot\FormMapperBundle\Entity\AbstractParameter $parameters
@@ -223,5 +201,28 @@ class ThingFunction
     public function getParameters()
     {
         return $this->parameters;
+    }
+
+    /**
+     * Set thing
+     *
+     * @param \Swot\NetworkBundle\Entity\Thing $thing
+     * @return Action
+     */
+    public function setThing(\Swot\NetworkBundle\Entity\Thing $thing = null)
+    {
+        $this->thing = $thing;
+
+        return $this;
+    }
+
+    /**
+     * Get thing
+     *
+     * @return \Swot\NetworkBundle\Entity\Thing 
+     */
+    public function getThing()
+    {
+        return $this->thing;
     }
 }

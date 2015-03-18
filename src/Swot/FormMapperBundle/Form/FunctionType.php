@@ -3,7 +3,7 @@
 namespace Swot\FormMapperBundle\Form;
 
 use Swot\FormMapperBundle\Entity\AbstractParameter;
-use Swot\NetworkBundle\Entity\ThingFunction;
+use Swot\FormMapperBundle\Entity\Action;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -20,7 +20,7 @@ class FunctionType extends AbstractType
     {
         $builder
             ->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) {
-                /** @var ThingFunction $function */
+                /** @var Action $function */
                 $function = $event->getData();
                 $form = $event->getForm();
 
@@ -40,7 +40,7 @@ class FunctionType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Swot\NetworkBundle\Entity\ThingFunction'
+            'data_class' => 'Swot\FormMapperBundle\Entity\Action'
         ));
     }
 

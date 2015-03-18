@@ -1,16 +1,16 @@
 <?php
 
-namespace Swot\NetworkBundle\Form;
+namespace Swot\FormMapperBundle\Form;
 
-use Swot\NetworkBundle\Entity\FunctionParameter;
-use Swot\NetworkBundle\Entity\ThingFunction;
+use Swot\FormMapperBundle\Entity\Parameter;
+use Swot\FormMapperBundle\Entity\Action;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
 use Symfony\Component\Form\FormEvents;
 use Symfony\Component\OptionsResolver\OptionsResolverInterface;
 
-class ThingFunctionType extends AbstractType
+class FunctionType extends AbstractType
 {
     /**
      * @param FormBuilderInterface $builder
@@ -20,19 +20,17 @@ class ThingFunctionType extends AbstractType
     {
         $builder
             ->addEventListener(FormEvents::PRE_SET_DATA, function(FormEvent $event) {
-                /** @var ThingFunction $function */
+                /** @var Action $function */
                 $function = $event->getData();
                 $form = $event->getForm();
 
                 if($function === null) return;
 
-                /** @var FunctionParameter $param */
-//                foreach($function->getParameters() as $param) {
-                    $form->add('parameters', 'collection', array(
-                        'type' => new FunctionParameterType(),
-                        'label' => $function->getName(),
-                    ));
-//                }
+                /** @var Parameter $param */
+                $form->add('parameters', 'collection', array(
+                    'type' => new FunctionParameterType(),
+                    'label' => $function->getName(),
+                ));
             });
     }
     
@@ -42,7 +40,7 @@ class ThingFunctionType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Swot\NetworkBundle\Entity\ThingFunction'
+            'data_class' => 'Swot\FormMapperBundle\Entity\Action'
         ));
     }
 

@@ -1,17 +1,18 @@
 <?php
 
-namespace Swot\NetworkBundle\Entity;
+namespace Swot\FormMapperBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Swot\FormMapperBundle\Entity\Parameter;
 use Swot\NetworkBundle\Fixtures\ThingFixtures;
 
 /**
  * Function
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Swot\NetworkBundle\Entity\FunctionRepository")
+ * @ORM\Entity()
  */
-class ThingFunction
+class Action
 {
 
     /**
@@ -20,7 +21,7 @@ class ThingFunction
      */
     public function activate($accessToken = "") {
         $parameters = array();
-        /** @var FunctionParameter $param */
+        /** @var Parameter $param */
         foreach($this->getParameters() as $param) {
             $parameters[$param->getName()] = $param->getValue();
         }
@@ -96,13 +97,13 @@ class ThingFunction
     private $url;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Thing", inversedBy="functions")
+     * @ORM\ManyToOne(targetEntity="Swot\NetworkBundle\Entity\Thing", inversedBy="functions")
      * @ORM\JoinColumn(name="thing_id", referencedColumnName="id")
      */
     private $thing;
 
     /**
-     * @ORM\OneToMany(targetEntity="FunctionParameter", mappedBy="thingFunction")
+     * @ORM\OneToMany(targetEntity="Parameter", mappedBy="action")
      */
     private $parameters;
 
@@ -170,10 +171,43 @@ class ThingFunction
     }
 
     /**
+     * Add parameters
+     *
+     * @param \Swot\FormMapperBundle\Entity\Parameter $parameters
+     * @return ThingFunction
+     */
+    public function addParameter(\Swot\FormMapperBundle\Entity\Parameter $parameters)
+    {
+        $this->parameters[] = $parameters;
+
+        return $this;
+    }
+
+    /**
+     * Remove parameters
+     *
+     * @param \Swot\FormMapperBundle\Entity\Parameter $parameters
+     */
+    public function removeParameter(\Swot\FormMapperBundle\Entity\Parameter $parameters)
+    {
+        $this->parameters->removeElement($parameters);
+    }
+
+    /**
+     * Get parameters
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getParameters()
+    {
+        return $this->parameters;
+    }
+
+    /**
      * Set thing
      *
      * @param \Swot\NetworkBundle\Entity\Thing $thing
-     * @return ThingFunction
+     * @return Action
      */
     public function setThing(\Swot\NetworkBundle\Entity\Thing $thing = null)
     {
@@ -190,38 +224,5 @@ class ThingFunction
     public function getThing()
     {
         return $this->thing;
-    }
-
-    /**
-     * Add parameters
-     *
-     * @param \Swot\NetworkBundle\Entity\FunctionParameter $parameters
-     * @return ThingFunction
-     */
-    public function addParameter(\Swot\NetworkBundle\Entity\FunctionParameter $parameters)
-    {
-        $this->parameters[] = $parameters;
-
-        return $this;
-    }
-
-    /**
-     * Remove parameters
-     *
-     * @param \Swot\NetworkBundle\Entity\FunctionParameter $parameters
-     */
-    public function removeParameter(\Swot\NetworkBundle\Entity\FunctionParameter $parameters)
-    {
-        $this->parameters->removeElement($parameters);
-    }
-
-    /**
-     * Get parameters
-     *
-     * @return \Doctrine\Common\Collections\Collection 
-     */
-    public function getParameters()
-    {
-        return $this->parameters;
     }
 }

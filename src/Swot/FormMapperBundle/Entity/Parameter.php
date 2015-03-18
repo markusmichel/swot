@@ -1,17 +1,21 @@
 <?php
 
-namespace Swot\NetworkBundle\Entity;
+namespace Swot\FormMapperBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
 /**
- * FunctionParameter
+ * AbstractParameter
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Swot\NetworkBundle\Entity\FunctionParameterRepository")
+ * @ORM\Entity
  */
-class FunctionParameter
+class Parameter
 {
+    public function getSfConstraints() {
+
+    }
+
     /**
      * @var integer
      *
@@ -50,15 +54,22 @@ class FunctionParameter
     private $type;
 
     /**
-     * @ORM\ManyToOne(targetEntity="ThingFunction", inversedBy="parameters")
+     * @ORM\ManyToOne(targetEntity="Action", inversedBy="parameters")
      * @ORM\JoinColumn(name="function_id", referencedColumnName="id")
      */
-    private $thingFunction;
+    private $action;
 
     /**
-     * @ORM\OneToMany(targetEntity="ParameterConstraint", mappedBy="functionParameter")
+     * @ORM\OneToMany(targetEntity="AbstractConstraint", mappedBy="functionParameter")
      */
     private $constraints;
+    /**
+     * Constructor
+     */
+    public function __construct()
+    {
+        $this->constraints = new \Doctrine\Common\Collections\ArrayCollection();
+    }
 
     /**
      * Get id
@@ -74,7 +85,7 @@ class FunctionParameter
      * Set name
      *
      * @param string $name
-     * @return FunctionParameter
+     * @return AbstractParameter
      */
     public function setName($name)
     {
@@ -97,7 +108,7 @@ class FunctionParameter
      * Set type
      *
      * @param string $type
-     * @return FunctionParameter
+     * @return AbstractParameter
      */
     public function setType($type)
     {
@@ -115,44 +126,14 @@ class FunctionParameter
     {
         return $this->type;
     }
-    /**
-     * Constructor
-     */
-    public function __construct()
-    {
-        $this->constraints = new \Doctrine\Common\Collections\ArrayCollection();
-    }
-
-    /**
-     * Set thingFunction
-     *
-     * @param \Swot\NetworkBundle\Entity\ThingFunction $thingFunction
-     * @return FunctionParameter
-     */
-    public function setThingFunction(\Swot\NetworkBundle\Entity\ThingFunction $thingFunction = null)
-    {
-        $this->thingFunction = $thingFunction;
-
-        return $this;
-    }
-
-    /**
-     * Get thingFunction
-     *
-     * @return \Swot\NetworkBundle\Entity\ThingFunction 
-     */
-    public function getThingFunction()
-    {
-        return $this->thingFunction;
-    }
 
     /**
      * Add constraints
      *
-     * @param \Swot\NetworkBundle\Entity\ParameterConstraint $constraints
-     * @return FunctionParameter
+     * @param AbstractConstraint $constraints
+     * @return AbstractParameter
      */
-    public function addConstraint(\Swot\NetworkBundle\Entity\ParameterConstraint $constraints)
+    public function addConstraint(AbstractConstraint $constraints)
     {
         $this->constraints[] = $constraints;
 
@@ -162,9 +143,9 @@ class FunctionParameter
     /**
      * Remove constraints
      *
-     * @param \Swot\NetworkBundle\Entity\ParameterConstraint $constraints
+     * @param AbstractConstraint $constraints
      */
-    public function removeConstraint(\Swot\NetworkBundle\Entity\ParameterConstraint $constraints)
+    public function removeConstraint(AbstractConstraint $constraints)
     {
         $this->constraints->removeElement($constraints);
     }
@@ -177,5 +158,28 @@ class FunctionParameter
     public function getConstraints()
     {
         return $this->constraints;
+    }
+
+    /**
+     * Set action
+     *
+     * @param \Swot\FormMapperBundle\Entity\Action $action
+     * @return AbstractParameter
+     */
+    public function setAction(\Swot\FormMapperBundle\Entity\Action $action = null)
+    {
+        $this->action = $action;
+
+        return $this;
+    }
+
+    /**
+     * Get action
+     *
+     * @return \Swot\FormMapperBundle\Entity\Action 
+     */
+    public function getAction()
+    {
+        return $this->action;
     }
 }

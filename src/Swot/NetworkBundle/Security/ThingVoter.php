@@ -3,6 +3,7 @@
 namespace Swot\NetworkBundle\Security;
 
 
+use Swot\NetworkBundle\Entity\Rental;
 use Swot\NetworkBundle\Entity\Thing;
 use Swot\NetworkBundle\Entity\User;
 use Symfony\Component\Security\Core\Authentication\Token\TokenInterface;
@@ -95,7 +96,7 @@ class ThingVoter implements VoterInterface {
             // He has permission if he is the owner or the thing is lent to the user
             // @todo: check if the thing is public or restricted + owner is a friend
             case self::ACCESS:
-                if($this->isOwner($user, $thing) || $this->thingIsLentToUser($user, $thing)) {
+                if($this->isOwner($user, $thing) || $this->thingIsLentToUser($user, $thing) || $this->userIsFriendAndThingRestricted($user, $thing)) {
                     return VoterInterface::ACCESS_GRANTED;
                 }
                 break;
@@ -123,12 +124,26 @@ class ThingVoter implements VoterInterface {
         $isThingLent = false;
         /** @var Rental $rental */
         foreach($thing->getRentals() as $rental) {
-            if($user->getThingsLent()->contains($rental)) {
+            if($user->getThingsLent()->contains($rental) && ($rental->getAccessGrantedUntil() === null || $rental->getAccessGrantedUntil() >= new \DateTime())) {
                 $isThingLent = true;
                 break;
             }
         }
 
         return $isThingLent;
+    }
+
+    /**
+     * @param $user User Current user
+     * @param $thing Thing Thing to check
+     * @return bool True if the owner is a friend of the current user and the thing is restricted.
+     */
+    private function userIsFriendAndThingRestricted($user, $thing) {
+        $owner = $thing->getOwnership()->getOwner();
+        if($user->isFriendOf($owner) && $thing->getAccessType() === AccessType::ACCESS_TYPE_RESTRICTED) {
+            return true;
+        }
+
+        return false;
     }
 }

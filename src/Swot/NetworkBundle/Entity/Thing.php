@@ -55,7 +55,7 @@ class Thing
     private $rentals;
 
     /**
-     * @ORM\OneToMany(targetEntity="ThingFunction", mappedBy="thing")
+     * @ORM\OneToMany(targetEntity="Swot\FormMapperBundle\Entity\Action", mappedBy="thing")
      */
     private $functions;
 
@@ -215,29 +215,6 @@ class Thing
     }
 
     /**
-     * Add functions
-     *
-     * @param \Swot\NetworkBundle\Entity\ThingFunction $functions
-     * @return Thing
-     */
-    public function addFunction(\Swot\NetworkBundle\Entity\ThingFunction $functions)
-    {
-        $this->functions[] = $functions;
-
-        return $this;
-    }
-
-    /**
-     * Remove functions
-     *
-     * @param \Swot\NetworkBundle\Entity\ThingFunction $functions
-     */
-    public function removeFunction(\Swot\NetworkBundle\Entity\ThingFunction $functions)
-    {
-        $this->functions->removeElement($functions);
-    }
-
-    /**
      * Get functions
      *
      * @return \Doctrine\Common\Collections\Collection 
@@ -268,5 +245,28 @@ class Thing
     public function getAccessType()
     {
         return $this->accessType;
+    }
+
+    /**
+     * Add functions
+     *
+     * @param \Swot\FormMapperBundle\Entity\Action $functions
+     * @return Thing
+     */
+    public function addFunction(\Swot\FormMapperBundle\Entity\Action $functions)
+    {
+        $this->functions[] = $functions;
+
+        return $this;
+    }
+
+    /**
+     * Remove functions
+     *
+     * @param \Swot\FormMapperBundle\Entity\Action $functions
+     */
+    public function removeFunction(\Swot\FormMapperBundle\Entity\Action $functions)
+    {
+        $this->functions->removeElement($functions);
     }
 }

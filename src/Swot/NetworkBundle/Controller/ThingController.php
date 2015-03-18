@@ -2,16 +2,18 @@
 
 namespace Swot\NetworkBundle\Controller;
 
-use Swot\NetworkBundle\Entity\FunctionParameter;
+use Swot\FormMapperBundle\Entity\NotBlank;
+use Swot\FormMapperBundle\Entity\NotNull;
+use Swot\FormMapperBundle\Entity\Parameter;
+use Swot\FormMapperBundle\Entity\Action;
 use Swot\NetworkBundle\Entity\Ownership;
-use Swot\NetworkBundle\Entity\ParameterConstraint;
+use Swot\FormMapperBundle\Entity\AbstractConstraint;
 use Swot\NetworkBundle\Entity\Rental;
 use Swot\NetworkBundle\Entity\Thing;
-use Swot\NetworkBundle\Entity\ThingFunction;
 use Swot\NetworkBundle\Entity\User;
 use Swot\NetworkBundle\Fixtures\ThingFixtures;
 use Swot\NetworkBundle\Form\RentalType;
-use Swot\NetworkBundle\Form\ThingFunctionType;
+use Swot\FormMapperBundle\Form\FunctionType;
 use Swot\NetworkBundle\Form\ThingType;
 use Swot\NetworkBundle\Security\ThingVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
@@ -60,17 +62,19 @@ class ThingController extends Controller
             /** @var Form $form */
             $form = $functionForms[$fid];
 
-            /** @var ThingFunction $function */
-            $function = $this->getDoctrine()->getRepository('SwotNetworkBundle:ThingFunction')->find($fid);
+            /** @var Action $function */
+            $function = $this->getDoctrine()->getRepository('SwotFormMapperBundle:Action')->find($fid);
 
             $form->handleRequest($request);
             if($form->isValid() === true) {
 
+                die("valid");
+
                 $accessToken = $thing->getAccessToken();
                 $res = $function->activate($accessToken);
 
-                var_dump($res);
-                die();
+//                var_dump($res);
+//                die();
 
                 if(strcasecmp($res->status, "success") == 0) {
                     $this->addFlash('success', 'Function activated');
@@ -184,26 +188,12 @@ class ThingController extends Controller
         $user->addOwnership($ownership);
         $thing->setOwnership($ownership);
 
-        list($func, $param, $param2, $param3, $constraint) = $this->generateTestFunction($thing);
-        list($func2, $param4, $param5, $param6, $constraint2) = $this->generateTestFunction($thing);
+        $this->generateTestFunction($thing);
 
         $manager = $this->getDoctrine()->getManager();
         $manager->persist($ownership);
         $manager->persist($user);
         $manager->persist($thing);
-        $manager->persist($func);
-        $manager->persist($param);
-        $manager->persist($param2);
-        $manager->persist($param3);
-        $manager->persist($constraint);
-
-        $manager->persist($func2);
-        $manager->persist($param4);
-        $manager->persist($param5);
-        $manager->persist($param6);
-        $manager->persist($constraint2);
-
-
 
         $manager->flush();
 
@@ -224,8 +214,8 @@ class ThingController extends Controller
 //            return $this->redirectToRoute('thing_show', array('id' => $id));
 //        }
 
-        /** @var ThingFunction $function */
-        $function = $this->getDoctrine()->getRepository('SwotNetworkBundle:ThingFunction')->find($functionId);
+        /** @var Action $function */
+        $function = $this->getDoctrine()->getRepository('SwotFormMapperBundle:Action')->find($functionId);
         if(!$thing->getFunctions()->contains($function)) {
             $this->addFlash('error', 'This function does not belong to the thing');
             return $this->redirectToRoute('thing_show', array('id' => $id));
@@ -318,7 +308,7 @@ class ThingController extends Controller
     private function createActivateFunctionForms(Thing $thing) {
         $forms = array();
 
-        /** @var ThingFunction $func */
+        /** @var Action $func */
         foreach($thing->getFunctions() as $func) {
             $forms[$func->getId()] = $this->createActivateFunctionForm($func);
         }
@@ -329,52 +319,62 @@ class ThingController extends Controller
     /**
      * Create an ActiviationForm containing the function's parameters.
      *
-     * @param ThingFunction $function
+     * @param Action $function
      * @return \Symfony\Component\Form\Form
      */
-    private function createActivateFunctionForm(ThingFunction $function) {
-        $form = $this->createForm(new ThingFunctionType(), $function);
+    private function createActivateFunctionForm(Action $function) {
+        $form = $this->createForm(new FunctionType(), $function);
         return $form;
     }
 
     /**
-     * @param $thing
+     * @param $thing Thing
      * @return array
      */
     private function generateTestFunction($thing)
     {
-        $func = new ThingFunction();
-        $func->setThing($thing);
-        $func->setName("Set temperature");
-        $func->setUrl("http://www.example.com");
+        $res = json_decode(ThingFixtures::$thingResponse);
+        $functionsData = $res->device->functions;
 
-        $param = new FunctionParameter();
-        $param->setName("temperature");
-        $param->setThingFunction($func);
-        $param->setType("integer");
+        $manager = $this->getDoctrine()->getManager();
 
-        $param2 = new FunctionParameter();
-        $param2->setName("temperature-2");
-        $param2->setThingFunction($func);
-        $param2->setType("integer");
+        foreach($functionsData as $func) {
+            $function = new Action();
+            $function->setThing($thing);
+            $function->setName($func->name);
+            $function->setUrl($func->url);
 
-        $param3 = new FunctionParameter();
-        $param3->setName("temperature-3");
-        $param3->setThingFunction($func);
-        $param3->setType("integer");
+            foreach($func->parameters as $param) {
+                $parameter = new Parameter();
+                $parameter->setName($param->name);
+                $parameter->setAction($function);
+                $parameter->setType($param->type);
 
-        $constraint = new ParameterConstraint();
-        $constraint->setType("NotNull");
-        $constraint->setFunctionParameter($param);
-        $constraint->setMessage("Temperature may not be empty");
+                if(isset($param->constraints)) {
+                    foreach($param->constraints as $con) {
+                        $className = "\\Swot\\FormMapperBundle\\Entity\\" . $con->type;
+                        if(!class_exists($className)) continue;
 
-        $thing->addFunction($func);
-        $func->addParameter($param);
-        $func->addParameter($param2);
-        $func->addParameter($param3);
-        $param->addConstraint($constraint);
-        $param2->addConstraint($constraint);
-        $param2->addConstraint($constraint);
-        return array($func, $param, $param2, $param3, $constraint);
+                        /** @var AbstractConstraint $constraint */
+                        $constraint = new $className;
+                        $constraint->init($con);
+                        $constraint->setMessage($con->message);
+                        $constraint->setFunctionParameter($parameter);
+
+                        $parameter->addConstraint($constraint);
+                        $manager->persist($constraint);
+                    }
+                }
+
+                $function->addParameter($parameter);
+                $manager->persist($parameter);
+            }
+
+            $thing->addFunction($function);
+            $manager->persist($function);
+            $manager->persist($thing);
+        }
+
+        $manager->flush();
     }
 }

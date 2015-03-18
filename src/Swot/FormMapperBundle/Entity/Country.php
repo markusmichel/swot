@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity
  */
-class Country extends AbstractParameter
+class Country extends AbstractConstraint
 {
     /**
      * @var integer

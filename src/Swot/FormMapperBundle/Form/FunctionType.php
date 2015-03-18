@@ -26,7 +26,7 @@ class FunctionType extends AbstractType
 
                 if($function === null) return;
 
-                /** @var AbstractParameter $param */
+                /** @var Parameter $param */
                 $form->add('parameters', 'collection', array(
                     'type' => new FunctionParameterType(),
                     'label' => $function->getName(),

@@ -1,6 +1,6 @@
 <?php
 
-namespace Swot\NetworkBundle\Entity;
+namespace Swot\FormMapperBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
 
@@ -8,9 +8,9 @@ use Doctrine\ORM\Mapping as ORM;
  * ParameterConstraint
  *
  * @ORM\Table()
- * @ORM\Entity(repositoryClass="Swot\NetworkBundle\Entity\ParameterConstraintRepository")
+ * @ORM\Entity()
  */
-class ParameterConstraint
+class AbstractConstraint
 {
     /**
      * @var integer
@@ -36,7 +36,7 @@ class ParameterConstraint
     private $message;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Swot\FormMapperBundle\Entity\AbstractParameter", inversedBy="constraints")
+     * @ORM\ManyToOne(targetEntity="Parameter", inversedBy="constraints")
      * @ORM\JoinColumn(name="parameter_id", referencedColumnName="id")
      */
     private $functionParameter;
@@ -55,7 +55,7 @@ class ParameterConstraint
      * Set type
      *
      * @param string $type
-     * @return ParameterConstraint
+     * @return AbstractConstraint
      */
     public function setType($type)
     {
@@ -78,7 +78,7 @@ class ParameterConstraint
      * Set message
      *
      * @param string $message
-     * @return ParameterConstraint
+     * @return AbstractConstraint
      */
     public function setMessage($message)
     {
@@ -100,10 +100,10 @@ class ParameterConstraint
     /**
      * Set functionParameter
      *
-     * @param \Swot\FormMapperBundle\Entity\AbstractParameter $functionParameter
-     * @return ParameterConstraint
+     * @param Parameter $functionParameter
+     * @return AbstractConstraint
      */
-    public function setFunctionParameter(\Swot\FormMapperBundle\Entity\AbstractParameter $functionParameter = null)
+    public function setFunctionParameter(Parameter $functionParameter = null)
     {
         $this->functionParameter = $functionParameter;
 
@@ -113,7 +113,7 @@ class ParameterConstraint
     /**
      * Get functionParameter
      *
-     * @return \Swot\FormMapperBundle\Entity\AbstractParameter
+     * @return Parameter
      */
     public function getFunctionParameter()
     {

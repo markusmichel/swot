@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity
  */
-class Choice extends AbstractParameter
+class Choice extends AbstractConstraint
 {
     /**
      * @var integer

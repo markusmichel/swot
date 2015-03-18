@@ -3,7 +3,7 @@
 namespace Swot\FormMapperBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Swot\FormMapperBundle\Entity\AbstractParameter;
+use Swot\FormMapperBundle\Entity\Parameter;
 use Swot\NetworkBundle\Fixtures\ThingFixtures;
 
 /**
@@ -21,7 +21,7 @@ class Action
      */
     public function activate($accessToken = "") {
         $parameters = array();
-        /** @var AbstractParameter $param */
+        /** @var Parameter $param */
         foreach($this->getParameters() as $param) {
             $parameters[$param->getName()] = $param->getValue();
         }
@@ -103,7 +103,7 @@ class Action
     private $thing;
 
     /**
-     * @ORM\OneToMany(targetEntity="AbstractParameter", mappedBy="action")
+     * @ORM\OneToMany(targetEntity="Parameter", mappedBy="action")
      */
     private $parameters;
 
@@ -173,10 +173,10 @@ class Action
     /**
      * Add parameters
      *
-     * @param \Swot\FormMapperBundle\Entity\AbstractParameter $parameters
+     * @param \Swot\FormMapperBundle\Entity\Parameter $parameters
      * @return ThingFunction
      */
-    public function addParameter(\Swot\FormMapperBundle\Entity\AbstractParameter $parameters)
+    public function addParameter(\Swot\FormMapperBundle\Entity\Parameter $parameters)
     {
         $this->parameters[] = $parameters;
 
@@ -186,9 +186,9 @@ class Action
     /**
      * Remove parameters
      *
-     * @param \Swot\FormMapperBundle\Entity\AbstractParameter $parameters
+     * @param \Swot\FormMapperBundle\Entity\Parameter $parameters
      */
-    public function removeParameter(\Swot\FormMapperBundle\Entity\AbstractParameter $parameters)
+    public function removeParameter(\Swot\FormMapperBundle\Entity\Parameter $parameters)
     {
         $this->parameters->removeElement($parameters);
     }

@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity
  */
-class AbstractParameter
+class Parameter
 {
     public function getSfConstraints() {
 
@@ -60,7 +60,7 @@ class AbstractParameter
     private $action;
 
     /**
-     * @ORM\OneToMany(targetEntity="Swot\NetworkBundle\Entity\ParameterConstraint", mappedBy="functionParameter")
+     * @ORM\OneToMany(targetEntity="AbstractConstraint", mappedBy="functionParameter")
      */
     private $constraints;
     /**
@@ -130,10 +130,10 @@ class AbstractParameter
     /**
      * Add constraints
      *
-     * @param \Swot\NetworkBundle\Entity\ParameterConstraint $constraints
+     * @param AbstractConstraint $constraints
      * @return AbstractParameter
      */
-    public function addConstraint(\Swot\NetworkBundle\Entity\ParameterConstraint $constraints)
+    public function addConstraint(AbstractConstraint $constraints)
     {
         $this->constraints[] = $constraints;
 
@@ -143,9 +143,9 @@ class AbstractParameter
     /**
      * Remove constraints
      *
-     * @param \Swot\NetworkBundle\Entity\ParameterConstraint $constraints
+     * @param AbstractConstraint $constraints
      */
-    public function removeConstraint(\Swot\NetworkBundle\Entity\ParameterConstraint $constraints)
+    public function removeConstraint(AbstractConstraint $constraints)
     {
         $this->constraints->removeElement($constraints);
     }

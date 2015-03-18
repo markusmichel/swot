@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity
  */
-class Date extends AbstractParameter
+class Date extends AbstractConstraint
 {
     /**
      * @var integer

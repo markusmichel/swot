@@ -10,7 +10,7 @@ use Doctrine\ORM\Mapping as ORM;
  * @ORM\Table()
  * @ORM\Entity
  */
-class NotBlank extends AbstractParameter
+class NotBlank extends AbstractConstraint
 {
     /**
      * @var integer

@@ -23,7 +23,7 @@ class Date extends AbstractConstraint
     /**
      * @inheritDoc
      */
-    public function initFromArray(array $arr) {
+    public function init($obj) {
         // TODO: Implement createConstraint() method.
     }
 

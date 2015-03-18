@@ -66,10 +66,10 @@ abstract class AbstractConstraint
 
     /**
      * Sets values from PHP array.
-     * @param array $arr
+     * @param $obj
      * @return mixed
      */
-    public abstract function initFromArray(array $arr);
+    public abstract function init($obj);
 
     /**
      * Get id

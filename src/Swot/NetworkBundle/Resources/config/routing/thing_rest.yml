@@ -1,0 +1,4 @@
+rest_thing_message_new:
+    path: /message
+    defaults: { _controller: SwotNetworkBundle:ThingRest:newMessage }
+#    methods: [POST, PUT]

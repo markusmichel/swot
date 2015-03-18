@@ -66,6 +66,11 @@ class Thing
     private $accessType;
 
     /**
+     * @ORM\OneToMany(targetEntity="ThingStatusUpdate", mappedBy="thing")
+     */
+    private $statusUpdates;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -268,5 +273,38 @@ class Thing
     public function removeFunction(\Swot\FormMapperBundle\Entity\Action $functions)
     {
         $this->functions->removeElement($functions);
+    }
+
+    /**
+     * Add statusUpdates
+     *
+     * @param \Swot\NetworkBundle\Entity\ThingStatusUpdate $statusUpdates
+     * @return Thing
+     */
+    public function addStatusUpdate(\Swot\NetworkBundle\Entity\ThingStatusUpdate $statusUpdates)
+    {
+        $this->statusUpdates[] = $statusUpdates;
+
+        return $this;
+    }
+
+    /**
+     * Remove statusUpdates
+     *
+     * @param \Swot\NetworkBundle\Entity\ThingStatusUpdate $statusUpdates
+     */
+    public function removeStatusUpdate(\Swot\NetworkBundle\Entity\ThingStatusUpdate $statusUpdates)
+    {
+        $this->statusUpdates->removeElement($statusUpdates);
+    }
+
+    /**
+     * Get statusUpdates
+     *
+     * @return \Doctrine\Common\Collections\Collection 
+     */
+    public function getStatusUpdates()
+    {
+        return $this->statusUpdates;
     }
 }

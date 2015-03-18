@@ -2,7 +2,7 @@
 
 namespace Swot\NetworkBundle\Form;
 
-use Swot\NetworkBundle\Entity\FunctionParameter;
+use Swot\FormMapperBundle\Entity\AbstractParameter as FunctionParameter;
 use Swot\NetworkBundle\Entity\ParameterConstraint;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -72,6 +72,9 @@ class FunctionParameterType extends AbstractType
                 case 'Country':
                     $c = new Assert\Country();
                     break;
+                case 'Locale':
+                    $c = new Assert\Locale();
+                    break;
                 case 'Choice':
                     $c = new Assert\Choice();
                     break;
@@ -93,7 +96,7 @@ class FunctionParameterType extends AbstractType
     public function setDefaultOptions(OptionsResolverInterface $resolver)
     {
         $resolver->setDefaults(array(
-            'data_class' => 'Swot\NetworkBundle\Entity\FunctionParameter'
+            'data_class' => 'Swot\FormMapperBundle\Entity\AbstractParameter'
         ));
     }
 

@@ -2,7 +2,7 @@
 
 namespace Swot\NetworkBundle\Controller;
 
-use Swot\NetworkBundle\Entity\FunctionParameter;
+use Swot\FormMapperBundle\Entity\AbstractParameter as FunctionParameter;
 use Swot\NetworkBundle\Entity\Ownership;
 use Swot\NetworkBundle\Entity\ParameterConstraint;
 use Swot\NetworkBundle\Entity\Rental;

@@ -102,7 +102,7 @@ class ThingFunction
     private $thing;
 
     /**
-     * @ORM\OneToMany(targetEntity="FunctionParameter", mappedBy="thingFunction")
+     * @ORM\OneToMany(targetEntity="Swot\FormMapperBundle\Entity\AbstractParameter", mappedBy="thingFunction")
      */
     private $parameters;
 
@@ -195,10 +195,10 @@ class ThingFunction
     /**
      * Add parameters
      *
-     * @param \Swot\NetworkBundle\Entity\FunctionParameter $parameters
+     * @param \Swot\FormMapperBundle\Entity\AbstractParameter $parameters
      * @return ThingFunction
      */
-    public function addParameter(\Swot\NetworkBundle\Entity\FunctionParameter $parameters)
+    public function addParameter(\Swot\FormMapperBundle\Entity\AbstractParameter $parameters)
     {
         $this->parameters[] = $parameters;
 
@@ -208,9 +208,9 @@ class ThingFunction
     /**
      * Remove parameters
      *
-     * @param \Swot\NetworkBundle\Entity\FunctionParameter $parameters
+     * @param \Swot\FormMapperBundle\Entity\AbstractParameter $parameters
      */
-    public function removeParameter(\Swot\NetworkBundle\Entity\FunctionParameter $parameters)
+    public function removeParameter(\Swot\FormMapperBundle\Entity\AbstractParameter $parameters)
     {
         $this->parameters->removeElement($parameters);
     }

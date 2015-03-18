@@ -36,7 +36,7 @@ class ParameterConstraint
     private $message;
 
     /**
-     * @ORM\ManyToOne(targetEntity="FunctionParameter", inversedBy="constraints")
+     * @ORM\ManyToOne(targetEntity="Swot\FormMapperBundle\Entity\AbstractParameter", inversedBy="constraints")
      * @ORM\JoinColumn(name="parameter_id", referencedColumnName="id")
      */
     private $functionParameter;
@@ -100,10 +100,10 @@ class ParameterConstraint
     /**
      * Set functionParameter
      *
-     * @param \Swot\NetworkBundle\Entity\FunctionParameter $functionParameter
+     * @param \Swot\FormMapperBundle\Entity\AbstractParameter $functionParameter
      * @return ParameterConstraint
      */
-    public function setFunctionParameter(\Swot\NetworkBundle\Entity\FunctionParameter $functionParameter = null)
+    public function setFunctionParameter(\Swot\FormMapperBundle\Entity\AbstractParameter $functionParameter = null)
     {
         $this->functionParameter = $functionParameter;
 
@@ -113,7 +113,7 @@ class ParameterConstraint
     /**
      * Get functionParameter
      *
-     * @return \Swot\NetworkBundle\Entity\FunctionParameter 
+     * @return \Swot\FormMapperBundle\Entity\AbstractParameter
      */
     public function getFunctionParameter()
     {

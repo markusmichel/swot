@@ -18,6 +18,7 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Swot\NetworkBundle\SwotNetworkBundle(),
             new Liip\ImagineBundle\LiipImagineBundle(),
+            new Swot\FormMapperBundle\SwotFormMapperBundle(),
         );
 
         if (in_array($this->getEnvironment(), array('dev', 'test'))) {

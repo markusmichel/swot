@@ -1,0 +1,3 @@
+swot_form_mapper_homepage:
+    path:     /hello/{name}
+    defaults: { _controller: SwotFormMapperBundle:Default:index }

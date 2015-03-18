@@ -37,33 +37,45 @@ TAG;
                 "id": 12345,
                 "classification": "sdf",
                 "functions": [{
-                        "name": "Function A",
-                        "url": "www.....",
+                        "name": "Function-A",
+                        "url": "http://www.example.com",
                         "available": true,
-                        "params": [
+                        "parameters": [
                             {
-                                "name": "Param A",
-                                "type": "text/int/double/email...",
-                                "required": true
+                                "name": "Param-A",
+                                "type": "integer",
+                                "required": true,
+                                "constraints": [
+                                    {
+                                        "type": "NotNull",
+                                        "message": "Param A may not be null"
+                                    }
+                                ]
                             },
                             {
-                                "name": "Param B",
-                                "type": "text/int/double/email...",
-                                "required": false
+                                "name": "Param-B",
+                                "type": "text",
+                                "required": false,
+                                "constraints": [
+                                    {
+                                        "type": "NotBlank",
+                                        "message": "Param B may not be blank"
+                                    }
+                                ]
                             }
                         ]}, {
-                        "name": "Function B",
-                        "url": "www.....",
+                        "name": "Function-B",
+                        "url": "http://www.example.com",
                         "available": true,
-                        "params": [
+                        "parameters": [
                             {
-                                "name": "Param A",
-                                "type": "text/int/double/email...",
+                                "name": "Param-2A",
+                                "type": "text",
                                 "required": true
                             },
                             {
-                                "name": "Param B",
-                                "type": "text/int/double/email...",
+                                "name": "Param-2B",
+                                "type": "integer",
                                 "required": false
                             }
                         ]

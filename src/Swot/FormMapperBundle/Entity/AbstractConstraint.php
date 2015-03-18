@@ -40,13 +40,6 @@ abstract class AbstractConstraint
     /**
      * @var string
      *
-     * @ORM\Column(name="type", type="string", length=255)
-     */
-    private $type;
-
-    /**
-     * @var string
-     *
      * @ORM\Column(name="message", type="string", length=255)
      */
     private $message;
@@ -79,29 +72,6 @@ abstract class AbstractConstraint
     public function getId()
     {
         return $this->id;
-    }
-
-    /**
-     * Set type
-     *
-     * @param string $type
-     * @return AbstractConstraint
-     */
-    public function setType($type)
-    {
-        $this->type = $type;
-
-        return $this;
-    }
-
-    /**
-     * Get type
-     *
-     * @return string 
-     */
-    public function getType()
-    {
-        return $this->type;
     }
 
     /**

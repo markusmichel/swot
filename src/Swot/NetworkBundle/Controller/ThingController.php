@@ -2,6 +2,7 @@
 
 namespace Swot\NetworkBundle\Controller;
 
+use Swot\FormMapperBundle\Entity\NotNull;
 use Swot\FormMapperBundle\Entity\Parameter;
 use Swot\FormMapperBundle\Entity\Action;
 use Swot\NetworkBundle\Entity\Ownership;
@@ -363,7 +364,7 @@ class ThingController extends Controller
         $param3->setAction($func);
         $param3->setType("integer");
 
-        $constraint = new AbstractConstraint();
+        $constraint = new NotNull();
         $constraint->setType("NotNull");
         $constraint->setFunctionParameter($param);
         $constraint->setMessage("Temperature may not be empty");

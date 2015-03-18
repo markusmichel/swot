@@ -3,7 +3,7 @@
 namespace Swot\FormMapperBundle\Form;
 
 use Swot\FormMapperBundle\Entity\Parameter;
-use Swot\NetworkBundle\Entity\ParameterConstraint;
+use Swot\FormMapperBundle\Entity\Constraint;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormEvent;
@@ -38,7 +38,7 @@ class FunctionParameterType extends AbstractType
     public  function getConstraintsFromParam(Parameter $parameter) {
         $constraints = array();
 
-        /** @var ParameterConstraint $constraint */
+        /** @var Constraint $constraint */
         foreach($parameter->getConstraints() as $constraint) {
             $c = null;
             switch($constraint->getType()) {

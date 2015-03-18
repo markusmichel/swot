@@ -2,7 +2,7 @@
 
 namespace Swot\FormMapperBundle\Form;
 
-use Swot\FormMapperBundle\Entity\AbstractParameter;
+use Swot\FormMapperBundle\Entity\Parameter;
 use Swot\FormMapperBundle\Entity\Action;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;

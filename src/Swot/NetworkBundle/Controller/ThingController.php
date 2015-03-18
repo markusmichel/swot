@@ -2,10 +2,10 @@
 
 namespace Swot\NetworkBundle\Controller;
 
-use Swot\FormMapperBundle\Entity\AbstractParameter;
+use Swot\FormMapperBundle\Entity\Parameter;
 use Swot\FormMapperBundle\Entity\Action;
 use Swot\NetworkBundle\Entity\Ownership;
-use Swot\NetworkBundle\Entity\ParameterConstraint;
+use Swot\FormMapperBundle\Entity\AbstractConstraint;
 use Swot\NetworkBundle\Entity\Rental;
 use Swot\NetworkBundle\Entity\Thing;
 use Swot\NetworkBundle\Entity\User;
@@ -348,22 +348,22 @@ class ThingController extends Controller
         $func->setName("Set temperature");
         $func->setUrl("http://www.example.com");
 
-        $param = new AbstractParameter();
+        $param = new Parameter();
         $param->setName("temperature");
         $param->setAction($func);
         $param->setType("integer");
 
-        $param2 = new AbstractParameter();
+        $param2 = new Parameter();
         $param2->setName("temperature-2");
         $param2->setAction($func);
         $param2->setType("integer");
 
-        $param3 = new AbstractParameter();
+        $param3 = new Parameter();
         $param3->setName("temperature-3");
         $param3->setAction($func);
         $param3->setType("integer");
 
-        $constraint = new ParameterConstraint();
+        $constraint = new AbstractConstraint();
         $constraint->setType("NotNull");
         $constraint->setFunctionParameter($param);
         $constraint->setMessage("Temperature may not be empty");

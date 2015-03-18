@@ -7,7 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Language
  *
- * @ORM\Table()
  * @ORM\Entity
  */
 class Language extends AbstractConstraint

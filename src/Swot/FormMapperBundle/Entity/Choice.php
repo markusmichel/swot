@@ -7,7 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Choice
  *
- * @ORM\Table()
  * @ORM\Entity
  */
 class Choice extends AbstractConstraint

@@ -7,7 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Date
  *
- * @ORM\Table()
  * @ORM\Entity
  */
 class Date extends AbstractConstraint

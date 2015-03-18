@@ -7,7 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * NotBlank
  *
- * @ORM\Table()
  * @ORM\Entity
  */
 class NotBlank extends AbstractConstraint

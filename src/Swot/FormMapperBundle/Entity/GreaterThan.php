@@ -7,7 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * GreaterThan
  *
- * @ORM\Table()
  * @ORM\Entity
  */
 class GreaterThan extends AbstractConstraint

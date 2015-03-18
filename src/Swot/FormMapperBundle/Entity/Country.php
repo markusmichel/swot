@@ -7,7 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Country
  *
- * @ORM\Table()
  * @ORM\Entity
  */
 class Country extends AbstractConstraint

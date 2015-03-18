@@ -7,7 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * Locale
  *
- * @ORM\Table()
  * @ORM\Entity
  */
 class Locale extends AbstractConstraint

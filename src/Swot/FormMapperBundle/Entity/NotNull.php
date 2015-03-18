@@ -7,7 +7,6 @@ use Doctrine\ORM\Mapping as ORM;
 /**
  * NotNull
  *
- * @ORM\Table()
  * @ORM\Entity
  */
 class NotNull extends AbstractConstraint

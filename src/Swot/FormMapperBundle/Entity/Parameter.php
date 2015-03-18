@@ -12,10 +12,6 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Parameter
 {
-    public function getSfConstraints() {
-
-    }
-
     /**
      * @var integer
      *

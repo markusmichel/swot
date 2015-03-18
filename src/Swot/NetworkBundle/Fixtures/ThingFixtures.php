@@ -60,6 +60,10 @@ TAG;
                                     {
                                         "type": "NotBlank",
                                         "message": "Param B may not be blank"
+                                    },
+                                    {
+                                        "type": "Locale",
+                                        "message": "Param B must be a locale"
                                     }
                                 ]
                             }

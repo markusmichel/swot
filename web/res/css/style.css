@@ -165,6 +165,12 @@ button, .button {
     vertical-align: middle;
 }
 
+.hex-list {
+    margin: 0 auto 0 auto;
+    padding-left: 35px;
+    padding-bottom: 70px;
+}
+
 .hex {
     position: relative;
     display: inline-block;
@@ -176,96 +182,34 @@ button, .button {
     mask: url(../gfx/hexagon_mask.png);
     text-align: center;
     background-color: #588C73;
-    margin-left: 77px;
-    margin-top: -72px;
+    margin-left: -35px;
 }
 
-.hex-list {
-    margin: 0 auto 0 auto;
+.hex:nth-child(2n) {
+    margin-bottom: -70px;
 }
 
 @media all and (min-width: 64.063em) {
     .hex-list {
-        width: 725px;
-    }
-
-    .hex:nth-child(6n+1) {
-        margin-left: 0;
-    }
-
-    .hex:nth-child(6n-2) {
-        margin-left: 115px;
-    }
-
-    .hex:nth-child(-n+3) {
-        margin-top: 0;
+        max-width: 740px;
     }
 }
 
-@media only screen and (min-width: 55.750em) and (max-width: 64.063em) {
+@media all and (max-width: 62em) {
     .hex-list {
-        width: 955px;
-    }
-
-    .hex:nth-child(8n+1) {
-        margin-left: 0;
-    }
-
-    .hex:nth-child(8n-3) {
-        margin-left: 115px;
-    }
-
-    .hex:nth-child(-n+4) {
-        margin-top: 0;
+        max-width: 740px;
     }
 }
 
-
-@media only screen and (min-width: 41.313em) and (max-width: 55.750em) {
+@media all and (max-width: 47.25em) {
     .hex-list {
-        width: 725px;
-    }
-
-    .hex:nth-child(6n+1) {
-        margin-left: 0;
-    }
-
-    .hex:nth-child(6n-2) {
-        margin-left: 115px;
-    }
-
-    .hex:nth-child(-n+3) {
-        margin-top: 0;
+        max-width: 504px;
     }
 }
 
-@media only screen and (min-width: 26.938em) and (max-width: 41.313em) {
+@media all and (max-width: 32.5em) {
     .hex-list {
-        width: 495px;
-    }
-    .hex:nth-child(4n+1) {
-        margin-left: 0;
-    }
-    .hex:nth-child(4n-1) {
-        margin-left: 115px;
-    }
-    .hex:nth-child(-n+2) {
-        margin-top: 0;
-    }
-}
-
-@media only screen and (max-width: 26.938em) {
-    .hex-list {
-        width: 265px;
-    }
-    .hex:nth-child(2n+1) {
-        margin-left: 0;
-    }
-    .hex:nth-child(2n) {
-        margin-left: 115px;
-    }
-    .hex:nth-child(-n+1) {
-        margin-top: 0;
+        max-width: 268px;
     }
 }
 

@@ -88,11 +88,16 @@ class ThingController extends Controller
             }
         }
 
+        $messages = $this->getDoctrine()->getRepository('SwotNetworkBundle:ThingStatusUpdate')->findBy(array(
+            'thing' => $thing,
+        ));
+
         return $this->render("SwotNetworkBundle:Thing:show.html.twig", array(
             'delete_form'   => $deleteForm->createView(),
             'thing'         => $thing,
             'status'        => $thingStatus,
             'functionForms' => $functionForms,
+            'messages'      => $messages,
         ));
     }
 

@@ -52,4 +52,10 @@
         <a href="{{ path('thing_lend', {id: thing.id}) }}" class="button primary">Lend</a>
     {% endif %}
 
+    {% for message in messages %}
+        {{ message.sent|date }} <br/>
+        {{ message.message }}
+        <hr/>
+    {% endfor %}
+
 {% endblock %}

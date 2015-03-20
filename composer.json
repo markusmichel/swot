@@ -21,7 +21,9 @@
         "incenteev/composer-parameter-handler": "~2.0",
         "ircmaxell/password-compat": "~1.0.3",
         "liip/imagine-bundle": "~1.2",
-        "stefangabos/zebra_curl": "1.3.1"
+        "stefangabos/zebra_curl": "1.3.1",
+        "friendsofsymfony/rest-bundle": "~1.5",
+        "jms/serializer-bundle": "0.13.*"
     },
     "require-dev": {
         "sensio/generator-bundle": "~2.3"

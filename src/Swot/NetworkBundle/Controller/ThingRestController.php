@@ -2,14 +2,37 @@
 
 namespace Swot\NetworkBundle\Controller;
 
+use Doctrine\ORM\EntityNotFoundException;
+use FOS\RestBundle\Controller\Annotations\Prefix;
+use FOS\RestBundle\Controller\Annotations\RequestParam;
+use FOS\RestBundle\Controller\FOSRestController;
+use FOS\RestBundle\Request\ParamFetcher;
+use FOS\RestBundle\View\View;
+use Swot\NetworkBundle\Entity\Thing;
 use Swot\NetworkBundle\Entity\ThingStatusUpdate;
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\HttpFoundation\JsonResponse;
-use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
 
-class ThingRestController extends Controller
+/**
+ * Class ThingRestController
+ * @package Swot\NetworkBundle\Controller
+ * @Prefix("/api/v1/thing")
+ */
+class ThingRestController extends FOSRestController
 {
+    /**
+     * Checks if a thing's network access token is valid.
+     *
+     * @param $token
+     * @return bool
+     */
+    protected function assertThingAccesTokenValid(Thing $thing, $token) {
+        // @todo: implement
+        $valid = true;
+        if($valid === false) {
+            throw $this->createAccessDeniedException();
+        }
+    }
 
     /**
      * /api/v1/message
@@ -22,67 +45,29 @@ class ThingRestController extends Controller
      *      - access_token: Thing's network access token
      *      - message: Message to send
      *
-     * Error codes
-     * 405 (method not allowed)
-     *      - missing id
-     *      - missing message
+     * @RequestParam(name="id", requirements="[0-9]+", strict=true, allowBlank=false, description="Id of the thing")
+     * @RequestParam(name="message", requirements=".+", strict=true, allowBlank=false, description="Message to post")
+     * @RequestParam(name="access_token", requirements=".{5,}", strict=true, allowBlank=false, description="Network access token of the thing")
      *
-     * 401 (unauthorized)
-     *      - missing access token
-     *      - invalid access token
-     *      - access token does not match device
-     *
-     * @param Request $request
+     * @param ParamFetcher $fetcher
      * @return Response
+     *
+     * @throws EntityNotFoundException
+     * @throws AccessDeniedException
      */
-    public function newMessageAction(Request $request) {
+    public function postMessageAction(ParamFetcher $fetcher) {
+        $thingId = $fetcher->get('id');
 
-        // Assert request has id
-        if(!$request->request->has('id')) {
-            $response = new JsonResponse(array(
-                "code" => Response::HTTP_METHOD_NOT_ALLOWED,
-                "message" => "You have to specify an id",
-            ));
-            $response->setStatusCode(Response::HTTP_METHOD_NOT_ALLOWED);
-            return $response;
-        }
-
-        // Assert access token exists
-        if(!$request->request->has('access_token')) {
-            $response = new JsonResponse(array(
-                "code" => Response::HTTP_UNAUTHORIZED,
-                "message" => "You have to specify an access token",
-            ));
-            $response->setStatusCode(Response::HTTP_UNAUTHORIZED);
-            return $response;
-        }
-
-        // Assert message exists
-        if(!$request->request->has('message')) {
-            $response = new JsonResponse(array(
-                "code" => Response::HTTP_METHOD_NOT_ALLOWED,
-                "message" => "You have to specify a message",
-            ));
-            $response->setStatusCode(Response::HTTP_METHOD_NOT_ALLOWED);
-            return $response;
-        }
-
-        $thingId = $request->request->get('id');
+        /** @var Thing $thing */
         $thing = $this->getDoctrine()->getRepository("SwotNetworkBundle:Thing")->find($thingId);
-        $messageStr = $request->request->get('message');
-        $accessToken = $request->request->get('access_token');
+        $messageStr = $fetcher->get('message');
+        $accessToken = $fetcher->get('access_token');
 
         // Assert thing exists
-        if($thing === null) {
-            $response = new JsonResponse(array(
-                "code" => Response::HTTP_METHOD_NOT_ALLOWED,
-                "message" => "No such thing",
-            ));
-            $response->setStatusCode(Response::HTTP_METHOD_NOT_ALLOWED);
-            return $response;
-        }
+        if($thing === null) throw new EntityNotFoundException();
 
-        // @todo: check authentication / access token
+        // Assert access token is valid
+        $this->assertThingAccesTokenValid($thing, $accessToken);
 
         $message = new ThingStatusUpdate();
         $message->setMessage($messageStr);
@@ -92,10 +77,10 @@ class ThingRestController extends Controller
         $this->getDoctrine()->getManager()->persist($thing);
         $this->getDoctrine()->getManager()->flush();
 
-        return new JsonResponse(array(
-            "status" => Response::HTTP_OK,
+        return $this->handleView(new View(array(
+            "code" => Response::HTTP_OK,
             "message" => "Message saved",
-        ));
+        )));
     }
 
 }

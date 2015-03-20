@@ -331,28 +331,9 @@ class ThingController extends Controller
         $form->handleRequest($request);
 
         if($form->isValid()) {
-            $manager = $this->getDoctrine()->getManager();
-
-            /** @var Ownership $ownership */
-            $ownership = $thing->getOwnership();
-            $ownership->getOwner()->removeOwnership($ownership);
-
-            /** @var Rental $rental */
-            foreach($thing->getRentals() as $rental) {
-                $rental->getThing()->removeRental($rental);
-                $rental->getUserFrom()->removeThingsRent($rental);
-                $rental->getUserFrom()->removeThingsLent($rental);
-                $rental->getUserTo()->removeThingsRent($rental);
-                $rental->getUserTo()->removeThingsLent($rental);
-
-                $manager->persist($rental->getUserFrom());
-                $manager->persist($rental->getUserTo());
-                $manager->remove($rental);
-            }
-
-            $manager->remove($ownership);
-            $manager->remove($thing);
-            $manager->flush();
+            // remove thing from database
+            // @see: \Swot\NetworkBundle\Services\Manager\ThingManager
+            $this->get("swot.manager.thing")->remove($thing);
         }
 
         return $this->redirectToRoute('my_things');

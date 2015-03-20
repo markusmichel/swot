@@ -71,6 +71,13 @@ class Thing
     private $statusUpdates;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="profile_image", type="string", length=255, nullable=true)
+     */
+    private $profileImage;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -306,5 +313,28 @@ class Thing
     public function getStatusUpdates()
     {
         return $this->statusUpdates;
+    }
+
+    /**
+     * Set profileImage
+     *
+     * @param string $profileImage
+     * @return Thing
+     */
+    public function setProfileImage($profileImage)
+    {
+        $this->profileImage = $profileImage;
+
+        return $this;
+    }
+
+    /**
+     * Get profileImage
+     *
+     * @return string 
+     */
+    public function getProfileImage()
+    {
+        return $this->profileImage;
     }
 }

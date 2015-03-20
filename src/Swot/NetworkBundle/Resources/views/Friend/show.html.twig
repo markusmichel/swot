@@ -3,11 +3,26 @@
 {% block title %}SwotNetworkBundle:Friend:show{% endblock %}
 
 {% block headline %}
-    {% if user != app.user %}
-        {{ user.firstname }} {{ user.lastname }}
-    {% else %}
-        {% trans %}user.profile.title{% endtrans %}
-    {% endif %}
+        <div class="profile-picture-container">
+            <h1 class="profile-picture-title">
+                {% if user != app.user %}
+                    {{ user.firstname }} {{ user.lastname }}
+                {% else %}
+                    {% trans %}user.profile.title{% endtrans %}
+                {% endif %}
+            </h1>
+            <div class="profile-picture-hex">
+                <div class="maskborder profile-picture"></div>
+            </div>
+            <div class="long-hex"></div>
+            <div class="long-hex-after"></div>
+        </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $('.profile-picture').setHeadlinePicture("{{ (profile_image_folder ~ user.profileImage) | imagine_filter('profile_image_thumb') }}");
+    </script>
 {% endblock %}
 
 {% block body %}
@@ -29,3 +44,5 @@
     <br/>
     {{ user.username }}
 {% endblock %}
+
+

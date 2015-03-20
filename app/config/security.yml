@@ -27,6 +27,11 @@ security:
             pattern:  ^/(_(profiler|wdt)|css|images|js)/
             security: false
 
+        api:
+            pattern:    /api/v1
+            stateless:  true
+            anonymous: true
+
         # secures part of the application
         main:
             pattern:    ^/
@@ -48,4 +53,5 @@ security:
     access_control:
 #        - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY, requires_channel: https }
         - { path: ^/login, roles: IS_AUTHENTICATED_ANONYMOUSLY}
+        - { path: ^/api/v1, roles: IS_AUTHENTICATED_ANONYMOUSLY}
         - { path: ^/*, roles: ROLE_USER}

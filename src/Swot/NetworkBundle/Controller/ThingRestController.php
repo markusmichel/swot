@@ -26,7 +26,7 @@ class ThingRestController extends FOSRestController
      * @param $token
      * @return bool
      */
-    protected function assertThingAccesTokenValid(Thing $thing, $token) {
+    protected function assertThingAccessTokenValid(Thing $thing, $token) {
         // @todo: implement
         $valid = true;
         if($valid === false) {
@@ -67,7 +67,7 @@ class ThingRestController extends FOSRestController
         if($thing === null) throw new EntityNotFoundException();
 
         // Assert access token is valid
-        $this->assertThingAccesTokenValid($thing, $accessToken);
+        $this->assertThingAccessTokenValid($thing, $accessToken);
 
         $message = new ThingStatusUpdate();
         $message->setMessage($messageStr);

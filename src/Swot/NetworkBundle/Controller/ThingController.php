@@ -304,32 +304,6 @@ class ThingController extends Controller
         }
     }
 
-    public function activateFunctionAction(Request $request, $id, $functionId) {
-        /** @var User $user */
-        $user = $this->getUser();
-
-        /** @var Thing $thing */
-        $thing = $this->getDoctrine()->getRepository('SwotNetworkBundle:Thing')->find($id);
-
-//        if($thing === null || !$this->isGranted('ACCESS', $thing)) {
-//            $this->addFlash('error', 'You may not use this thing');
-//            return $this->redirectToRoute('thing_show', array('id' => $id));
-//        }
-
-        /** @var Action $function */
-        $function = $this->getDoctrine()->getRepository('SwotFormMapperBundle:Action')->find($functionId);
-        if(!$thing->getFunctions()->contains($function)) {
-            $this->addFlash('error', 'This function does not belong to the thing');
-            return $this->redirectToRoute('thing_show', array('id' => $id));
-        }
-
-//        echo "<pre>";
-//        print_r($request);
-//        die();
-
-        $function->activate($thing->getAccessToken());
-    }
-
     /**
      * Completely delete a thing.
      * Removes it from the database, from the owner and all included rentals.

@@ -3,6 +3,7 @@
 namespace Swot\NetworkBundle\Controller;
 
 use Doctrine\ORM\EntityNotFoundException;
+use FOS\RestBundle\Controller\Annotations\Post;
 use FOS\RestBundle\Controller\Annotations\Prefix;
 use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\Controller\FOSRestController;
@@ -35,6 +36,19 @@ class ThingRestController extends FOSRestController
     }
 
     /**
+     * @param $id
+     * @return Thing
+     * @throws EntityNotFoundException
+     */
+    protected function getThing($id) {
+        /** @var Thing $thing */
+        $thing = $this->getDoctrine()->getRepository("SwotNetworkBundle:Thing")->find($id);
+        if($thing === null) throw new EntityNotFoundException();
+
+        return $thing;
+    }
+
+    /**
      * /api/v1/message
      *
      * Receives a message from a thing.
@@ -57,14 +71,9 @@ class ThingRestController extends FOSRestController
      */
     public function postMessageAction(ParamFetcher $fetcher) {
         $thingId = $fetcher->get('id');
-
-        /** @var Thing $thing */
-        $thing = $this->getDoctrine()->getRepository("SwotNetworkBundle:Thing")->find($thingId);
+        $thing = $this->getThing($thingId);
         $messageStr = $fetcher->get('message');
         $accessToken = $fetcher->get('access_token');
-
-        // Assert thing exists
-        if($thing === null) throw new EntityNotFoundException();
 
         // Assert access token is valid
         $this->assertThingAccessTokenValid($thing, $accessToken);
@@ -81,6 +90,26 @@ class ThingRestController extends FOSRestController
             "code" => Response::HTTP_OK,
             "message" => "Message saved",
         )));
+    }
+
+    /**
+     *
+     * @RequestParam(name="id", requirements="[0-9]+", strict=true, allowBlank=false, description="Id of the thing")
+     * @RequestParam(name="access_token", requirements=".{5,}", strict=true, allowBlank=false, description="Network access token of the thing")
+     * @RequestParam(name="functions", strict=true, allowBlank=false, description="The thing's functions")
+     *
+     * @Post("/functions/update")
+     *
+     * @param ParamFetcher $fetcher
+     *
+     * @throws EntityNotFoundException
+     * @throws AccessDeniedException
+     */
+    public function postThingFunctionsUpdateAction(ParamFetcher $fetcher) {
+        $thing = $this->getThing($fetcher->get('id'));
+        $this->assertThingAccessTokenValid($thing, $fetcher->get('access_token'));
+
+        // @todo: implement
     }
 
 }

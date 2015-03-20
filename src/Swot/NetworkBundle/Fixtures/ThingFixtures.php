@@ -54,16 +54,47 @@ TAG;
                             },
                             {
                                 "name": "Param-B",
-                                "type": "text",
+                                "type": "Choice",
+                                "choices": [
+                                    1, 2, 3, 4, 5
+                                ],
                                 "required": false,
                                 "constraints": [
                                     {
                                         "type": "NotBlank",
                                         "message": "Param B may not be blank"
-                                    },
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "Param-C",
+                                "type": "Choice",
+                                "multiple": true,
+                                "expanded": false,
+                                "choices": [
+                                    1, 2, 3, 4, 5
+                                ],
+                                "required": false,
+                                "constraints": [
                                     {
-                                        "type": "Locale",
-                                        "message": "Param B must be a locale"
+                                        "type": "NotBlank",
+                                        "message": "Param C may not be blank"
+                                    }
+                                ]
+                            },
+                            {
+                                "name": "Param-D",
+                                "type": "Choice",
+                                "multiple": true,
+                                "expanded": true,
+                                "choices": [
+                                    1, 2, 3, 4, 5
+                                ],
+                                "required": false,
+                                "constraints": [
+                                    {
+                                        "type": "NotBlank",
+                                        "message": "Param D may not be blank"
                                     }
                                 ]
                             }
@@ -75,12 +106,21 @@ TAG;
                             {
                                 "name": "Param-2A",
                                 "type": "text",
-                                "required": true
+                                "required": true,
+                                "constraints": [
+                                    {
+                                        "type": "Locale",
+                                        "message": "Param 2A must be a locale"
+                                    }
+                                ],
+                                "defaultValue": "hallo"
                             },
                             {
                                 "name": "Param-2B",
                                 "type": "integer",
-                                "required": false
+                                "required": false,
+                                "readOnly": true,
+                                "defaultValue": 20
                             }
                         ]
                     }

@@ -4,7 +4,7 @@ namespace Swot\NetworkBundle\Controller;
 
 use Swot\FormMapperBundle\Entity\NotBlank;
 use Swot\FormMapperBundle\Entity\NotNull;
-use Swot\FormMapperBundle\Entity\Parameter;
+use Swot\FormMapperBundle\Entity\Parameter\Parameter;
 use Swot\FormMapperBundle\Entity\Action;
 use Swot\NetworkBundle\Entity\Ownership;
 use Swot\FormMapperBundle\Entity\AbstractConstraint;
@@ -345,10 +345,8 @@ class ThingController extends Controller
             $function->setUrl($func->url);
 
             foreach($func->parameters as $param) {
-                $parameter = new Parameter();
-                $parameter->setName($param->name);
+                $parameter = Parameter::createParameter($param);
                 $parameter->setAction($function);
-                $parameter->setType($param->type);
 
                 if(isset($param->constraints)) {
                     foreach($param->constraints as $con) {

@@ -45,7 +45,7 @@ abstract class AbstractConstraint
     private $message;
 
     /**
-     * @ORM\ManyToOne(targetEntity="Parameter", inversedBy="constraints")
+     * @ORM\ManyToOne(targetEntity="\Swot\FormMapperBundle\Entity\Parameter\Parameter", inversedBy="constraints")
      * @ORM\JoinColumn(name="parameter_id", referencedColumnName="id")
      */
     private $functionParameter;
@@ -100,10 +100,10 @@ abstract class AbstractConstraint
     /**
      * Set functionParameter
      *
-     * @param Parameter $functionParameter
+     * @param \Swot\FormMapperBundle\Entity\Parameter\Parameter $functionParameter
      * @return AbstractConstraint
      */
-    public function setFunctionParameter(Parameter $functionParameter = null)
+    public function setFunctionParameter(\Swot\FormMapperBundle\Entity\Parameter\Parameter $functionParameter = null)
     {
         $this->functionParameter = $functionParameter;
 
@@ -113,7 +113,7 @@ abstract class AbstractConstraint
     /**
      * Get functionParameter
      *
-     * @return Parameter
+     * @return \Swot\FormMapperBundle\Entity\Parameter\Parameter
      */
     public function getFunctionParameter()
     {

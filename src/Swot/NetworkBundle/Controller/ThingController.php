@@ -69,13 +69,8 @@ class ThingController extends Controller
             $form->handleRequest($request);
             if($form->isValid() === true) {
 
-                die("valid");
-
                 $accessToken = $thing->getAccessToken();
                 $res = $function->activate($accessToken);
-
-//                var_dump($res);
-//                die();
 
                 if(strcasecmp($res->status, "success") == 0) {
                     $this->addFlash('success', 'Function activated');

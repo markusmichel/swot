@@ -43,25 +43,16 @@ class Action
                 // see http://httpstatus.es/ for a list of possible response codes
                 if ($result->info['http_code'] == 200) {
 
-                    $body = $result->body;
+                    $response = json_decode($result->body);
 
-                    // see all the returned data
-//                    print_r('<pre>');
-//                    print_r($result);
-//                    die();
-
+                    //@TODO: only for dev
                     $response = ThingFixtures::$activateFunctionResponse;
-
-                    // @todo: change me
-//                    $response = json_decode($body);
                     $response = json_decode($response);
 
 
                 }
                 // @todo: create exception
                 else die('Server responded with code ' . $result->info['http_code']);
-
-
             }
 
             // something went wrong

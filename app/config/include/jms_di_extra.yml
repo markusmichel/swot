@@ -1,0 +1,13 @@
+jms_di_extra:
+    locations:
+        all_bundles: false
+        bundles: [SwotNetwrokBundle]
+        directories: ["%kernel.root_dir%/../src/Swot/NetworkBundle/Services"]
+
+    automatic_controller_injections:
+        properties:
+            request: "@request"
+            router: "@router"
+
+        method_calls:
+            setRouter: ["@router"]

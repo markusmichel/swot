@@ -4,6 +4,7 @@ imports:
     - { resource: services.yml }
     - { resource: include/liip_imagine.yml }
     - { resource: include/fos_rest.yml }
+    - { resource: include/jms_di_extra.yml }
 
 framework:
     #esi:             ~

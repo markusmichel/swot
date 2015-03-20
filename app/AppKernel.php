@@ -20,6 +20,8 @@ class AppKernel extends Kernel
             new Liip\ImagineBundle\LiipImagineBundle(),
             new FOS\RestBundle\FOSRestBundle(),
             new JMS\SerializerBundle\JMSSerializerBundle(),
+            new JMS\DiExtraBundle\JMSDiExtraBundle($this),
+            new JMS\AopBundle\JMSAopBundle(),
             new Swot\FormMapperBundle\SwotFormMapperBundle(),
         );
 

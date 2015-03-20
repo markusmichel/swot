@@ -36,8 +36,6 @@ swot_network_message:
 swot_network_thing_rest:
     type: rest
     resource: Swot\NetworkBundle\Controller\ThingRestController
-#    resource: "@SwotNetworkBundle/Resources/config/routing/thing_rest.yml"
-#    prefix:   /api/v1/thing
 
 generate_test_data:
     path:     /test

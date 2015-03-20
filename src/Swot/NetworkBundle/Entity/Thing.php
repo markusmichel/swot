@@ -114,7 +114,7 @@ class Thing
      * Set ownerSince.
      * Should not be called.
      * Model automatically sets ownerSince when owner changes.
-     * @todo: check if it can safely be removed.
+     * 
      * @see setOwner
      *
      * @param \DateTime $ownerSince

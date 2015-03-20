@@ -183,34 +183,130 @@ class ThingController extends Controller
         /** @var User $user */
         $user = $this->getUser();
 
-        /** @var QrReader $qrReader */
-        $qrReader = $this->get('services.qr_reader');
-        //@TODO get path from fileupload
-        $qrContent = $qrReader->readQrCode("exampleQR.png");
+        //@TODO $useQR only for development
+        $useQR = 0;
 
-        // @todo: remove fixture data
-        $thing = new Thing();
-        $thing->setName("Test Thing");
-        $thing->setAccessToken("asdadasds");
+        if($useQR == 1){
 
-        $ownership = new Ownership();
-        $ownership->setThing($thing);
-        $ownership->setOwner($user);
-        $user->addOwnership($ownership);
-        $thing->setOwnership($ownership);
+            /** @var QrReader $qrReader */
+            $qrReader = $this->get('services.qr_reader');
+            //@TODO get path from fileupload
+            $qrContent = json_decode($qrReader->readQrCode("exampleQR.png"));
+            //@TODO finalize url
+            $url = $qrContent->url . "?tokenUsed=1";
 
-        $this->generateTestFunction($thing);
+            $response = null;
+            $curl = new \Zebra_cURL();
+            $curl->get($url, function($result) use (&$response) {
+                // everything went well at cURL level
+                if ($result->response[1] == CURLE_OK) {
 
-        $manager = $this->getDoctrine()->getManager();
-        $manager->persist($ownership);
-        $manager->persist($user);
-        $manager->persist($thing);
+                    // if server responded with code 200 (meaning that everything went well)
+                    // see http://httpstatus.es/ for a list of possible response codes
+                    if ($result->info['http_code'] == 200) {
 
-        $manager->flush();
+                        $response = $result->body;
+                        return $response;
 
-        $this->addFlash("success", "Thing added");
-        return $this->redirectToRoute('my_things');
+                    }
+                    // @todo: create exception
+                    else die('Server responded with code ' . $result->info['http_code']);
+                }
 
+                // something went wrong
+                // ($result still contains all data that could be gathered)
+                // @todo: create exception
+                else die('cURL responded with: ' . $result->response[0]);
+            });
+
+            $thingInfo = json_decode($response);
+            $thingName = $thingInfo->device->name;
+            $thingFunction = $thingInfo->device->functions;
+
+            $manager = $this->getDoctrine()->getManager();
+
+            $thing = new Thing();
+            $thing->setName($thingName);
+            //@todo: get token dynamically from device
+            $thing->setAccessToken("asdadasds");
+
+            $functionsData = $thingFunction;
+
+            $ownership = new Ownership();
+            $ownership->setThing($thing);
+            $ownership->setOwner($user);
+            $user->addOwnership($ownership);
+            $thing->setOwnership($ownership);
+
+            foreach($functionsData as $func) {
+                $function = new Action();
+                $function->setThing($thing);
+                $function->setName($func->name);
+                $function->setUrl($func->url);
+
+                foreach($func->parameters as $param) {
+                    $parameter = Parameter::createParameter($param);
+                    $parameter->setAction($function);
+
+                    if(isset($param->constraints)) {
+                        foreach($param->constraints as $con) {
+                            $className = "\\Swot\\FormMapperBundle\\Entity\\" . $con->type;
+                            if(!class_exists($className)) continue;
+
+                            /** @var AbstractConstraint $constraint */
+                            $constraint = new $className;
+                            $constraint->init($con);
+                            $constraint->setMessage($con->message);
+                            $constraint->setFunctionParameter($parameter);
+
+                            $parameter->addConstraint($constraint);
+                            $manager->persist($constraint);
+                        }
+                    }
+
+                    $function->addParameter($parameter);
+                    $manager->persist($parameter);
+                }
+
+                $thing->addFunction($function);
+                $manager->persist($function);
+                $manager->persist($thing);
+            }
+
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($ownership);
+            $manager->persist($user);
+            $manager->persist($thing);
+
+            $manager->flush();
+
+            $this->addFlash("success", "Thing added");
+            return $this->redirectToRoute('my_things');
+
+        } else {
+            // @todo: remove fixture data
+            $thing = new Thing();
+            $thing->setName("Test Thing");
+            $thing->setAccessToken("asdadasds");
+
+            $ownership = new Ownership();
+            $ownership->setThing($thing);
+            $ownership->setOwner($user);
+            $user->addOwnership($ownership);
+            $thing->setOwnership($ownership);
+
+            $this->generateTestFunction($thing);
+
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($ownership);
+            $manager->persist($user);
+            $manager->persist($thing);
+
+            $manager->flush();
+
+            $this->addFlash("success", "Thing added");
+            return $this->redirectToRoute('my_things');
+        }
     }
 
     public function activateFunctionAction(Request $request, $id, $functionId) {

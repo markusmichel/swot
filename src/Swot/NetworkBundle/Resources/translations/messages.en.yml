@@ -51,6 +51,7 @@ conversations:
 
 conversation:
     page_title:               Conversation with
+    self:                     You
 
 entity:
     message:

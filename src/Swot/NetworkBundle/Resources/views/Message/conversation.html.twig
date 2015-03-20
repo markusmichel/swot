@@ -9,27 +9,35 @@
 
 {% block body %}
     {% for message in messages %}
-        <div class="conversation-picture-hex">
-            <img class="maskborder" src="{{ partner.profileImage|default('http://localhost/swot/web/res/gfx/person.jpg') }}" />
-        </div>
-        <div>
-            sender:
-            {# only link partner, not the user himself #}
-            {% if message.from == partner %}
-                <a href="{{ path('friend_show', {id: partner.id}) }}">
-                    {{ message.from.username }}
+        <div class="row">
+            <div class="small-2 columns">
+                <a href="{{ path('friend_show', {id: message.from.id}) }}">
+                    <div class="profile-picture-hex">
+                        <img class="maskborder" src="
+                            {{ (profile_image_folder ~ message.from.profileImage) | imagine_filter('profile_image_thumb')|default('http://localhost/swot/web/res/gfx/person-inverted.jpg') }}"
+                        />
+                    </div>
                 </a>
-            {% else %}
-                you
-            {% endif %}
-        </div>
-        <div>id: {{ message.id }}</div>
-        <div>conversation id: {{ message.conversation.id }}</div>
-        <div>date: {{ message.sent|date }}</div>
-        <div>{{ message.text }}</div>
+            </div>
+            <div class="small-8 columns">
+                <a href="{{ path('friend_show', {id: message.from.id}) }}">
+                    {% if message.from == partner %}
+                        {{ message.from.username  }}
+                    {% else %}
+                        {% trans %}conversation.self{% endtrans %}
+                    {% endif %}
+                </a>
+                <div>{{ message.text }}</div>
 
-        {{ form(deleteForms[message.id]) }}
-        
+            </div>
+            <div class="small-2 columns">
+                {{ message.sent|date }}
+                {{ form(deleteForms[message.id]) }}
+            </div>
+        </div>
+
+
+
         <hr/>
     {% endfor %}
 

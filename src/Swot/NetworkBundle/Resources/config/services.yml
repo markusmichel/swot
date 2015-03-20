@@ -49,3 +49,7 @@ services:
         arguments: [@swot.user_repository, @security.token_storage]
         tags:
            - { name: form.type, alias: rental }
+
+    services.qr_reader:
+        class: Swot\NetworkBundle\Services\QrReader
+        arguments: [%kernel.root_dir%]

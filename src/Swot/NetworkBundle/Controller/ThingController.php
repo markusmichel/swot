@@ -16,6 +16,7 @@ use Swot\NetworkBundle\Form\RentalType;
 use Swot\FormMapperBundle\Form\FunctionType;
 use Swot\NetworkBundle\Form\ThingType;
 use Swot\NetworkBundle\Security\ThingVoter;
+use Swot\NetworkBundle\Services\QrReader;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\Request;
@@ -176,6 +177,11 @@ class ThingController extends Controller
     public function registerAction(Request $request) {
         /** @var User $user */
         $user = $this->getUser();
+
+        /** @var QrReader $qrReader */
+        $qrReader = $this->get('services.qr_reader');
+        //@TODO get path from fileupload
+        $qrContent = $qrReader->readQrCode("exampleQR.png");
 
         // @todo: remove fixture data
         $thing = new Thing();

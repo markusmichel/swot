@@ -307,3 +307,22 @@ button, .button {
     flex: 0 1 auto;
     align-self: auto;
  }
+
+.conversation-picture-hex {
+    width: 65px;
+    height: 58px;
+    overflow: hidden;
+    color: #fff;
+    -webkit-mask-image: url(../gfx/hexagon_mask_tiny.png);
+    mask: url(../gfx/hexagon_mask.png);
+    text-align: center;
+    background-color: #588C73;
+}
+
+.conversation-picture-hex .maskborder {
+    width: 63px;
+    height: 56PX;
+    -webkit-mask-box-image: url(../gfx/hexagon_mask_tiny.png);
+    margin-left: 1px;
+    margin-top: 1px;
+}

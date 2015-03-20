@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html>
     <head>
-
         <meta name="viewport" content="width=device-width" />
         <title>{% block title %}Welcome!{% endblock %}</title>
         {% block stylesheets %}
@@ -29,24 +28,14 @@
                 </div>
                 <div class="small-12 large-9 medium columns">
                     {% include 'flash-messages.html.twig' %}
-
-                    {% if app.user != null %}
-                        <div class="profile-picture-container">
-                            <h1 class="profile-picture-title">{% block headline %}{% endblock %}</h1>
-                            <div class="profile-picture-hex">
-                                <div class="maskborder profile-picture"></div>
-                            </div>
-                            <div class="long-hex"></div>
-                            <div class="long-hex-after"></div>
-                        </div>
-                    {% endif %}
-
+                    {% block headline %}{% endblock %}
                     {% block body %}{% endblock %}
                 </div>
             </div>
         </div>
         {% block javascripts %}
             <script src="{{ asset('res/js/vendor/jquery.js') }}"></script>
+            <script src="{{ asset('res/js/jquery-headline-picture.js') }}"></script>
             <script src="{{ asset('res/js/vendor/modernizr.js') }}"></script>
             <script src="{{ asset('res/js/foundation.min.js') }}"></script>
             <script>
@@ -73,16 +62,7 @@
                             $('.nav').removeClass('sticky');
                         }
                     });
-
-                    // sets Profile Picture if available
-                    {% if app.user != null %}
-                    var profilePicturePath = "{{ (profile_image_folder ~ app.user.profileImage) | imagine_filter('profile_image_thumb') }}";
-                    if (profilePicturePath != null && profilePicturePath.length > 0) {
-                        $('.profile-picture').css('background-image', 'url("{{ (profile_image_folder ~ app.user.profileImage) | imagine_filter('profile_image_thumb') }}")');
-                    }
-                    {% endif %}
                 });
-
             </script>
         {% endblock %}
     </body>

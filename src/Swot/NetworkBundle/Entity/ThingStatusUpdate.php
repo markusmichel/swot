@@ -9,9 +9,17 @@ use Doctrine\ORM\Mapping as ORM;
  *
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Swot\NetworkBundle\Entity\ThingStatusUpdateRepository")
+ * @ORM\HasLifecycleCallbacks()
  */
 class ThingStatusUpdate
 {
+    /**
+     * @ORM\PrePersist()
+     */
+    public function prePersist() {
+        $this->setSent(new \DateTime());
+    }
+
     /**
      * @var integer
      *

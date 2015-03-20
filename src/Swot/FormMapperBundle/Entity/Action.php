@@ -3,7 +3,7 @@
 namespace Swot\FormMapperBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
-use Swot\FormMapperBundle\Entity\Parameter;
+use Swot\FormMapperBundle\Entity\Parameter\Parameter;
 use Swot\NetworkBundle\Fixtures\ThingFixtures;
 
 /**
@@ -103,7 +103,7 @@ class Action
     private $thing;
 
     /**
-     * @ORM\OneToMany(targetEntity="Parameter", mappedBy="action")
+     * @ORM\OneToMany(targetEntity="Swot\FormMapperBundle\Entity\Parameter\Parameter", mappedBy="action")
      */
     private $parameters;
 
@@ -173,10 +173,10 @@ class Action
     /**
      * Add parameters
      *
-     * @param \Swot\FormMapperBundle\Entity\Parameter $parameters
+     * @param \Swot\FormMapperBundle\Entity\Parameter\Parameter $parameters
      * @return ThingFunction
      */
-    public function addParameter(\Swot\FormMapperBundle\Entity\Parameter $parameters)
+    public function addParameter(\Swot\FormMapperBundle\Entity\Parameter\Parameter $parameters)
     {
         $this->parameters[] = $parameters;
 
@@ -188,7 +188,7 @@ class Action
      *
      * @param \Swot\FormMapperBundle\Entity\Parameter $parameters
      */
-    public function removeParameter(\Swot\FormMapperBundle\Entity\Parameter $parameters)
+    public function removeParameter(\Swot\FormMapperBundle\Entity\Parameter\Parameter $parameters)
     {
         $this->parameters->removeElement($parameters);
     }

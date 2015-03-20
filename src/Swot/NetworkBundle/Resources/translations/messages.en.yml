@@ -22,6 +22,14 @@ user:
     thing:
         title:                My Things
 
+thing:
+    name:                     Name
+    registered_since:         Registered since
+    owner:                    Owner
+    owner_since:              Owner since
+    classification:           Classification
+    accessType:               Access type
+
 settings:
     page_title:               Settings
     page_title:               Settings
@@ -42,7 +50,7 @@ conversations:
     page_title:               Messages
 
 conversation:
-    page_title:               Conversation with %username%
+    page_title:               Conversation with
 
 entity:
     message:

@@ -2,12 +2,27 @@
 
 {% block title %}SwotNetworkBundle:Frontend:newsfeed{% endblock %}
 
+{% block headline %}
+    <div class="profile-picture-container">
+        <h1 class="profile-picture-title">
+            {{ thing.name }}
+        </h1>
+        <div class="profile-picture-hex">
+            <img class="maskborder" src="
+                    {{ (profile_image_folder ~ thing.profileImage) | imagine_filter('profile_image_thumb')|default('http://localhost/swot/web/res/gfx/thing-inverted.jpg') }}"
+                    />
+        </div>
+        <div class="long-hex"></div>
+        <div class="long-hex-after"></div>
+    </div>
+{% endblock %}
+
 {% block body %}
-
-    <h1>Name: {{ thing.name }}</h1>
-    <h2>Owner: {{ thing.ownership.owner.username }}</h2>
-    <h2>Classification: {{ status.device.classification }}</h2>
-
+    <div>{% trans %}thing.registered_since{% endtrans %}: {{ thing.ownerSince.date }}</div>
+    <div>{% trans %}thing.owner{% endtrans %}:  <a href="{{ path('friend_show', {id: thing.ownership.owner.id}) }}">{{ thing.ownership.owner.username }}</a></div>
+    <div>{% trans %}thing.owner_since{% endtrans %}: {{ thing.ownership.since.date }}</div>
+    <div>{% trans %}thing.classification{% endtrans %}: {{ status.device.classification }}</div>
+    <div>{% trans %}thing.accessType{% endtrans %}: {{ thing.accessType }}</div>
     {{ dump(thing) }}
 
     <ul>
@@ -32,5 +47,11 @@
         <a href="{{ path('thing_settings', {id: thing.id}) }}" class="button primary">Settings</a>
         <a href="{{ path('thing_lend', {id: thing.id}) }}" class="button primary">Lend</a>
     {% endif %}
+
+    {% for message in messages %}
+        {{ message.sent|date }} <br/>
+        {{ message.message }}
+        <hr/>
+    {% endfor %}
 
 {% endblock %}

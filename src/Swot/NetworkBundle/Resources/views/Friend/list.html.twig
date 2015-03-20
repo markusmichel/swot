@@ -3,7 +3,22 @@
 {% extends "::base.html.twig" %}
 
 {% block title %}SwotNetworkBundle:Frontend:newsfeed{% endblock %}
-{% block headline %}{% trans %}user.friend.title{% endtrans %}{% endblock %}
+
+{% block headline %}
+    <div class="profile-picture-container">
+        <h1 class="profile-picture-title">
+            {% trans %}user.friend.title{% endtrans %}
+        </h1>
+        <div class="profile-picture-hex">
+            <img class="maskborder" src="
+                    {{ (profile_image_folder ~ app.user.profileImage) | imagine_filter('profile_image_thumb')|default('http://localhost/swot/web/res/gfx/person.jpg') }}"
+            />
+        </div>
+        <div class="long-hex"></div>
+        <div class="long-hex-after"></div>
+    </div>
+{% endblock %}
+
 {% block body %}
 
    <div class="hex-list">

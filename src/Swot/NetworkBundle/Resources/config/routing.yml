@@ -34,8 +34,8 @@ swot_network_message:
     prefix:   /conversation
 
 swot_network_thing_rest:
-    resource: "@SwotNetworkBundle/Resources/config/routing/thing_rest.yml"
-    prefix:   /api/v1/thing
+    type: rest
+    resource: Swot\NetworkBundle\Controller\ThingRestController
 
 generate_test_data:
     path:     /test

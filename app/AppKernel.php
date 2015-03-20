@@ -18,6 +18,8 @@ class AppKernel extends Kernel
             new Sensio\Bundle\FrameworkExtraBundle\SensioFrameworkExtraBundle(),
             new Swot\NetworkBundle\SwotNetworkBundle(),
             new Liip\ImagineBundle\LiipImagineBundle(),
+            new FOS\RestBundle\FOSRestBundle(),
+            new JMS\SerializerBundle\JMSSerializerBundle(),
             new Swot\FormMapperBundle\SwotFormMapperBundle(),
         );
 

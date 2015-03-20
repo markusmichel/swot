@@ -3,6 +3,7 @@ imports:
     - { resource: security.yml }
     - { resource: services.yml }
     - { resource: include/liip_imagine.yml }
+    - { resource: include/fos_rest.yml }
 
 framework:
     #esi:             ~

@@ -12,17 +12,13 @@
             {% trans %}settings.page_title{% endtrans %}
         </h1>
         <div class="profile-picture-hex">
-            <div class="maskborder profile-picture"></div>
+            <img class="maskborder" src="
+                    {{ (profile_image_folder ~ app.user.profileImage) | imagine_filter('profile_image_thumb')|default('http://localhost/swot/web/res/gfx/person-inverted.jpg') }}"
+                    />
         </div>
         <div class="long-hex"></div>
         <div class="long-hex-after"></div>
     </div>
-{% endblock %}
-{% block javascripts %}
-    {{ parent() }}
-    <script>
-        $('.profile-picture').setHeadlinePicture("{{ (profile_image_folder ~ app.user.profileImage) | imagine_filter('profile_image_thumb') }}");
-    </script>
 {% endblock %}
 
 {% block body %}

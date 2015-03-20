@@ -8,13 +8,10 @@
 {% endblock %}
 
 {% block body %}
-    <h1>
-        {% trans with {'%username%': partner.username} %}conversation.page_title %username%{% endtrans %}
-    </h1>
-
-    <br/>
-
     {% for message in messages %}
+        <div class="conversation-picture-hex">
+            <img class="maskborder" src="{{ partner.profileImage|default('http://localhost/swot/web/res/gfx/person.jpg') }}" />
+        </div>
         <div>
             sender:
             {# only link partner, not the user himself #}

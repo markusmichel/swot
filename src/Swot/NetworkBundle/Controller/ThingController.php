@@ -2,6 +2,7 @@
 
 namespace Swot\NetworkBundle\Controller;
 
+use Doctrine\ORM\EntityNotFoundException;
 use Swot\FormMapperBundle\Entity\NotBlank;
 use Swot\FormMapperBundle\Entity\NotNull;
 use Swot\FormMapperBundle\Entity\Parameter\Parameter;
@@ -11,6 +12,8 @@ use Swot\FormMapperBundle\Entity\AbstractConstraint;
 use Swot\NetworkBundle\Entity\Rental;
 use Swot\NetworkBundle\Entity\Thing;
 use Swot\NetworkBundle\Entity\User;
+use Swot\NetworkBundle\Exception\AccessToThingDeniedException;
+use Swot\NetworkBundle\Exception\ThingNotFoundException;
 use Swot\NetworkBundle\Fixtures\ThingFixtures;
 use Swot\NetworkBundle\Form\RentalType;
 use Swot\FormMapperBundle\Form\FunctionType;
@@ -24,6 +27,28 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ThingController extends Controller
 {
+
+    /**
+     * @param $thing Thing
+     * @throws ThingNotFoundException
+     */
+    protected function assertThingExists($thing) {
+        // Check if thing exists and has an owner
+        if(null === $thing || $thing->getOwnership() === null) {
+            throw new ThingNotFoundException("Thing does not exist");
+        }
+    }
+
+    /**
+     * @param $thing Thing
+     * @param $accessType
+     */
+    protected function assertAccessToThingGranted($thing, $accessType) {
+        if (false === $this->get('security.authorization_checker')->isGranted($accessType, $thing)) {
+            throw new AccessToThingDeniedException();
+        }
+    }
+
     /**
      * Shows a thing's profile.
      * @param Request $request
@@ -36,18 +61,8 @@ class ThingController extends Controller
 
         /** @var Thing $thing */
         $thing = $this->getDoctrine()->getRepository("SwotNetworkBundle:Thing")->find($id);
-
-        // Check if thing exists and has an owner
-        if(null === $thing || $thing->getOwnership() === null) {
-            // @todo: message string
-            $this->addFlash('notice', 'Thing does not exist');
-            return $this->redirectToRoute('my_things');
-        }
-
-        if (false === $this->get('security.authorization_checker')->isGranted(ThingVoter::ACCESS, $thing)) {
-            $this->addFlash('notice', 'You are not allowed to see this thing');
-            return $this->redirectToRoute('my_things');
-        }
+        $this->assertThingExists($thing);
+        $this->assertAccessToThingGranted($thing, ThingVoter::ACCESS);
 
         $deleteForm = $this->createDeleteForm($id);
         $thingStatus = json_decode(ThingFixtures::$thingResponse);
@@ -97,6 +112,8 @@ class ThingController extends Controller
         ));
     }
 
+
+
     /**
      * Shows a thing's settings.
      * Only accessible by the thing's owner.
@@ -109,15 +126,8 @@ class ThingController extends Controller
         /** @var Thing $thing */
         $thing = $this->getDoctrine()->getRepository("SwotNetworkBundle:Thing")->find($id);
 
-        if($thing === null) {
-            $this->addFlash("error", "Thing does not exist");
-            return $this->redirectToRoute('my_things');
-        }
-
-        if(!$this->isGranted(ThingVoter::ADMIN, $thing)) {
-            $this->addFlash('error', 'Only a device\'s admin can access the settings page');
-            $this->redirectToRoute('thing_show', array('id' => $id));
-        }
+        $this->assertThingExists($thing);
+        $this->assertAccessToThingGranted($thing, ThingVoter::ADMIN);
 
         $form = $this->createForm(new ThingType(), $thing);
         $form->handleRequest($request);
@@ -143,15 +153,8 @@ class ThingController extends Controller
         /** @var Thing $thing */
         $thing = $this->getDoctrine()->getRepository("SwotNetworkBundle:Thing")->find($id);
 
-        if($thing === null) {
-            $this->addFlash("error", "Thing does not exist");
-            return $this->redirectToRoute('my_things');
-        }
-
-        if(!$this->isGranted(ThingVoter::ADMIN, $thing)) {
-            $this->addFlash("error", "You may not lend this thing");
-            return $this->redirectToRoute('my_things');
-        }
+        $this->assertThingExists($thing);
+        $this->assertAccessToThingGranted($thing, ThingVoter::ADMIN);
 
         $rental = new Rental();
         $rental->setUserFrom($user);
@@ -317,15 +320,8 @@ class ThingController extends Controller
         /** @var Thing $thing */
         $thing = $this->getDoctrine()->getRepository('SwotNetworkBundle:Thing')->find($id);
 
-        if($thing === null) {
-            $this->addFlash('notice', 'Thing does not exist');
-            return $this->redirectToRoute('my_things');
-        }
-
-        if (false === $this->get('security.authorization_checker')->isGranted(ThingVoter::ADMIN, $thing)) {
-            $this->addFlash('notice', 'You are not allowed to delete this thing');
-            return $this->redirectToRoute('my_things');
-        }
+        $this->assertThingExists($thing);
+        $this->assertAccessToThingGranted($thing, ThingVoter::ADMIN);
 
         $form = $this->createDeleteForm($id);
         $form->handleRequest($request);

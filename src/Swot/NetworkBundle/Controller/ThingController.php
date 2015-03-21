@@ -102,6 +102,8 @@ class ThingController extends Controller
 
         $messages = $this->getDoctrine()->getRepository('SwotNetworkBundle:ThingStatusUpdate')->findBy(array(
             'thing' => $thing,
+        ), array(
+            'sent' => 'DESC',
         ));
 
         return $this->render("SwotNetworkBundle:Thing:show.html.twig", array(

@@ -34,8 +34,16 @@ class FrontendController extends Controller
     public function myThingsAction(Request $request) {
 //        $this->generateTestThings();
 //        $this->generateFriendWithThingAndLendToUser();
+        //return $this->render('SwotNetworkBundle:Frontend:myThings.html.twig');
 
-        return $this->render('SwotNetworkBundle:Frontend:myThings.html.twig');
+        //@TODO: correct?!
+        $data = array();
+        $form = $this->createFormBuilder($data)
+            ->add('register','file')
+            ->getForm();
+        return $this->render('SwotNetworkBundle:Frontend:myThings.html.twig', array(
+            'form' => $form->createView(),
+        ));
     }
 
     public function deleteThingAction(Request $request, $id) {

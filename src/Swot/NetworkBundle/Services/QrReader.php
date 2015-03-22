@@ -17,7 +17,7 @@ class QrReader {
         $this->filePath = $filePath;
 
         //@TODO read dynamically
-        $this->filePath = $this->binDir . "exampleQR.png";
+        //$this->filePath = $this->binDir . "exampleQR.png";
 
         $command = "java -jar ". $this->binDir . "qr.jar " . $this->filePath;
         return exec($command);

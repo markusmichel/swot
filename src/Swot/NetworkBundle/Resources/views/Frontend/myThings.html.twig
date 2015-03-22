@@ -28,7 +28,13 @@
         </div>
     {% endfor %}
 
-    <a href="{{ path('register_thing') }}">Register new thing</a>
+    {# <a href="{{ path('register_thing') }}">Register new thing</a> #}
+
+    <form action="{{ path('register_thing') }}" method="POST" {{ form_enctype(form) }}>
+        {{ form_widget(form) }}
+        <input type="submit"  value="Register Thing" />
+    </form>
+
     <div class="hex-list">
         {% for ownership in app.user.ownerships %}
             <div class="hex">

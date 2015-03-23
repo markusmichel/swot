@@ -296,12 +296,13 @@ class ThingController extends Controller
                     $manager->flush();
 
                     $this->addFlash("success", "Thing added");
-                    //return $this->redirectToRoute('my_things');
-                    return $this->render('SwotNetworkBundle:Frontend:myThings.html.twig', array(
-                        'form' => $form->createView(),
-                    ));
-                }
+                    return $this->redirectToRoute('my_things');
 
+                    //@TODO: not necessary?!
+                    /*return $this->render('SwotNetworkBundle:Frontend:myThings.html.twig', array(
+                        'form' => $form->createView(),
+                    ));*/
+                }
             }
 
         } else {

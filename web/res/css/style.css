@@ -153,43 +153,13 @@ button, .button {
     background-image: url("../gfx/iconhover/lock.png");
 }
 
-.hex-list-item {
-    width: 130px;
-    height: 130px;
-    position: absolute;
-    margin-left: 24px;
-    z-index: 100;
-}
-
-.hex-list-item-inner {
-    width: 101px;
-    height: 131px;
-    display: table-cell;
-    text-align: center;
-    vertical-align: middle;
-}
-
 .hex-list {
     margin: 0 auto 0 auto;
     padding-left: 35px;
     padding-bottom: 70px;
 }
 
-.hex {
-    position: relative;
-    display: inline-block;
-    width: 150px;
-    height: 132px;
-    overflow: hidden;
-    color: #fff;
-    -webkit-mask-image: url(../gfx/hexagon_mask.png);
-    mask: url(../gfx/hexagon_mask.png);
-    text-align: center;
-    background-color: #588C73;
-    margin-left: -35px;
-}
-
-.hex:nth-child(2n) {
+.normal-hex:nth-child(2n) {
     margin-bottom: -70px;
 }
 
@@ -217,46 +187,61 @@ button, .button {
     }
 }
 
-.maskborder{
-    width: 146px;
-    height: 128PX;
-    -webkit-mask-box-image: url(../gfx/hexagon_mask.png);
-    margin-left: 2px;
-    margin-top: 2px;
+.meta-info {
+    float: right;
+    text-align: right;
+    font-size: 11px;
+    margin-right: 25px;
+    color: #bdc1c9;
 }
 
-.friend-default-picture {
-    background: transparent url(../gfx/person.jpg) no-repeat center center;
+.opac {
     opacity: 0.5;
-    background-size: cover;
 }
 
-.profile-picture {
-    background: transparent url(../gfx/person.jpg) no-repeat center center;
-    background-size: cover;
+.inline {
+    display: inline-block;
+    margin-right: 15px;
 }
 
-.thing-default-picture {
-    background: transparent url(../gfx/thing.jpg) no-repeat center center;
-    opacity: 0.5;
-    background-size: cover;
-}
-
-.hex .content{
-    height: 186px;
-    width: 186px;
-    margin: auto;
-    margin-top: 16px;
-}
-
-.profile-picture-title {
+.hex-item {
+    height: inherit;
     position: absolute;
-    z-index: 1;
-    left: 83px;
-    top: 11px;
+    z-index: 100;
+    table-layout: fixed;
+    display: table;
 }
 
-.profile-picture-hex {
+.hex-item-inner {
+    height: inherit;
+    display: table-cell;
+    text-align: center;
+    vertical-align: middle;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.normal-hex {
+    position: relative;
+    display: inline-block;
+    width: 150px;
+    height: 132px;
+    overflow: hidden;
+    color: #fff;
+    -webkit-mask-image: url(../gfx/hexagon_mask.png);
+    mask: url(../gfx/hexagon_mask.png);
+    text-align: center;
+    background-color: #588C73;
+    margin-left: -35px;
+}
+
+.normal-hex .hex-item {
+    width: 116px;
+    margin-left: 17px;
+}
+
+.small-hex {
     width: 100px;
     height: 88px;
     overflow: hidden;
@@ -270,12 +255,50 @@ button, .button {
     align-self: auto;
 }
 
-.profile-picture-hex .maskborder {
+.small-hex .hex-item {
+    width: 80px;
+    margin-left: 10px;
+}
+
+.tiny-hex {
+    width: 64px;
+    height: 56px;
+    overflow: hidden;
+    color: #fff;
+    -webkit-mask-image: url(../gfx/hexagon_mask_tiny.png);
+    mask: url(../gfx/hexagon_mask_tiny.png);
+    text-align: center;
+    background-color: #588C73;
+}
+
+.normal-hex .maskborder{
+    width: 146px;
+    height: 128PX;
+    -webkit-mask-box-image: url(../gfx/hexagon_mask.png);
+    margin-left: 0;
+    margin-top: 2px;
+}
+
+.small-hex .maskborder {
     width: 96px;
     height: 84PX;
     -webkit-mask-box-image: url(../gfx/hexagon_mask_small.png);
+    margin-top: 2px;
+}
+
+.tiny-hex .maskborder {
+    width: 62px;
+    height: 54PX;
+    -webkit-mask-box-image: url(../gfx/hexagon_mask_tiny.png);
     margin-left: 1px;
     margin-top: 2px;
+}
+
+.profile-picture-title {
+    position: absolute;
+    z-index: 1;
+    left: 83px;
+    top: 11px;
 }
 
 .profile-picture-container {
@@ -287,30 +310,10 @@ button, .button {
     align-items: flex-start;
     width: 100%;
     height: 88px;
-    margin-bottom: 40px;
 }
 
-.profile-picture-container .profile-picture-hex {
+.profile-picture-container .small-hex {
     position: absolute;
-}
-
-.conversation-picture-hex {
-    width: 64px;
-    height: 56px;
-    overflow: hidden;
-    color: #fff;
-    -webkit-mask-image: url(../gfx/hexagon_mask_tiny.png);
-    mask: url(../gfx/hexagon_mask_tiny.png);
-    text-align: center;
-    background-color: #588C73;
-}
-
-.conversation-picture-hex .maskborder {
-    width: 62px;
-    height: 54PX;
-    -webkit-mask-box-image: url(../gfx/hexagon_mask_tiny.png);
-    margin-left: 1px;
-    margin-top: 2px;
 }
 
 .long-hex {

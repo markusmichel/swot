@@ -9,7 +9,7 @@
         <h1 class="profile-picture-title">
             {% trans %}settings.page_title{% endtrans %}
         </h1>
-        <div class="profile-picture-hex">
+        <div class="small-hex">
             <img class="maskborder" src="
                     {{ (profile_image_folder ~ app.user.profileImage) | imagine_filter('profile_image_thumb')|default('http://localhost/swot/web/res/gfx/person.jpg') }}"
                     />
@@ -37,18 +37,21 @@
 
     <div class="hex-list">
         {% for ownership in app.user.ownerships %}
-            <div class="hex">
+            <div class="normal-hex">
                 {% include 'SwotNetworkBundle:Frontend:myThingsEntry.html.twig' with {thing: ownership.thing} %}
-                <div class="maskborder thing-default-picture"></div>
+                <img class="maskborder opac" src="
+                            {{ (profile_image_folder ~ ownership.thing.profileImage) | imagine_filter('profile_image_thumb')|default('http://localhost/swot/web/res/gfx/thing.jpg') }}"
+                        />
             </div>
         {% endfor %}
     </div>
     <h2>Things lent to me</h2>
     <div class="hex-list">
          {% for thing in app.user.thingsLent %}
-            <div class="hex">
+            <div class="normal-hex">
                 {% include 'SwotNetworkBundle:Frontend:myThingsEntry.html.twig' with {thing: thing.thing} %}
-                <div class="maskborder thing-default-picture"></div>
+                <img class="maskborder opac" src="http://localhost/swot/web/res/gfx/thing.jpg"
+                        />
             </div>
         {% endfor %}
     </div>

@@ -11,7 +11,7 @@
                     {% trans %}user.profile.title{% endtrans %}
                 {% endif %}
             </h1>
-            <div class="profile-picture-hex">
+            <div class="small-hex">
                 <img class="maskborder" src="
                     {{ (profile_image_folder ~ user.profileImage) | imagine_filter('profile_image_thumb')|default('http://localhost/swot/web/res/gfx/person-inverted.jpg') }}"
                 />

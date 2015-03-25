@@ -9,7 +9,7 @@
         <h1 class="profile-picture-title">
             {% trans %}user.friend.title{% endtrans %}
         </h1>
-        <div class="profile-picture-hex">
+        <div class="small-hex">
             <img class="maskborder" src="
                     {{ (profile_image_folder ~ app.user.profileImage) | imagine_filter('profile_image_thumb')|default('http://localhost/swot/web/res/gfx/person.jpg') }}"
             />
@@ -34,9 +34,11 @@
         {% set friend = friendship.otherUser(user) %}
 
 
-        <div class="hex">
+        <div class="normal-hex">
             {% include 'SwotNetworkBundle:Friend:friendListEntry.html.twig' with {friend: friend} %}
-            <div class="maskborder friend-default-picture"></div>
+            <img class="maskborder opac" src="
+                            {{ (profile_image_folder ~ friend.profileImage) | imagine_filter('profile_image_thumb')|default('http://localhost/swot/web/res/gfx/person.jpg') }}"
+                    />
         </div>
 
         {% endfor %}

@@ -9,14 +9,12 @@
     Swot\NetworkBundle\Controller\FrontendController#myThingsAction
 #}
 
-<div class="hex-list-item">
-    <div class="hex-list-item-inner">
+<div class="hex-item">
+    <div class="hex-item-inner">
         <a href="{{ path('thing_show', {id: thing.id}) }}">{{ thing.name }}</a> <br/>
         {% if thing.ownership.owner != app.user %}
             Owner: <a href="{{ path('friend_show', {id: thing.ownership.owner.id}) }}">{{ thing.ownership.owner.username }}</a>
         {% endif %}
-        <br/>
     </div>
-
 </div>
 

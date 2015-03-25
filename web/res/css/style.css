@@ -262,7 +262,7 @@ button, .button {
     overflow: hidden;
     color: #fff;
     -webkit-mask-image: url(../gfx/hexagon_mask_small.png);
-    mask: url(../gfx/hexagon_mask.png);
+    mask: url(../gfx/hexagon_mask_small.png);
     text-align: center;
     background-color: #588C73;
     order: 0;
@@ -294,6 +294,25 @@ button, .button {
     position: absolute;
 }
 
+.conversation-picture-hex {
+    width: 64px;
+    height: 56px;
+    overflow: hidden;
+    color: #fff;
+    -webkit-mask-image: url(../gfx/hexagon_mask_tiny.png);
+    mask: url(../gfx/hexagon_mask_tiny.png);
+    text-align: center;
+    background-color: #588C73;
+}
+
+.conversation-picture-hex .maskborder {
+    width: 62px;
+    height: 54PX;
+    -webkit-mask-box-image: url(../gfx/hexagon_mask_tiny.png);
+    margin-left: 1px;
+    margin-top: 2px;
+}
+
 .long-hex {
     height: 88px;
     background-color: #588C73;
@@ -314,3 +333,26 @@ button, .button {
     flex: 0 1 auto;
     align-self: auto;
  }
+
+.conversation-row {
+    display: -webkit-flex;
+    -webkit-flex-direction: row;
+    display: flex;
+    flex-direction: row;
+}
+
+.conversation-picture-container {
+    width: 64px;
+    flex: none;
+    margin-top: 30px;
+}
+
+.conversation-content {
+    flex: auto;
+    margin: 0 15px 0 15px;
+}
+
+.conversation-date {
+    width: 100px;
+    flex: none;
+}

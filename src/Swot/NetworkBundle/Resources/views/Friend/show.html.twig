@@ -6,7 +6,7 @@
         <div class="profile-picture-container flex-row">
             <h1 class="profile-picture-title">
                 {% if user != app.user %}
-                    {{ user.firstname }} {{ user.lastname }}
+                    {{ user.username }}
                 {% else %}
                     {% trans %}user.profile.title{% endtrans %}
                 {% endif %}
@@ -19,9 +19,44 @@
             <div class="long-hex flex-center"></div>
             <div class="long-hex-after flex-right"></div>
         </div>
+    <div class="thing-detail meta-info">
+        <div>{% trans %}common.registered_since{% endtrans %}: {{ user.registeredDate.date }}</div>
+    </div>
 {% endblock %}
 
 {% block body %}
+    <div class="hex-list small cssmasks">
+        <div class="small-hex inline">
+            <div class="hex-item"><div class="hex-item-inner">{{ user.firstname }}<br />{{ user.lastname }}</div></div>
+            <img class="maskborder opac" src="http://localhost/swot/web/res/gfx/person.jpg"/>
+        </div>
+        <div class="small-hex inline">
+            <div class="hex-item"><div class="hex-item-inner">{{ user.birthdate.date }}</div></div>
+            <img class="maskborder opac" src="http://localhost/swot/web/res/gfx/cake.png"/>
+        </div>
+        <div class="small-hex inline">
+            <img class="maskborder opac" src=
+                    {% if user.gender == "m" %}"http://localhost/swot/web/res/gfx/gender-male.png"{% endif %}
+                    {% if user.gender == "w" %}"http://localhost/swot/web/res/gfx/gender-female.png"{% endif %}
+                />
+        </div>
+        <div class="small-hex inline">
+            <div class="hex-item"><div class="hex-item-inner">Access: <br />{{ user.accessLevel }}</div></div>
+            <img class="maskborder opac" src="http://localhost/swot/web/res/gfx/security.png"/>
+        </div>
+        <a class="inline small-hex" href="{{ path('my_friends', {user: user}) }}">
+            <div class="hex-item"><div class="hex-item-inner">{% trans %}navigation.friends{% endtrans %}</div></div>
+            <img class="maskborder opac" src="http://localhost/swot/web/res/gfx/account-multiple-big.png">
+        </a>
+        <a class="inline small-hex" href="{{ path('my_things', {user: user}) }}">
+            <div class="hex-item"><div class="hex-item-inner">{% trans %}navigation.things{% endtrans %}</div></div>
+            <img class="maskborder opac" src="http://localhost/swot/web/res/gfx/thing.jpg">
+        </a>
+        <a class="inline small-hex" href="{{ path('conversations', {user: user}) }}">
+            <div class="hex-item"><div class="hex-item-inner">{% trans %}navigation.messages{% endtrans %}</div></div>
+            <img class="maskborder opac" src="http://localhost/swot/web/res/gfx/comment-big.png">
+        </a>
+    </div>
 
     {#
     Show break up form only if the current profile is not the user's profile
@@ -37,8 +72,7 @@
             {{ form(sendInviteForm) }}
         {% endif %}
     {% endif %}
-    <br/>
-    {{ user.username }}
+    
 {% endblock %}
 
 

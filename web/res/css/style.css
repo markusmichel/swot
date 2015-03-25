@@ -11,6 +11,7 @@ html, body{
 body {
     font-family: 'Slabo 27px', serif;
     min-width: 362px;
+    cursor: default;
 }
 
 ul {
@@ -157,39 +158,6 @@ button, .button {
     background-image: url("../gfx/iconhover/lock.png");
 }
 
-.hex-list {
-    margin: 0 auto 0 auto;
-    padding-left: 35px;
-    padding-bottom: 70px;
-}
-
-.normal-hex:nth-child(2n) {
-    margin-bottom: -70px;
-}
-
-@media all and (min-width: 64.063em) {
-    .hex-list {
-        max-width: 740px;
-    }
-}
-
-@media all and (max-width: 62em) {
-    .hex-list {
-        max-width: 740px;
-    }
-}
-
-@media all and (max-width: 47.25em) {
-    .hex-list {
-        max-width: 504px;
-    }
-}
-
-@media all and (max-width: 32.5em) {
-    .hex-list {
-        max-width: 268px;
-    }
-}
 
 .meta-info {
     text-align: right;
@@ -230,6 +198,66 @@ button, .button {
     flex: none;
 }
 
+.hex-list {
+    margin: 0 auto 0 auto;
+}
+
+.hex-list.normal {
+    padding-left: 35px;
+    padding-bottom: 70px;
+}
+
+.hex-list.small {
+    padding-left: 36px;
+    padding-bottom: 48px;
+}
+
+@media all and (min-width: 64.063em) {
+    .hex-list.normal {
+        max-width: 740px;
+    }
+    .hex-list.small {
+        max-width: 689px;
+    }
+
+}
+
+@media all and (max-width: 64.063em) {
+    .hex-list.small {
+        max-width: 689px;
+    }
+}
+
+@media all and (max-width: 62em) {
+    .hex-list.normal {
+        max-width: 740px;
+    }
+}
+
+@media all and (max-width: 47.25em) {
+    .hex-list.normal {
+        max-width: 504px;
+    }
+}
+
+@media all and (max-width: 43em) {
+    .hex-list.small {
+        max-width: 525px;
+    }
+}
+
+@media all and (max-width: 32.75em) {
+    .hex-list.small {
+        max-width: 361px;
+    }
+}
+
+@media all and (max-width: 32.5em) {
+    .hex-list.normal {
+        max-width: 268px;
+    }
+}
+
 .hex-item {
     height: inherit;
     position: absolute;
@@ -259,12 +287,20 @@ button, .button {
     mask: url(../gfx/hexagon_mask.png);
     text-align: center;
     background-color: #588C73;
-    margin-left: -35px;
+
 }
 
 .normal-hex .hex-item {
     width: 116px;
     margin-left: 17px;
+}
+
+.hex-list .normal-hex {
+    margin-left: -35px;
+}
+
+.normal-hex:nth-child(2n) {
+    margin-bottom: -70px;
 }
 
 .small-hex {
@@ -281,6 +317,14 @@ button, .button {
 .small-hex .hex-item {
     width: 80px;
     margin-left: 10px;
+}
+
+.hex-list .small-hex {
+    margin-left: -36px;
+}
+
+.small-hex:nth-child(2n) {
+    margin-bottom: -48px;
 }
 
 .tiny-hex {

@@ -24,7 +24,6 @@ user:
 
 thing:
     name:                     Name
-    registered_since:         Registered since
     owner:                    Owner
     owner_since:              Owner since
     classification:           Classification
@@ -67,3 +66,5 @@ navigation:
     things:                   Things
     account:                  Account
 
+common:
+    registered_since:         Registered since

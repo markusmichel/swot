@@ -16,28 +16,27 @@
         <div class="long-hex-after flex-right"></div>
     </div>
     <div class="thing-detail meta-info">
-        <div>{% trans %}thing.registered_since{% endtrans %}: {{ thing.ownerSince.date }}</div>
+        <div>{% trans %}common.registered_since{% endtrans %}: {{ thing.ownerSince.date }}</div>
         <div>{% trans %}thing.owner_since{% endtrans %}: {{ thing.ownership.since.date }}</div>
     </div>
 {% endblock %}
 
 {% block body %}
-
-    <a href="{{ path('friend_show', {id: thing.ownership.owner.id}) }}">
+    <div class="hex-list small cssmasks">
+        <a class="inline small-hex" href="{{ path('friend_show', {id: thing.ownership.owner.id}) }}">
+                <div class="hex-item"><div class="hex-item-inner">Owner: <br />{{ thing.ownership.owner.username }}</div></div>
+                <img class="maskborder opac" src="
+                    {{ (profile_image_folder ~ thing.ownership.owner.profileImage) | imagine_filter('profile_image_thumb')|default('http://localhost/swot/web/res/gfx/person-inverted.jpg') }}"
+                />
+        </a>
         <div class="small-hex inline">
-            <div class="hex-item"><div class="hex-item-inner">Owner: <br />{{ thing.ownership.owner.username }}</div></div>
-            <img class="maskborder opac" src="
-                {{ (profile_image_folder ~ thing.ownership.owner.profileImage) | imagine_filter('profile_image_thumb')|default('http://localhost/swot/web/res/gfx/person-inverted.jpg') }}"
-            />
+            <div class="hex-item"><div class="hex-item-inner">Category: <br />{{ status.device.classification }}</div></div>
+            <img class="maskborder opac" src="http://localhost/swot/web/res/gfx/help.png"/>
         </div>
-    </a>
-    <div class="small-hex inline">
-        <div class="hex-item"><div class="hex-item-inner">Category: <br />{{ status.device.classification }}</div></div>
-        <img class="maskborder opac" src="http://localhost/swot/web/res/gfx/thing.jpg"/>
-    </div>
-    <div class="small-hex inline">
-        <div class="hex-item"><div class="hex-item-inner">Access: <br />{{ thing.accessType }}</div></div>
-        <img class="maskborder opac" src="http://localhost/swot/web/res/gfx/thing.jpg"/>
+        <div class="small-hex inline">
+            <div class="hex-item"><div class="hex-item-inner">Access: <br />{{ thing.accessType }}</div></div>
+            <img class="maskborder opac" src="http://localhost/swot/web/res/gfx/security.png"/>
+        </div>
     </div>
     {{ dump(thing) }}
 

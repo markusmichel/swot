@@ -35,7 +35,7 @@
         <input type="submit"  value="Register Thing" />
     </form>
 
-    <div class="hex-list">
+    <div class="hex-list normal">
         {% for ownership in app.user.ownerships %}
             <div class="normal-hex">
                 {% include 'SwotNetworkBundle:Frontend:myThingsEntry.html.twig' with {thing: ownership.thing} %}
@@ -46,7 +46,7 @@
         {% endfor %}
     </div>
     <h2>Things lent to me</h2>
-    <div class="hex-list">
+    <div class="hex-list normal">
          {% for thing in app.user.thingsLent %}
             <div class="normal-hex">
                 {% include 'SwotNetworkBundle:Frontend:myThingsEntry.html.twig' with {thing: thing.thing} %}

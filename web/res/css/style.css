@@ -32,6 +32,10 @@ li {
     list-style: none;
 }
 
+.headline-margin {
+    margin-top: 40px;
+}
+
 button, .button {
     padding-top: 0.5rem;
     padding-right: 1rem;
@@ -188,11 +192,14 @@ button, .button {
 }
 
 .meta-info {
-    float: right;
     text-align: right;
     font-size: 11px;
-    margin-right: 25px;
     color: #bdc1c9;
+}
+
+.thing-detail.meta-info {
+    float: right;
+    margin-right: 25px;
 }
 
 .opac {
@@ -202,6 +209,25 @@ button, .button {
 .inline {
     display: inline-block;
     margin-right: 15px;
+}
+
+.flex-row {
+    display: -webkit-flex;
+    -webkit-flex-direction: row;
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-left {
+    flex: none;
+}
+
+.flex-center {
+    flex: auto;
+}
+
+.flex-right {
+    flex: none;
 }
 
 .hex-item {
@@ -250,9 +276,6 @@ button, .button {
     mask: url(../gfx/hexagon_mask_small.png);
     text-align: center;
     background-color: #588C73;
-    order: 0;
-    flex: 0 1 auto;
-    align-self: auto;
 }
 
 .small-hex .hex-item {
@@ -290,8 +313,8 @@ button, .button {
     width: 62px;
     height: 54PX;
     -webkit-mask-box-image: url(../gfx/hexagon_mask_tiny.png);
-    margin-left: 1px;
-    margin-top: 2px;
+    margin-left: 0;
+    margin-top: 1px;
 }
 
 .profile-picture-title {
@@ -302,13 +325,6 @@ button, .button {
 }
 
 .profile-picture-container {
-    display: flex;
-    flex-direction: row;
-    flex-wrap: nowrap;
-    justify-content: flex-start;
-    align-content: stretch;
-    align-items: flex-start;
-    width: 100%;
     height: 88px;
 }
 
@@ -320,9 +336,6 @@ button, .button {
     height: 88px;
     background-color: #588C73;
     margin-left: 25px;
-    order: 0;
-    flex: 1 1 auto;
-    align-self: auto;
 }
 
 .long-hex-after  {
@@ -332,30 +345,31 @@ button, .button {
     -webkit-mask-image: url(../gfx/hexagon_long_after.png);
     mask: url(../gfx/hexagon_long_after.png);
     background-color: #588C73;
-    order: 0;
-    flex: 0 1 auto;
-    align-self: auto;
  }
 
-.conversation-row {
-    display: -webkit-flex;
-    -webkit-flex-direction: row;
-    display: flex;
-    flex-direction: row;
-}
-
-.conversation-picture-container {
+.conversation-picture {
     width: 64px;
-    flex: none;
     margin-top: 30px;
 }
 
+.conversations-picture {
+    width: 64px;
+}
+
 .conversation-content {
-    flex: auto;
     margin: 0 15px 0 15px;
+}
+
+.conversations-content {
+    margin: 13px 15px 0 15px;
 }
 
 .conversation-date {
     width: 100px;
-    flex: none;
+    margin-top: 27px;
+    text-align: right;
+}
+
+.conversations-date {
+    text-align: right;
 }

@@ -3,19 +3,19 @@
 {% block title %}SwotNetworkBundle:Frontend:newsfeed{% endblock %}
 
 {% block headline %}
-    <div class="profile-picture-container">
+    <div class="profile-picture-container flex-row">
         <h1 class="profile-picture-title">
             {{ thing.name }}
         </h1>
-        <div class="small-hex">
+        <div class="small-hex flex-left">
             <img class="maskborder" src="
                     {{ (profile_image_folder ~ thing.profileImage) | imagine_filter('profile_image_thumb')|default('http://localhost/swot/web/res/gfx/thing-inverted.jpg') }}"
                     />
         </div>
-        <div class="long-hex"></div>
-        <div class="long-hex-after"></div>
+        <div class="long-hex flex-center"></div>
+        <div class="long-hex-after flex-right"></div>
     </div>
-    <div class="meta-info">
+    <div class="thing-detail meta-info">
         <div>{% trans %}thing.registered_since{% endtrans %}: {{ thing.ownerSince.date }}</div>
         <div>{% trans %}thing.owner_since{% endtrans %}: {{ thing.ownership.since.date }}</div>
     </div>

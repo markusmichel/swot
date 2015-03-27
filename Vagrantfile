@@ -18,7 +18,24 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 	config.vm.network "private_network", ip: "13.13.13.13"
 
 	# Mount shared folder directly into webserver directory
-	config.vm.synced_folder ".", "/var/www", type: "nfs"
+	# Create two aliases "nfs" and "rsync" for different sync options.
+	# Default is nfs as it won't throw an error if it is unsupported.
+	# To use rsync, it must be installed an available in the path.
+	config.vm.define "nfs", primary: true do |nfs|
+		config.vm.synced_folder ".", "/var/www", type: "nfs"
+	end
+
+	config.vm.define "rsync", autostart: false do |rsync|
+
+		# fix cygwin path on Windows hosts
+		if Vagrant::Util::Platform.windows?
+        	ENV["VAGRANT_DETECTED_OS"] = ENV["VAGRANT_DETECTED_OS"].to_s + " cygwin"
+	  	end
+
+		config.vm.synced_folder ".", "/var/www", type: "rsync",
+			rsync__exclude: ".git/",
+			rsync__args: ["--chmod=ugo=rwX","--verbose", "--archive", "--delete", "-z"]
+	end
 
     # just copy files to a tmp folder, because copying will be done by the SSH user
     # who does not have root privileges.

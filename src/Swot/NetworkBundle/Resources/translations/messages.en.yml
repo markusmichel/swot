@@ -28,6 +28,7 @@ thing:
     owner_since:              Owner since
     classification:           Classification
     accessType:               Access type
+    functions:                Functions
 
 settings:
     page_title:               Settings

@@ -217,44 +217,17 @@ class ThingController extends Controller
                     $data = $form->getData();
                     /** @var UploadedFile $file */
                     $file = $data['register'];
-                    //@TODO: move necessary?!
                     $qr = $file->move($file->getPath(),"qr.png");
 
-                    /** @var QrReader $qrReader */
-                    $qrReader = $this->get('services.qr_reader');
+                    $url = $this->getUrlFromQr($qr);
+                    $thingInfo = $this->getRegisterInfoFromThing($url);
 
-                    $qrContent = json_decode($qrReader->readQrCode($qr->getPathname()));
+                    $thingName = $thingInfo->device->id;
 
-                    //@TODO finalize url
-                    $url = $qrContent->url . "?tokenUsed=1";
+                    $functionsUrl = $thingInfo->device->api->function;
+                    $ownerToken = $thingInfo->device->tokens->owner;
 
-                    $response = null;
-                    $curl = new \Zebra_cURL();
-                    $curl->get($url, function($result) use (&$response) {
-                        // everything went well at cURL level
-                        if ($result->response[1] == CURLE_OK) {
-
-                            // if server responded with code 200 (meaning that everything went well)
-                            // see http://httpstatus.es/ for a list of possible response codes
-                            if ($result->info['http_code'] == 200) {
-
-                                $response = $result->body;
-                                return $response;
-
-                            }
-                            // @todo: create exception
-                            else die('Server responded with code ' . $result->info['http_code']);
-                        }
-
-                        // something went wrong
-                        // ($result still contains all data that could be gathered)
-                        // @todo: create exception
-                        else die('cURL responded with: ' . $result->response[0]);
-                    });
-
-                    $thingInfo = json_decode($response);
-                    $thingName = $thingInfo->device->name;
-                    $thingFunction = $thingInfo->device->functions;
+                    $functionsData = $this->getThingFunctions($functionsUrl, $ownerToken);
 
                     $manager = $this->getDoctrine()->getManager();
 
@@ -263,48 +236,13 @@ class ThingController extends Controller
                     //@todo: get token dynamically from device
                     $thing->setNetworkAccessToken("asdadasds");
 
-                    $functionsData = $thingFunction;
-
                     $ownership = new Ownership();
                     $ownership->setThing($thing);
                     $ownership->setOwner($user);
                     $user->addOwnership($ownership);
                     $thing->setOwnership($ownership);
 
-                    foreach($functionsData as $func) {
-                        $function = new Action();
-                        $function->setThing($thing);
-                        $function->setName($func->name);
-                        $function->setUrl($func->url);
-
-                        foreach($func->parameters as $param) {
-                            $parameter = Parameter::createParameter($param);
-                            $parameter->setAction($function);
-
-                            if(isset($param->constraints)) {
-                                foreach($param->constraints as $con) {
-                                    $className = "\\Swot\\FormMapperBundle\\Entity\\" . $con->type;
-                                    if(!class_exists($className)) continue;
-
-                                    /** @var AbstractConstraint $constraint */
-                                    $constraint = new $className;
-                                    $constraint->init($con);
-                                    $constraint->setMessage($con->message);
-                                    $constraint->setFunctionParameter($parameter);
-
-                                    $parameter->addConstraint($constraint);
-                                    $manager->persist($constraint);
-                                }
-                            }
-
-                            $function->addParameter($parameter);
-                            $manager->persist($parameter);
-                        }
-
-                        $thing->addFunction($function);
-                        $manager->persist($function);
-                        $manager->persist($thing);
-                    }
+                    $this->generateThingData($functionsData, $thing, $manager);
 
                     $manager = $this->getDoctrine()->getManager();
                     $manager->persist($ownership);
@@ -315,11 +253,9 @@ class ThingController extends Controller
 
                     $this->addFlash("success", "Thing added");
                     return $this->redirectToRoute('my_things');
-
-                    //@TODO: not necessary?!
-                    /*return $this->render('SwotNetworkBundle:Frontend:myThings.html.twig', array(
-                        'form' => $form->createView(),
-                    ));*/
+                }else{
+                    $this->addFlash("failure", "Nothing added");
+                    return $this->redirectToRoute('my_things');
                 }
             }
 
@@ -469,5 +405,138 @@ class ThingController extends Controller
         }
 
         $manager->flush();
+    }
+
+    /**
+     * Encodes a qr code and return its value
+     * @param $qr the QrFile to encode
+     * @return mixed The registration url of the thing
+     */
+    private function getUrlFromQr($qr){
+        /** @var QrReader $qrReader */
+        $qrReader = $this->get('services.qr_reader');
+        $qrContent = json_decode($qrReader->readQrCode($qr->getPathname()));
+        $url = $qrContent->url;
+        return $url;
+    }
+
+    /**
+     * Connects to the thing register url and gets its information.
+     * @param $url The register url of the thing
+     */
+    private function getRegisterInfoFromThing($url){
+        $response = null;
+        $curl = new \Zebra_cURL();
+        $curl->get($url, function($result) use (&$response) {
+            // everything went well at cURL level
+            if ($result->response[1] == CURLE_OK) {
+
+                // if server responded with code 200 (meaning that everything went well)
+                // see http://httpstatus.es/ for a list of possible response codes
+                if ($result->info['http_code'] == 200) {
+
+                    $response = $result->body;
+                    return $response;
+
+                }
+                // @todo: create exception
+                else die('Server responded with code ' . $result->info['http_code']);
+            }
+
+            // something went wrong
+            // ($result still contains all data that could be gathered)
+            // @todo: create exception
+            else die('cURL responded with: ' . $result->response[0]);
+        });
+
+        return json_decode($response);
+
+    }
+
+    /**
+     *
+     * Generates the data of the related thing.
+     *
+     * @param $functionsData
+     * @param $thing
+     * @param $manager
+     */
+    private function generateThingData($functionsData, $thing, $manager)
+    {
+        foreach ($functionsData->functions as $func) {
+            $function = new Action();
+            $function->setThing($thing);
+            $function->setName($func->name);
+            $function->setUrl($func->url);
+
+            foreach ($func->parameters as $param) {
+                $parameter = Parameter::createParameter($param);
+                $parameter->setAction($function);
+
+                if (isset($param->constraints)) {
+                    foreach ($param->constraints as $con) {
+                        $className = "\\Swot\\FormMapperBundle\\Entity\\" . $con->type;
+                        if (!class_exists($className)) continue;
+
+                        /** @var AbstractConstraint $constraint */
+                        $constraint = new $className;
+                        $constraint->init($con);
+                        $constraint->setMessage($con->message);
+                        $constraint->setFunctionParameter($parameter);
+
+                        $parameter->addConstraint($constraint);
+                        $manager->persist($constraint);
+                    }
+                }
+
+                $function->addParameter($parameter);
+                $manager->persist($parameter);
+            }
+
+            $thing->addFunction($function);
+            $manager->persist($function);
+            $manager->persist($thing);
+        }
+
+        $manager->flush();
+    }
+
+    /**
+     * Gets the functions for the related thing
+     * @param $url String url for the different functions available
+     * @param $token String owner/write token of the device
+     * @return mixed
+     */
+    private function getThingFunctions($url, $token){
+
+        //@TODO: better way to build url?!
+        $url = $url . "?access_token=" . $token;
+
+        $response = null;
+        $curl = new \Zebra_cURL();
+        $curl->get($url, function($result) use (&$response) {
+            // everything went well at cURL level
+            if ($result->response[1] == CURLE_OK) {
+
+                // if server responded with code 200 (meaning that everything went well)
+                // see http://httpstatus.es/ for a list of possible response codes
+                if ($result->info['http_code'] == 200) {
+
+                    $response = $result->body;
+                    return $response;
+
+                }
+                // @todo: create exception
+                else die('Server responded with code ' . $result->info['http_code']);
+            }
+
+            // something went wrong
+            // ($result still contains all data that could be gathered)
+            // @todo: create exception
+            else die('cURL responded with: ' . $result->response[0]);
+        });
+
+        return json_decode($response);
+
     }
 }

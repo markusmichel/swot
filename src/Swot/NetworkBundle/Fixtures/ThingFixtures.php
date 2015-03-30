@@ -5,6 +5,29 @@ namespace Swot\NetworkBundle\Fixtures;
 
 class ThingFixtures {
 
+    // success: 200
+    // error: 5xx
+    // not available: 404
+    public static $registerThingResponse = <<<Tag
+        {
+            "device": {
+                "id": 12345,
+                "classification": "sdf",
+                "api": {
+                    "deregister": "http://.....",
+                    "function": "http://....",
+                    "status": "http://...."
+                },
+                "tokens": {
+                    "owner": "293487239",
+                    "write": "2305982304",
+                    "read": "23405834905"
+                }
+            }
+        }
+Tag;
+
+
     public static $activateFunctionResponse = <<<TAG
     {
 		"statusCode":				200,

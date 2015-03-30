@@ -85,7 +85,7 @@ class ThingController extends Controller
             $form->handleRequest($request);
             if($form->isValid() === true) {
 
-                $accessToken = $thing->getAccessToken();
+                $accessToken = $thing->getNetworkAccessToken();
                 $res = $function->activate($accessToken);
 
                 if(strcasecmp($res->status, "success") == 0) {
@@ -161,7 +161,7 @@ class ThingController extends Controller
 
         $rental = new Rental();
         $rental->setUserFrom($user);
-        $rental->setAccessToken($thing->getAccessToken());
+        $rental->setAccessToken($thing->getNetworkAccessToken());
         $rental->setStarted(new \DateTime());
         $rental->setThing($thing);
 
@@ -245,7 +245,7 @@ class ThingController extends Controller
                     $thing = new Thing();
                     $thing->setName($thingName);
                     //@todo: get token dynamically from device
-                    $thing->setAccessToken("asdadasds");
+                    $thing->setNetworkAccessToken("asdadasds");
 
                     $functionsData = $thingFunction;
 
@@ -311,7 +311,7 @@ class ThingController extends Controller
             // @todo: remove fixture data
             $thing = new Thing();
             $thing->setName("Test Thing");
-            $thing->setAccessToken("asdadasds");
+            $thing->setNetworkAccessToken("asdadasds");
 
             $ownership = new Ownership();
             $ownership->setThing($thing);

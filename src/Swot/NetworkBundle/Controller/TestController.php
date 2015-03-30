@@ -78,7 +78,7 @@ class TestController extends Controller
     private function generateTestThing()
     {
         $thing = new Thing();
-        $thing->setAccessToken("token123");
+        $thing->setNetworkAccessToken("token123");
         $thing->setName(uniqid());
         return $thing;
     }

@@ -166,6 +166,19 @@ class ThingController extends Controller
         $rental->setThing($thing);
 
         $form = $this->createForm('rental', $rental);
+        $form->handleRequest($request);
+
+        if($form->isValid()) {
+            $user->addThingsLent($rental);
+            $rental->getUserTo()->addThingsRent($rental);
+            $this->getDoctrine()->getManager()->persist($rental);
+            $this->getDoctrine()->getManager()->persist($user);
+            $this->getDoctrine()->getManager()->persist($rental->getUserTo());
+            $this->getDoctrine()->getManager()->flush();
+
+            $this->addFlash("success", sprintf("Thing %s lent to %s", $thing->getName(), $rental->getUserTo()->getUsername()));
+            return $this->redirectToRoute('thing_show', array("id" => $thing->getId()));
+        }
 
         return $this->render('SwotNetworkBundle:Thing:lend.html.twig', array(
             'form' => $form->createView(),

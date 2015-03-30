@@ -48,7 +48,6 @@ class ThingStatusUpdate
      */
     private $thing;
 
-
     /**
      * Get id
      *

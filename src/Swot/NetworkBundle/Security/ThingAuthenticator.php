@@ -76,7 +76,7 @@ class ThingAuthenticator implements SimplePreAuthenticatorInterface {
 //        $apiKey = $request->query->get('apikey');
 
         // or if you want to use an "apikey" header, then do something like this:
-         $networkAccessToken = $request->headers->get('access_token');
+        $networkAccessToken = $request->headers->get('accesstoken');
 
         if (!$networkAccessToken) {
             throw new BadCredentialsException('No API key found');

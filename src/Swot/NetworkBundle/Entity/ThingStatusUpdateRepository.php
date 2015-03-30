@@ -12,4 +12,19 @@ use Doctrine\ORM\EntityRepository;
  */
 class ThingStatusUpdateRepository extends EntityRepository
 {
+    /**
+     * Retrieves newsfeed for given user
+     * @param $user
+     */
+    public function findNewsfeed($user) {
+
+        $query = $this->getEntityManager()->createQuery('
+            SELECT c
+            FROM SwotNetworkBundle:ThingStatusUpdate c
+        ');
+
+        /** @var Newsfeed $newsfeed */
+        $newsfeed = $query->getResult();
+        return $newsfeed;
+    }
 }

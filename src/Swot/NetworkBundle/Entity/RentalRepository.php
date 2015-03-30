@@ -12,4 +12,23 @@ use Doctrine\ORM\EntityRepository;
  */
 class RentalRepository extends EntityRepository
 {
+    /**
+     * Finds all active rentals for a thing.
+     * A rental is active, if it's granted until date is in the future.
+     *
+     * @param Thing $thing
+     * @return array
+     */
+    public function findActiveRentals(Thing $thing) {
+        $query = $this->getEntityManager()->createQuery("
+            SELECT r FROM SwotNetworkBundle:Rental r
+            WHERE r.thing = :thing
+            AND r.accessGrantedUntil >= :now
+        ")
+            ->setParameter("thing", $thing)
+            ->setParameter("now", new \DateTime())
+        ;
+
+        return $query->getResult();
+    }
 }

@@ -135,9 +135,12 @@ class ThingController extends Controller
         $form = $this->createForm(new ThingType(), $thing);
         $form->handleRequest($request);
 
+        $rentals = $this->getDoctrine()->getRepository("SwotNetworkBundle:Rental")->findActiveRentals($thing);
+
         return $this->render('SwotNetworkBundle:Thing:settings.html.twig', array(
             'thing' => $thing,
             'form' => $form->createView(),
+            'rentals' => $rentals,
         ));
     }
 

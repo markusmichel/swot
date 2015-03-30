@@ -3,6 +3,8 @@
 namespace Swot\NetworkBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\Role\Role;
+use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints as Assert;
 use Swot\NetworkBundle\Security\AccessType;
 
@@ -12,7 +14,7 @@ use Swot\NetworkBundle\Security\AccessType;
  * @ORM\Table()
  * @ORM\Entity(repositoryClass="Swot\NetworkBundle\Entity\ThingRepository")
  */
-class Thing
+class Thing implements UserInterface
 {
     /**
      * @var integer
@@ -40,9 +42,9 @@ class Thing
     /**
      * @var string
      *
-     * @ORM\Column(name="access_token", type="string", length=255)
+     * @ORM\Column(name="network_access_token", type="string", length=255)
      */
-    private $accessToken;
+    private $networkAccessToken;
 
     /**
      * @ORM\OneToOne(targetEntity="Ownership", mappedBy="thing", cascade={"persist"})
@@ -140,12 +142,12 @@ class Thing
     /**
      * Set accessToken
      *
-     * @param string $accessToken
+     * @param string $networkAccessToken
      * @return Thing
      */
-    public function setAccessToken($accessToken)
+    public function setNetworkAccessToken($networkAccessToken)
     {
-        $this->accessToken = $accessToken;
+        $this->networkAccessToken = $networkAccessToken;
 
         return $this;
     }
@@ -155,9 +157,9 @@ class Thing
      *
      * @return string 
      */
-    public function getAccessToken()
+    public function getNetworkAccessToken()
     {
-        return $this->accessToken;
+        return $this->networkAccessToken;
     }
 
     /**
@@ -336,5 +338,72 @@ class Thing
     public function getProfileImage()
     {
         return $this->profileImage;
+    }
+
+    /**
+     * Returns the roles granted to the user.
+     *
+     * <code>
+     * public function getRoles()
+     * {
+     *     return array('ROLE_USER');
+     * }
+     * </code>
+     *
+     * Alternatively, the roles might be stored on a ``roles`` property,
+     * and populated in any number of different ways when the user object
+     * is created.
+     *
+     * @return Role[] The user roles
+     */
+    public function getRoles()
+    {
+        return array();
+    }
+
+    /**
+     * Returns the password used to authenticate the user.
+     *
+     * This should be the encoded password. On authentication, a plain-text
+     * password will be salted, encoded, and then compared to this value.
+     *
+     * @return string The password
+     */
+    public function getPassword()
+    {
+        // TODO: Implement getPassword() method.
+    }
+
+    /**
+     * Returns the salt that was originally used to encode the password.
+     *
+     * This can return null if the password was not encoded using a salt.
+     *
+     * @return string|null The salt
+     */
+    public function getSalt()
+    {
+        return null;
+    }
+
+    /**
+     * Returns the username used to authenticate the user.
+     *
+     * @return string The username
+     */
+    public function getUsername()
+    {
+        return $this->getId();
+    }
+
+    /**
+     * Removes sensitive data from the user.
+     *
+     * This is important if, at any given point, sensitive information like
+     * the plain-text password is stored on this object.
+     */
+    public function eraseCredentials()
+    {
+        // TODO: Implement eraseCredentials() method.
     }
 }

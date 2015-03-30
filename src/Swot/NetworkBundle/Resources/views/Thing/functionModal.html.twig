@@ -1,0 +1,14 @@
+<div id="modal-function-{{ function.id }}" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+    {% set functionForm = functionForms[function.id] %}
+    <li>
+        {#<form action="{{ path('thing_activate_function', {id: thing.id, functionId: function.id}) }}" method="post" novalidate="novalidate" name="{{ function.id }}">#}
+        <form action="{{ path('thing_show', {id: thing.id}) }}" method="post" novalidate="novalidate" name="{{ function.id }}">
+            {{ form_widget(functionForm.createView()) }}
+
+            <input type="hidden" name="_fid" value="{{ function.id }}"/>
+
+            <button type="submit">activate</button>
+        </form>
+    </li>
+</div>
+

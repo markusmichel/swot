@@ -34,7 +34,7 @@ li {
 }
 
 .headline-margin {
-    margin-top: 40px;
+    margin-top: 20px;
 }
 
 button, .button {
@@ -42,6 +42,15 @@ button, .button {
     padding-right: 1rem;
     padding-bottom: 0.5rem;
     padding-left: 1rem;
+}
+
+.button-top-bar {
+    margin-left: 25px;
+    margin-top: 10px;
+}
+
+.button-top-bar li {
+    display: inline-block;
 }
 
 .header {
@@ -174,11 +183,6 @@ button, .button {
     opacity: 0.5;
 }
 
-.inline {
-    display: inline-block;
-    margin-right: 15px;
-}
-
 .flex-row {
     display: -webkit-flex;
     -webkit-flex-direction: row;
@@ -276,9 +280,14 @@ button, .button {
     text-overflow: ellipsis;
 }
 
-.normal-hex {
-    position: relative;
+.hex-list .hex {
     display: inline-block;
+    margin-right: 15px;
+}
+
+/* normal hex */
+.hex-list.normal .hex, .hex.normal {
+    margin-right: 0;
     width: 150px;
     height: 132px;
     overflow: hidden;
@@ -290,20 +299,29 @@ button, .button {
 
 }
 
-.normal-hex .hex-item {
+.hex-list.normal .hex .hex-item, .hex-normal .hex-item {
     width: 116px;
     margin-left: 17px;
 }
 
-.hex-list .normal-hex {
+.hex-list.normal .hex {
     margin-left: -35px;
 }
 
-.normal-hex:nth-child(2n) {
+.hex-list.normal .hex:nth-child(2n) {
     margin-bottom: -70px;
 }
 
-.small-hex {
+.hex-list.normal .hex .maskborder, .hex-normal .maskborder{
+    width: 146px;
+    height: 128PX;
+    -webkit-mask-box-image: url(../gfx/hexagon_mask.png);
+    margin-left: 0;
+    margin-top: 2px;
+}
+
+/* small hex */
+.hex-list.small .hex, .hex.small {
     width: 100px;
     height: 88px;
     overflow: hidden;
@@ -314,20 +332,28 @@ button, .button {
     background-color: #588C73;
 }
 
-.small-hex .hex-item {
+.hex-list.small .hex .hex-item, .hex.small .hex-item {
     width: 80px;
     margin-left: 10px;
 }
 
-.hex-list .small-hex {
+.hex-list.small .hex {
     margin-left: -36px;
 }
 
-.small-hex:nth-child(2n) {
+.hex-list.small .hex:nth-child(2n) {
     margin-bottom: -48px;
 }
 
-.tiny-hex {
+.hex-list.small .hex .maskborder, .hex.small .maskborder {
+    width: 96px;
+    height: 84PX;
+    -webkit-mask-box-image: url(../gfx/hexagon_mask_small.png);
+    margin-top: 2px;
+}
+
+/* tiny hex */
+.hex-list.tiny .hex, .hex.tiny {
     width: 64px;
     height: 56px;
     overflow: hidden;
@@ -338,22 +364,7 @@ button, .button {
     background-color: #588C73;
 }
 
-.normal-hex .maskborder{
-    width: 146px;
-    height: 128PX;
-    -webkit-mask-box-image: url(../gfx/hexagon_mask.png);
-    margin-left: 0;
-    margin-top: 2px;
-}
-
-.small-hex .maskborder {
-    width: 96px;
-    height: 84PX;
-    -webkit-mask-box-image: url(../gfx/hexagon_mask_small.png);
-    margin-top: 2px;
-}
-
-.tiny-hex .maskborder {
+.hex-list.tiny .hex .maskborder, .hex.tiny .maskborder {
     width: 62px;
     height: 54PX;
     -webkit-mask-box-image: url(../gfx/hexagon_mask_tiny.png);
@@ -372,7 +383,7 @@ button, .button {
     height: 88px;
 }
 
-.profile-picture-container .small-hex {
+.profile-picture-container .hex.small {
     position: absolute;
 }
 

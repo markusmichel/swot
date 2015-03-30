@@ -43,10 +43,6 @@ class ThingAuthenticator implements SimplePreAuthenticatorInterface {
         /** @var Thing $thing */
         $thing = $this->thingProvider->loadUserByUsername($username);
 
-        $file = '/var/www/__debug.txt';
-        $text = "thing id " . $token->getUser() . "\n";
-        file_put_contents($file, $text, FILE_APPEND | LOCK_EX);
-
         return new ThingAuthenticatedToken(
             $thing,
             $networkAccessToken,

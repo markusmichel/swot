@@ -7,6 +7,9 @@ security:
           algorithm: bcrypt
           cost: 12
 
+        Swot\NetWorkBundle\Entity\Thing:
+          algorithm: plain_text
+
     # http://symfony.com/doc/current/book/security.html#hierarchical-roles
     role_hierarchy:
         ROLE_ADMIN:       ROLE_USER
@@ -19,6 +22,11 @@ security:
             class: SwotNetworkBundle:User
             property: username
 
+        things:
+          entity:
+            class: SwotNetworkBundle:Thing
+            property: id
+
     # the main part of the security, where you can set up firewalls
     # for specific sections of your app
     firewalls:
@@ -30,7 +38,10 @@ security:
         api:
             pattern:    /api/v1
             stateless:  true
-            anonymous: true
+            anonymous: false
+            provider: things
+            simple_preauth:
+                authenticator: thing_authenticator
 
         # secures part of the application
         main:
@@ -45,6 +56,8 @@ security:
             logout:
                 path:   /logout
                 target: /
+
+            provider: users
 
 
     # with these settings you can restrict or allow access for different parts

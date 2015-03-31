@@ -5,6 +5,7 @@ namespace Swot\FormMapperBundle\Entity;
 use Doctrine\ORM\Mapping as ORM;
 use Swot\FormMapperBundle\Entity\Parameter\Parameter;
 use Swot\NetworkBundle\Fixtures\ThingFixtures;
+use Swot\NetworkBundle\Services\CurlManager;
 
 /**
  * Function
@@ -31,6 +32,13 @@ class Action
         $url = $this->getUrl() . "?" . http_build_query($parameters);
         $url = "http://www.google.de";
 
+        //@TODO: after development uncomment these lines
+        /** @var CurlManager $curlManager */
+        //$curlManager = $this->get('services.curl_manager');
+        //return $curlManager->getCurlResponse($url);
+
+
+        // @TODO: delete the following lines after development
         // Callback will use reference to this variable
         $response = null;
 

@@ -47,6 +47,30 @@ class Thing implements UserInterface
     private $networkAccessToken;
 
     /**
+     * Used to access thing functions/information.
+     * Only owner of the thing may use this token.
+     *
+     * @ORM\Column(name="owner_token", type="string", length=255)
+     */
+    private $ownerToken;
+
+    /**
+     * Used to access thing functions/information.
+     * Only users with permissions to activate the thing's functions may use this token.
+     *
+     * @ORM\Column(name="write_token", type="string", length=255)
+     */
+    private $writeToken;
+
+    /**
+     * Used to access thing functions/information.
+     * Users with read permissions may use this token to retrieve the thing's status.
+     *
+     * @ORM\Column(name="read_token", type="string", length=255)
+     */
+    private $readToken;
+
+    /**
      * @ORM\OneToOne(targetEntity="Ownership", mappedBy="thing", cascade={"persist"})
      */
     private $ownership;
@@ -405,5 +429,74 @@ class Thing implements UserInterface
     public function eraseCredentials()
     {
         // TODO: Implement eraseCredentials() method.
+    }
+
+    /**
+     * Set ownerToken
+     *
+     * @param string $ownerToken
+     * @return Thing
+     */
+    public function setOwnerToken($ownerToken)
+    {
+        $this->ownerToken = $ownerToken;
+
+        return $this;
+    }
+
+    /**
+     * Get ownerToken
+     *
+     * @return string 
+     */
+    public function getOwnerToken()
+    {
+        return $this->ownerToken;
+    }
+
+    /**
+     * Set writeToken
+     *
+     * @param string $writeToken
+     * @return Thing
+     */
+    public function setWriteToken($writeToken)
+    {
+        $this->writeToken = $writeToken;
+
+        return $this;
+    }
+
+    /**
+     * Get writeToken
+     *
+     * @return string 
+     */
+    public function getWriteToken()
+    {
+        return $this->writeToken;
+    }
+
+    /**
+     * Set readToken
+     *
+     * @param string $readToken
+     * @return Thing
+     */
+    public function setReadToken($readToken)
+    {
+        $this->readToken = $readToken;
+
+        return $this;
+    }
+
+    /**
+     * Get readToken
+     *
+     * @return string 
+     */
+    public function getReadToken()
+    {
+        return $this->readToken;
     }
 }

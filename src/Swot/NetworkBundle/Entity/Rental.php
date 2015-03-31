@@ -68,6 +68,10 @@ class Rental
      */
     private $userTo;
 
+    public function getOtherUser($user) {
+        return $this->getUserFrom() === $user ? $this->getUserFrom() : $this->getUserTo();
+    }
+
     public function __construct() {
         $this->accessToken = "";
     }

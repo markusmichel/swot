@@ -10,15 +10,12 @@ class QrReader {
     private $filePath;
 
     /**
-     * Reads QrCode and returns its value.
+     * @param $filePath String filepath to the picture
+     * @return string the content of the qr code
      */
     public function readQrCode($filePath){
 
         $this->filePath = $filePath;
-
-        //@TODO read dynamically
-        //$this->filePath = $this->binDir . "exampleQR.png";
-
         $command = "java -jar ". $this->binDir . "qr.jar " . $this->filePath;
         return exec($command);
     }

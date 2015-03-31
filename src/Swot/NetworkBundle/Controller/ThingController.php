@@ -19,6 +19,7 @@ use Swot\NetworkBundle\Form\RentalType;
 use Swot\FormMapperBundle\Form\FunctionType;
 use Swot\NetworkBundle\Form\ThingType;
 use Swot\NetworkBundle\Security\ThingVoter;
+use Swot\NetworkBundle\Services\CurlManager;
 use Swot\NetworkBundle\Services\QrReader;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Form;
@@ -114,8 +115,6 @@ class ThingController extends Controller
             'messages'      => $messages,
         ));
     }
-
-
 
     /**
      * Shows a thing's settings.
@@ -218,23 +217,25 @@ class ThingController extends Controller
                     /** @var UploadedFile $file */
                     $file = $data['register'];
                     $qr = $file->move($file->getPath(),"qr.png");
-
                     $url = $this->getUrlFromQr($qr);
-                    $thingInfo = $this->getRegisterInfoFromThing($url);
+
+                    /** @var CurlManager $curlManager */
+                    $curlManager = $this->get('services.curl_manager');
+
+                    // accesstoken for the thing to communicate with the network
+                    $accessToken = uniqid();
+                    //@TODO: better way to add parameters?
+                    $thingInfo = $curlManager->getCurlResponse($url . "&network_token=" . $accessToken);
 
                     $thingName = $thingInfo->device->id;
-
-                    $functionsUrl = $thingInfo->device->api->function;
-                    $ownerToken = $thingInfo->device->tokens->owner;
-
-                    $functionsData = $this->getThingFunctions($functionsUrl, $ownerToken);
+                    $functionsUrl = $thingInfo->device->api->function .  "?access_token=" . $thingInfo->device->tokens->owner;
+                    $functionsData = $curlManager->getCurlResponse($functionsUrl);
 
                     $manager = $this->getDoctrine()->getManager();
 
                     $thing = new Thing();
                     $thing->setName($thingName);
-                    //@todo: get token dynamically from device
-                    $thing->setNetworkAccessToken("asdadasds");
+                    $thing->setNetworkAccessToken($accessToken);
 
                     $ownership = new Ownership();
                     $ownership->setThing($thing);
@@ -364,6 +365,7 @@ class ThingController extends Controller
      */
     private function generateTestFunction($thing)
     {
+        //@TODO: only for development --> delete
         $res = json_decode(ThingFixtures::$thingResponse);
         $functionsData = $res->device->functions;
 
@@ -421,45 +423,11 @@ class ThingController extends Controller
     }
 
     /**
-     * Connects to the thing register url and gets its information.
-     * @param $url The register url of the thing
-     */
-    private function getRegisterInfoFromThing($url){
-        $response = null;
-        $curl = new \Zebra_cURL();
-        $curl->get($url, function($result) use (&$response) {
-            // everything went well at cURL level
-            if ($result->response[1] == CURLE_OK) {
-
-                // if server responded with code 200 (meaning that everything went well)
-                // see http://httpstatus.es/ for a list of possible response codes
-                if ($result->info['http_code'] == 200) {
-
-                    $response = $result->body;
-                    return $response;
-
-                }
-                // @todo: create exception
-                else die('Server responded with code ' . $result->info['http_code']);
-            }
-
-            // something went wrong
-            // ($result still contains all data that could be gathered)
-            // @todo: create exception
-            else die('cURL responded with: ' . $result->response[0]);
-        });
-
-        return json_decode($response);
-
-    }
-
-    /**
-     *
      * Generates the data of the related thing.
      *
-     * @param $functionsData
-     * @param $thing
-     * @param $manager
+     * @param $functionsData String contains the functions to be added to the thing
+     * @param $thing Thing new thing
+     * @param $manager Object the entity manger
      */
     private function generateThingData($functionsData, $thing, $manager)
     {
@@ -501,42 +469,4 @@ class ThingController extends Controller
         $manager->flush();
     }
 
-    /**
-     * Gets the functions for the related thing
-     * @param $url String url for the different functions available
-     * @param $token String owner/write token of the device
-     * @return mixed
-     */
-    private function getThingFunctions($url, $token){
-
-        //@TODO: better way to build url?!
-        $url = $url . "?+access_token=" . $token;
-
-        $response = null;
-        $curl = new \Zebra_cURL();
-        $curl->get($url, function($result) use (&$response) {
-            // everything went well at cURL level
-            if ($result->response[1] == CURLE_OK) {
-
-                // if server responded with code 200 (meaning that everything went well)
-                // see http://httpstatus.es/ for a list of possible response codes
-                if ($result->info['http_code'] == 200) {
-
-                    $response = $result->body;
-                    return $response;
-
-                }
-                // @todo: create exception
-                else die('Server responded with code ' . $result->info['http_code']);
-            }
-
-            // something went wrong
-            // ($result still contains all data that could be gathered)
-            // @todo: create exception
-            else die('cURL responded with: ' . $result->response[0]);
-        });
-
-        return json_decode($response);
-
-    }
 }

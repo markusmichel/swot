@@ -70,3 +70,7 @@ services:
     services.qr_reader:
         class: Swot\NetworkBundle\Services\QrReader
         arguments: [%kernel.root_dir%]
+
+    services.curl_manager:
+        class: Swot\NetworkBundle\Services\CurlManager
+        arguments: []

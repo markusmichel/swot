@@ -3,22 +3,22 @@
 {% block title %}SwotNetworkBundle:Friend:show{% endblock %}
 
 {% block headline %}
-        <div class="profile-picture-container flex-row">
-            <h1 class="profile-picture-title">
-                {% if user != app.user %}
-                    {{ user.username }}
-                {% else %}
-                    {% trans %}user.profile.title{% endtrans %}
-                {% endif %}
-            </h1>
-            <div class="hex small flex-left">
-                <img class="maskborder" src="
-                    {{ (profile_image_folder ~ user.profileImage) | imagine_filter('profile_image_thumb')|default('http://localhost/swot/web/res/gfx/person-inverted.jpg') }}"
-                />
-            </div>
-            <div class="long-hex flex-center"></div>
-            <div class="long-hex-after flex-right"></div>
+    <div class="profile-picture-container flex-row">
+        <h1 class="profile-picture-title">
+            {% if user != app.user %}
+                {{ user.username }}
+            {% else %}
+                {% trans %}user.profile.title{% endtrans %}
+            {% endif %}
+        </h1>
+        <div class="hex small flex-left">
+            <img class="maskborder" src="
+                {{ (profile_image_folder ~ user.profileImage) | imagine_filter('profile_image_thumb')|default('http://localhost/swot/web/res/gfx/person-inverted.jpg') }}"
+            />
         </div>
+        <div class="long-hex flex-center"></div>
+        <div class="long-hex-after flex-right"></div>
+    </div>
     <div class="thing-detail meta-info">
         <div>{% trans %}common.registered_since{% endtrans %}: {{ user.registeredDate.date }}</div>
     </div>
@@ -54,7 +54,7 @@
         <div class="hex">
             <img class="maskborder opac" src=
                     {% if user.gender == "m" %}"http://localhost/swot/web/res/gfx/gender-male.png"{% endif %}
-                    {% if user.gender == "w" %}"http://localhost/swot/web/res/gfx/gender-female.png"{% endif %}
+                    {% if user.gender == "f" %}"http://localhost/swot/web/res/gfx/gender-female.png"{% endif %}
                 />
         </div>
         <div class="hex">
@@ -74,6 +74,10 @@
             <img class="maskborder opac" src="http://localhost/swot/web/res/gfx/comment-big.png">
         </a>
     </div>
+
+    {% if user != app.user %}
+        {% include 'SwotNetworkBundle:Thing:list.html.twig' with {user: user} %}
+    {% endif %}
     
 {% endblock %}
 

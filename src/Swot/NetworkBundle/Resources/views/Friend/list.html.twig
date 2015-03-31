@@ -44,4 +44,15 @@
         {% endfor %}
     </div>
 
+    <h2>{% trans %}user.friend.alreadyknow{% endtrans %}</h2>
+    <div class="hex-list small">
+        {% for stranger in strangers %}
+            <div class="hex">
+                {% include 'SwotNetworkBundle:Friend:friendListEntry.html.twig' with {friend: stranger} %}
+                <img class="maskborder opac" src="
+                            {{ (profile_image_folder ~ stranger.profileImage) | imagine_filter('profile_image_thumb')|default('http://localhost/swot/web/res/gfx/person.jpg') }}"
+                        />
+            </div>
+        {% endfor %}
+    </div>
 {% endblock %}

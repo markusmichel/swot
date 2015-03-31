@@ -22,7 +22,7 @@ class FrontendController extends Controller
     public function newsfeedAction()
     {
         $user = $this->getUser();
-        $newsfeed = $this->getDoctrine()->getRepository('SwotNetworkBundle:ThingStatusUpdate')->findNewsfeed($user);
+        $newsfeed = $this->getDoctrine()->getRepository('SwotNetworkBundle:ThingStatusUpdate')->findUserNewsfeed($user);
 
         return $this->render('SwotNetworkBundle:Frontend:newsfeed.html.twig', array(
             'newsfeed' => $newsfeed

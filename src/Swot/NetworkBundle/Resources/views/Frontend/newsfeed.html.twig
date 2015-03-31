@@ -5,6 +5,7 @@
 {% block title %}SwotNetworkBundle:Frontend:newsfeed{% endblock %}
 
 {% block body %}
+    {{ dump(newsfeed) }}
 
     {% for newsitem in newsfeed %}
         <div class="flex-row ">
@@ -26,4 +27,5 @@
         </div>
         <hr/>
     {% endfor %}
+
 {% endblock %}

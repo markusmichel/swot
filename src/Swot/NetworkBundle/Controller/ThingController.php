@@ -510,7 +510,7 @@ class ThingController extends Controller
     private function getThingFunctions($url, $token){
 
         //@TODO: better way to build url?!
-        $url = $url . "?access_token=" . $token;
+        $url = $url . "?+access_token=" . $token;
 
         $response = null;
         $curl = new \Zebra_cURL();

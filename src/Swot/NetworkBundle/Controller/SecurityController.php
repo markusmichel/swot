@@ -35,6 +35,12 @@ class SecurityController extends Controller
                 /** @var PasswordEncoderInterface $encoder */
                 $encoder = $this->get('security.password_encoder');
                 $encodedPassword = $encoder->encodePassword($userToRegister, $userToRegister->getPassword());
+
+                /**
+                 * activate user by default unless mail confirmation is implemented
+                 */
+                $userToRegister->setActivated(true);
+
                 $userToRegister->setPassword($encodedPassword);
 
                 $this->getDoctrine()->getManager()->persist($userToRegister);

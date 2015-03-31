@@ -16,8 +16,9 @@ class ThingStatusUpdateRepository extends EntityRepository
      * Retrieves newsfeed for given user
      * @param $user
      */
-    public function findNewsfeed($user) {
+    public function findUserNewsfeed($user) {
 
+        //TODO newsfeed only for own things, lent things, public things, things from friends
         $query = $this->getEntityManager()->createQuery('
             SELECT c
             FROM SwotNetworkBundle:ThingStatusUpdate c

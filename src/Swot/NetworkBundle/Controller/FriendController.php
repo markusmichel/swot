@@ -21,8 +21,12 @@ class FriendController extends Controller
         /** @var User $user */
         $user = $this->getUser();
 
+        $randomStrangersCount = 10;
+        $strangers = $this->getRandomStrangers($user, $randomStrangersCount);
+
         return $this->render('SwotNetworkBundle:Friend:list.html.twig', array(
             'user'      => $user,
+            'strangers' => $strangers
         ));
     }
 
@@ -125,7 +129,7 @@ class FriendController extends Controller
     }
 
     /**
-     * Send a freandship invite from the current user to the requested user.
+     * Send a friendship invite from the current user to the requested user.
      * Redirects to the friend's profile if they are already friends.
      *
      * Currently makes them immediately to friends without invitiation.
@@ -219,6 +223,13 @@ class FriendController extends Controller
             ->getForm();
 
         return $form;
+    }
+
+    private function getRandomStrangers(User $user, $randomStrangersCount)
+    {
+        $userRepo = $this->getDoctrine()->getRepository('SwotNetworkBundle:User');
+        $strangers = $userRepo->findRandomStrangers($user, $randomStrangersCount);
+        return $strangers;
     }
 
 }

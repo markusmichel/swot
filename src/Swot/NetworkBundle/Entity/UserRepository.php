@@ -3,6 +3,7 @@
 namespace Swot\NetworkBundle\Entity;
 
 use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\Tools\Pagination\Paginator;
 
 /**
  * UserRepository
@@ -25,7 +26,7 @@ class UserRepository extends EntityRepository
              JOIN SwotNetworkBundle:User u
              WHERE (
                 f.userWho = :user
-                OR f.userWho = :user
+                OR f.userWith = :user
              )
              AND u != :user
              AND u.activated = TRUE
@@ -36,6 +37,44 @@ class UserRepository extends EntityRepository
 
         $result = $query->getResult();
 
+        return $result;
+    }
+
+    public function findRandomStrangers(User $user, $count) {
+
+        //TODO: find random count * strangers
+        //TODO: user activated
+        //TODO: use query builder
+    /*
+        $query = $this->getEntityManager()->createQuery(
+            'SELECT u
+             FROM SwotNetworkBundle:User u
+             JOIN SwotNetworkBundle:Friendship f
+             WHERE (
+                f.userWho != :user
+                OR f.userWith != :user
+             )
+             AND u != :user
+             AND u.activated = FALSE
+             '
+        )
+            ->setParameter("user", $user)
+        ;
+        */
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->add('select', 'u')
+            ->from('SwotNetworkBundle:User', 'u')
+            ->leftJoin('SwotNetworkBundle:Friendship', 'f')
+            ->where('f.userWho != :user')
+            ->andWhere('f.userWith != :user')
+            ->andWhere('u != :user')
+            ->andWhere('u.activated = FALSE')
+            ->setParameter("user", $user)
+            ->setMaxResults($count * 10 );
+
+
+        $result = $qb->getQuery()->getResult();
+        //$result = $query->getResult();
         return $result;
     }
 }

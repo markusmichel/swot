@@ -221,7 +221,11 @@ class ThingController extends Controller
 
                     /** @var CurlManager $curlManager */
                     $curlManager = $this->get('services.curl_manager');
-                    $thingInfo = $curlManager->getCurlResponse($url);
+
+                    // accesstoken for the thing to communicate with the network
+                    $accessToken = uniqid();
+                    //@TODO: better way to add parameters?
+                    $thingInfo = $curlManager->getCurlResponse($url . "&network_token=" . $accessToken);
 
                     $thingName = $thingInfo->device->id;
                     $functionsUrl = $thingInfo->device->api->function .  "?access_token=" . $thingInfo->device->tokens->owner;
@@ -231,8 +235,7 @@ class ThingController extends Controller
 
                     $thing = new Thing();
                     $thing->setName($thingName);
-                    //@todo: get token dynamically from device
-                    $thing->setNetworkAccessToken("asdadasds");
+                    $thing->setNetworkAccessToken($accessToken);
 
                     $ownership = new Ownership();
                     $ownership->setThing($thing);
@@ -424,7 +427,7 @@ class ThingController extends Controller
      *
      * @param $functionsData String contains the functions to be added to the thing
      * @param $thing Thing new thing
-     * @param $manager EntityManager the entity manger
+     * @param $manager Object the entity manger
      */
     private function generateThingData($functionsData, $thing, $manager)
     {

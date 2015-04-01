@@ -2,21 +2,15 @@
 
 namespace Swot\NetworkBundle\Controller;
 
-use Doctrine\ORM\EntityNotFoundException;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Swot\FormMapperBundle\Entity\NotBlank;
-use Swot\FormMapperBundle\Entity\NotNull;
 use Swot\FormMapperBundle\Entity\Parameter\Parameter;
 use Swot\FormMapperBundle\Entity\Action;
-use Swot\NetworkBundle\Entity\Ownership;
 use Swot\FormMapperBundle\Entity\AbstractConstraint;
 use Swot\NetworkBundle\Entity\Rental;
 use Swot\NetworkBundle\Entity\Thing;
 use Swot\NetworkBundle\Entity\User;
 use Swot\NetworkBundle\Exception\AccessToThingDeniedException;
-use Swot\NetworkBundle\Exception\ThingNotFoundException;
 use Swot\NetworkBundle\Fixtures\ThingFixtures;
-use Swot\NetworkBundle\Form\RentalType;
 use Swot\FormMapperBundle\Form\FunctionType;
 use Swot\NetworkBundle\Form\ThingType;
 use Swot\NetworkBundle\Security\ThingVoter;
@@ -238,6 +232,8 @@ class ThingController extends Controller
             // Convert response to Action/Function objects.
             // Add them to the thing.
             $functions = $converter->convertFunctions($functionsData);
+
+            /** @var Action $function */
             foreach($functions as $function) {
                 $thing->addFunction($function);
                 $function->setThing($thing);

@@ -49,6 +49,12 @@ services:
         tags:
            - { name: security.voter }
 
+    security.rental_voter:
+        class:      Swot\NetworkBundle\Security\RentalVoter
+        public:     false
+        tags:
+            - { name: security.voter }
+
     # Register form types
     swot.form.type.user_settings:
         class:      Swot\NetworkBundle\Form\UserSettingsType

@@ -33,6 +33,10 @@ swot_network_message:
     resource: "@SwotNetworkBundle/Resources/config/routing/message.yml"
     prefix:   /conversation
 
+swot_network_rental:
+    resource: "@SwotNetworkBundle/Resources/config/routing/rental.yml"
+    prefix:   /things/{thingid}/rentals
+
 swot_network_thing_rest:
     type: rest
     resource: Swot\NetworkBundle\Controller\ThingRestController

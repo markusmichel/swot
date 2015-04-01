@@ -1,0 +1,8 @@
+rental_list:
+    path:     /
+    defaults: { _controller: SwotNetworkBundle:Rental:list }
+
+rental_quit:
+    path:     /{rentalid}
+    defaults: { _controller: SwotNetworkBundle:Rental:quit }
+    methods:  [DELETE]

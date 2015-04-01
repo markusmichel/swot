@@ -1,0 +1,9 @@
+<ul>
+    {% for rental in rentals %}
+        <li class="rental">
+            {{ rental.userTo.username }} until <cite>{{ rental.accessGrantedUntil | date }}</cite>
+
+            {{ form(deleteForms[rental.id]) }}
+        </li>
+    {% endfor %}
+</ul>

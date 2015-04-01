@@ -12,17 +12,12 @@
         <button type="submit">save</button>
     </form>
 
-    {% if thing.rentals | length > 0 %}
-        <h3>Thing is lent to:</h3>
-    {% endif %}
-    <ul>
-        {% for rental in rentals %}
-            <li>
-                {{ rental.userTo.username }} until <cite>{{ rental.accessGrantedUntil | date }}</cite>
-                <button type="submit">quit</button>
-            </li>
-        {% endfor %}
-    </ul>
+    <div id="rentals">
+        {% if thing.rentals | length > 0 %}
+            <h3>Thing is lent to:</h3>
+        {% endif %}
+        {{ render(controller("SwotNetworkBundle:Rental:list", {thingid: thing.id})) }}
+    </div>
 
     <p>
         TODO:
@@ -32,4 +27,27 @@
         </ul>
     </p>
 
+{% endblock %}
+
+{% block javascripts %}
+    {{ parent() }}
+
+    <script>
+        $(function() {
+            // Fetch click on quit rental button.
+            // Prevent default form submit and submit via ajax delete.
+            // @todo: place in external script
+            $("#rentals form button[type='submit']").click(function(e) {
+                e.preventDefault();
+                var $form = $(e.target).closest("form");
+                $.ajax({
+                    url: $form.attr("action"),
+                    method: "DELETE",
+                    data: $form.serialize()
+                }).success(function(data) {
+                    $(e.target).closest(".rental").fadeOut("fast");
+                });
+            });
+        });
+    </script>
 {% endblock %}

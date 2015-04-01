@@ -12,7 +12,7 @@
             {% endif %}
         </h1>
         <div class="hex small flex-left">
-            <img class="maskborder" src="{{ (profile_image_folder ~ user.profileImage|default('person-inverted.jpg')) | imagine_filter('profile_image_thumb') }}"/>
+            <img class="maskborder" src="{{ (profile_image_folder ~ user.profileImage|default('person-inverted.jpg')) | imagine_filter('profile_image_thumb_small') }}"/>
         </div>
         <div class="long-hex flex-center"></div>
         <div class="long-hex-after flex-right"></div>

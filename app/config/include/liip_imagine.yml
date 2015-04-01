@@ -5,11 +5,23 @@ liip_imagine:
 
     filter_sets:
         cache: ~
-        profile_image_thumb:
+        profile_image_thumb_tiny:
             quality: 75
             filters:
                 strip: ~
-                thumbnail: { size: [120, 90], mode: outbound } # outbound: image will be cropped
+                thumbnail: { size: [62, 54], mode: outbound } # outbound: image will be cropped
+
+        profile_image_thumb_small:
+            quality: 75
+            filters:
+                strip: ~
+                thumbnail: { size: [96, 84], mode: outbound } # outbound: image will be cropped
+
+        profile_image_thumb_normal:
+            quality: 75
+            filters:
+                strip: ~
+                thumbnail: { size: [146, 128], mode: outbound } # outbound: image will be cropped
 
         profile_image:
             quality: 75

@@ -19,9 +19,9 @@ class ThingFixtures {
                     "status": "http://...."
                 },
                 "tokens": {
-                    "owner": "293487239",
-                    "write": "2305982304",
-                    "read": "23405834905"
+                    "owner_token": "293487239",
+                    "write_token": "2305982304",
+                    "read_token": "23405834905"
                 }
             }
         }

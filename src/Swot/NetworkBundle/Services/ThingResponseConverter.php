@@ -16,9 +16,10 @@ class ThingResponseConverter {
         $thing = new Thing();
         $thing->setName($thingInfo->device->id);
         $thing->setNetworkAccessToken($accessToken);
-        $thing->setOwnerToken("sdf");
-        $thing->setReadToken("sdf");
-        $thing->setWriteToken("sdf");
+        $thing->setBaseApiUrl($thingInfo->device->url);
+        $thing->setOwnerToken($thingInfo->device->tokens->owner_token);
+        $thing->setReadToken($thingInfo->device->tokens->read_token);
+        $thing->setWriteToken($thingInfo->device->tokens->write_token);
 
         return $thing;
     }

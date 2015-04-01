@@ -104,6 +104,14 @@ class Thing implements UserInterface
     private $profileImage;
 
     /**
+     * @var string
+     *
+     * @ORM\Column(name="base_api_url", type="string", length=255)
+     * @Assert\Url()
+     */
+    private $baseApiUrl;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -498,5 +506,21 @@ class Thing implements UserInterface
     public function getReadToken()
     {
         return $this->readToken;
+    }
+
+    /**
+     * @return string
+     */
+    public function getBaseApiUrl()
+    {
+        return $this->baseApiUrl;
+    }
+
+    /**
+     * @param string $baseApiUrl
+     */
+    public function setBaseApiUrl($baseApiUrl)
+    {
+        $this->baseApiUrl = $baseApiUrl;
     }
 }

@@ -3,9 +3,7 @@
 namespace Swot\NetworkBundle\Controller;
 
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
-use Swot\FormMapperBundle\Entity\Parameter\Parameter;
 use Swot\FormMapperBundle\Entity\Action;
-use Swot\FormMapperBundle\Entity\AbstractConstraint;
 use Swot\NetworkBundle\Entity\Rental;
 use Swot\NetworkBundle\Entity\Thing;
 use Swot\NetworkBundle\Entity\User;
@@ -326,22 +324,6 @@ class ThingController extends Controller
     }
 
     /**
-     * @param $thing Thing
-     * @return array
-     */
-    private function generateTestFunction($thing)
-    {
-        //@TODO: only for development --> delete
-        $res = json_decode(ThingFixtures::$thingResponse);
-        $functionsData = $res->device;
-
-        $converter = $this->container->get('thing_function_response_converter');
-        $functions = $converter->convert($functionsData);
-
-        return $functions;
-    }
-
-    /**
      * Encodes a qr code and return its value
      * @param $qr the QrFile to encode
      * @return mixed The registration url of the thing
@@ -353,52 +335,4 @@ class ThingController extends Controller
         $url = $qrContent->url;
         return $url;
     }
-
-    /**
-     * Generates the data of the related thing.
-     *
-     * @param $functionsData String contains the functions to be added to the thing
-     * @param $thing Thing new thing
-     * @param $manager Object the entity manger
-     */
-    private function generateThingData($functionsData, $thing, $manager)
-    {
-        foreach ($functionsData->functions as $func) {
-            $function = new Action();
-            $function->setThing($thing);
-            $function->setName($func->name);
-            $function->setUrl($func->url);
-
-            foreach ($func->parameters as $param) {
-                $parameter = Parameter::createParameter($param);
-                $parameter->setAction($function);
-
-                if (isset($param->constraints)) {
-                    foreach ($param->constraints as $con) {
-                        $className = "\\Swot\\FormMapperBundle\\Entity\\" . $con->type;
-                        if (!class_exists($className)) continue;
-
-                        /** @var AbstractConstraint $constraint */
-                        $constraint = new $className;
-                        $constraint->init($con);
-                        $constraint->setMessage($con->message);
-                        $constraint->setFunctionParameter($parameter);
-
-                        $parameter->addConstraint($constraint);
-                        $manager->persist($constraint);
-                    }
-                }
-
-                $function->addParameter($parameter);
-                $manager->persist($parameter);
-            }
-
-            $thing->addFunction($function);
-            $manager->persist($function);
-            $manager->persist($thing);
-        }
-
-        $manager->flush();
-    }
-
 }

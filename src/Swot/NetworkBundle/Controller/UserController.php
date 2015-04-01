@@ -40,12 +40,15 @@ class UserController extends Controller
 
         $settingsForm->handleRequest($request);
         if($settingsForm->isValid()) {
-            /** @var ImageUploader $uploader */
-            $uploader = $this->get('swot.image_uploader');
+            // Upload + update profile image if one was set
+            if($user->getProfileImageFile() !== null) {
+                /** @var ImageUploader $uploader */
+                $uploader = $this->get('swot.image_uploader');
 
-            $uploader->setFile($user->getProfileImageFile());
-            $filename = $uploader->upload();
-            $user->setProfileImage($filename);
+                $uploader->setFile($user->getProfileImageFile());
+                $filename = $uploader->upload();
+                $user->setProfileImage($filename);
+            }
 
             $this->getDoctrine()->getManager()->persist($user);
             $this->getDoctrine()->getManager()->flush();

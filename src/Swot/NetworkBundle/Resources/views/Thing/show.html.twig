@@ -45,7 +45,7 @@
         {% if thing.ownership.owner != app.user %}
         <a class="hex" href="{{ path('friend_show', {id: thing.ownership.owner.id}) }}">
                 <div class="hex-item"><div class="hex-item-inner">Owner: <br />{{ thing.ownership.owner.username }}</div></div>
-                <img class="maskborder opac" src="{{ (profile_image_folder ~ user.profileImage|default('person-inverted.jpg')) | imagine_filter('profile_image_thumb_small') }}"/>
+                <img class="maskborder opac" src="{{ (profile_image_folder ~ thing.ownership.owner.profileImage|default('person-inverted.jpg')) | imagine_filter('profile_image_thumb_small') }}"/>
         </a>
         {% endif %}
         <div class="hex">

@@ -7,7 +7,6 @@
             {% endif %}
         </div>
     </div>
-    <img class="maskborder opac" src="{{ asset('res/gfx/thing.jpg') }}"
-            />
+    <img class="maskborder opac" src="{{ (profile_image_folder ~ thing.profileImage|default('thing.jpg')) | imagine_filter('profile_image_thumb_small') }}"/>
 </a>
 

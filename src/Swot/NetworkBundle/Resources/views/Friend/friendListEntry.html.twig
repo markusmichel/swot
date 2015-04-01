@@ -12,9 +12,7 @@
     <div class="hex-item">
         <div class="hex-item-inner">{{ friend.username }}</div>
     </div>
-    <img class="maskborder opac" src="
-                                {{ (profile_image_folder ~ friend.profileImage) | imagine_filter('profile_image_thumb')|default(asset('res/gfx/person.jpg')) }}"
-            />
+    <img class="maskborder opac" src="{{ (profile_image_folder ~ friend.profileImage|default('person.jpg')) | imagine_filter('profile_image_thumb') }}"/>
 </a>
 
 

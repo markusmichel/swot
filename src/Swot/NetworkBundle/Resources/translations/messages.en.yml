@@ -35,9 +35,9 @@ thing:
     classification:           Classification
     accessType:               Access type
     functions:                Functions
+    newsfeed:                 Newsfeed
 
 settings:
-    page_title:               Settings
     page_title:               Settings
 
     access_type:

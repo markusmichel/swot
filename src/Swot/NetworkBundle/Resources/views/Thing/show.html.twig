@@ -8,9 +8,7 @@
             {{ thing.name }}
         </h1>
         <div class="hex small flex-left">
-            <img class="maskborder" src="
-                    {{ (profile_image_folder ~ thing.profileImage) | imagine_filter('profile_image_thumb')|default( asset('res/gfx/thing-inverted.jpg')) }}"
-                    />
+            <img class="maskborder" src="{{ (profile_image_folder ~ thing.profileImage|default('thing-inverted.jpg')) | imagine_filter('profile_image_thumb') }}"/>
         </div>
         <div class="long-hex flex-center"></div>
         <div class="long-hex-after flex-right"></div>
@@ -20,15 +18,20 @@
         <div>{% trans %}thing.owner_since{% endtrans %}: {{ thing.ownership.since.date }}</div>
     </div>
     <ul class="button-top-bar">
-        <li>
-            <a data-dropdown="function-drop" data-options="align:bottom" class="button secondary" aria-controls="function-drop" aria-expanded="false">{% trans %}thing.functions{% endtrans %}</a>
-            <ul id="function-drop" class="medium f-dropdown" data-dropdown-content aria-hidden="true" tabindex="-1">
-                {% for function in thing.functions %}
-                    <li><a href="#" data-reveal-id="modal-function-{{ function.id }}">{{ function.name }}</a></li>
-                    {% include 'SwotNetworkBundle:Thing:functionModal.html.twig' with {function: function} %}
-                {% endfor %}
-            </ul>
-        </li>
+        {% if thing.functions|length > 0 %}
+            <li>
+                <a data-dropdown="function-drop" data-options="is_hover:true;align:bottom" class="button secondary" aria-controls="function-drop" aria-expanded="false">{% trans %}thing.functions{% endtrans %}</a>
+                <ul id="function-drop" class="medium f-dropdown" data-dropdown-content aria-hidden="true" tabindex="-1">
+                    {% for function in thing.functions %}
+                        <li><a href="#" data-reveal-id="modal-function-{{ function.id }}">{{ function.name }}</a></li>
+                        {% include 'SwotNetworkBundle:Thing:functionModal.html.twig' with {function: function} %}
+                    {% endfor %}
+                </ul>
+            </li>
+        {% else %}
+            <li><div class="button-like secondary">No functions</div>
+        {% endif %}
+
         {% if is_granted('admin', thing) %}
             <li><a href="{{ path('thing_settings', {id: thing.id}) }}" class="button primary">Settings</a></li>
             <li>{{ form(delete_form) }}</li>
@@ -42,9 +45,7 @@
         {% if thing.ownership.owner != app.user %}
         <a class="hex" href="{{ path('friend_show', {id: thing.ownership.owner.id}) }}">
                 <div class="hex-item"><div class="hex-item-inner">Owner: <br />{{ thing.ownership.owner.username }}</div></div>
-                <img class="maskborder opac" src="
-                    {{ (profile_image_folder ~ thing.ownership.owner.profileImage) | imagine_filter('profile_image_thumb')|default( asset('res/gfx/person-inverted.jpg')) }}"
-                />
+                <img class="maskborder opac" src="{{ (profile_image_folder ~ user.profileImage|default('person-inverted.jpg')) | imagine_filter('profile_image_thumb') }}"/>
         </a>
         {% endif %}
         <div class="hex">
@@ -57,16 +58,19 @@
         </div>
     </div>
 
-    {% for newsitem in messages %}
-        <div class="flex-row ">
-            <div class="flex-center conversations-content">
-                {{ newsitem.message }}
+    {% if messages|length > 0 %}
+        <h2>{% trans %}thing.newsfeed{% endtrans %}</h2>
+        {% for newsitem in messages %}
+            <div class="flex-row ">
+                <div class="flex-center conversations-content">
+                    {{ newsitem.message }}
+                </div>
+                <div class="flex-right conversations-date">
+                    <div class="meta-info">from: {{ newsitem.sent|date }}</div>
+                </div>
             </div>
-            <div class="flex-right conversations-date">
-                <div class="meta-info">from: {{ newsitem.sent|date }}</div>
-            </div>
-        </div>
-        <hr/>
-    {% endfor %}
+            <hr/>
+        {% endfor %}
+    {% endif %}
 
 {% endblock %}

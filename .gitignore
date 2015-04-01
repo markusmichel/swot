@@ -27,6 +27,10 @@
 /web/bundles/
 /web/uploads/
 /web/media/
+!/web/uploads/profileimages/person.jpg
+!/web/uploads/profileimages/person-inverted.jpg
+!/web/uploads/profileimages/thing.jpg
+!/web/uploads/profileimages/thing-inverted.jpg
 
 # PHPUnit
 /app/phpunit.xml

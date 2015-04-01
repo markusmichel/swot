@@ -26,11 +26,13 @@
                 <div class="small-2 columns show-for-large-up">
                     {% include 'navigation.html.twig' %}
                 </div>
-                <div class="small-12 large-9 medium columns">
-
+                <div class="small-12 large-10 medium columns">
                     {% block headline %}{% endblock %}
                     <div class="headline-margin"></div>
-                    {% block body %}{% endblock %}
+                    <div class="main-padding">
+                        {% block body %}{% endblock %}
+                    </div>
+
                 </div>
             </div>
         </div>

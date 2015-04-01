@@ -172,7 +172,7 @@ class ThingController extends Controller
         $user = $this->getUser();
 
         //@TODO $useQR only for development
-        $useQR = 1;
+        $useQR = 0;
 
         $data = array();
         $form = $this->createFormBuilder($data)

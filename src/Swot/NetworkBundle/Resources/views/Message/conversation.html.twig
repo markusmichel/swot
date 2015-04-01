@@ -13,9 +13,7 @@
             <div class="flex-left conversation-picture">
                 <a href="{{ path('friend_show', {id: message.from.id}) }}">
                     <div class="hex tiny">
-                        <img class="maskborder" src="
-                            {{ (profile_image_folder ~ message.from.profileImage) | imagine_filter('profile_image_thumb')|default( asset('res/gfx/person.jpg')) }}"
-                        />
+                        <img class="maskborder" src="{{ (profile_image_folder ~ friend.profileImage|default('person.jpg')) | imagine_filter('profile_image_thumb_tiny') }}"/>
                     </div>
                 </a>
             </div>

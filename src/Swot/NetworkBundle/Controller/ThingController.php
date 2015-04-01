@@ -3,6 +3,7 @@
 namespace Swot\NetworkBundle\Controller;
 
 use Doctrine\ORM\EntityNotFoundException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Swot\FormMapperBundle\Entity\NotBlank;
 use Swot\FormMapperBundle\Entity\NotNull;
 use Swot\FormMapperBundle\Entity\Parameter\Parameter;
@@ -29,18 +30,6 @@ use Symfony\Component\HttpFoundation\Response;
 
 class ThingController extends Controller
 {
-
-    /**
-     * @param $thing Thing
-     * @throws ThingNotFoundException
-     */
-    protected function assertThingExists($thing) {
-        // Check if thing exists and has an owner
-        if(null === $thing || $thing->getOwnership() === null) {
-            throw new ThingNotFoundException("Thing does not exist");
-        }
-    }
-
     /**
      * @param $thing Thing
      * @param $accessType
@@ -54,19 +43,16 @@ class ThingController extends Controller
     /**
      * Shows a thing's profile.
      * @param Request $request
-     * @param $id
+     * @ParamConverter("thing", class="SwotNetworkBundle:Thing")
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function showAction(Request $request, $id) {
+    public function showAction(Request $request, Thing $thing) {
         /** @var User $user */
         $user = $this->getUser();
 
-        /** @var Thing $thing */
-        $thing = $this->getDoctrine()->getRepository("SwotNetworkBundle:Thing")->find($id);
-        $this->assertThingExists($thing);
         $this->assertAccessToThingGranted($thing, ThingVoter::ACCESS);
 
-        $deleteForm = $this->createDeleteForm($id);
+        $deleteForm = $this->createDeleteForm($thing->getId());
         $thingStatus = json_decode(ThingFixtures::$thingResponse);
 
         $functionForms = $this->createActivateFunctionForms($thing);
@@ -121,14 +107,10 @@ class ThingController extends Controller
      * Only accessible by the thing's owner.
      *
      * @param Request $request
-     * @param $id
+     * @ParamConverter("thing", class="SwotNetworkBundle:Thing")
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function settingsAction(Request $request, $id) {
-        /** @var Thing $thing */
-        $thing = $this->getDoctrine()->getRepository("SwotNetworkBundle:Thing")->find($id);
-
-        $this->assertThingExists($thing);
+    public function settingsAction(Request $request, Thing $thing) {
         $this->assertAccessToThingGranted($thing, ThingVoter::ADMIN);
 
         $form = $this->createForm(new ThingType(), $thing);
@@ -148,17 +130,12 @@ class ThingController extends Controller
      * Only the owner can lend things.
      *
      * @param Request $request
-     * @param $id
+     * @ParamConverter("thing", class="SwotNetworkBundle:Thing")
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function lendAction(Request $request, $id) {
+    public function lendAction(Request $request, Thing $thing) {
         /** @var User $user */
         $user = $this->getUser();
-
-        /** @var Thing $thing */
-        $thing = $this->getDoctrine()->getRepository("SwotNetworkBundle:Thing")->find($id);
-
-        $this->assertThingExists($thing);
         $this->assertAccessToThingGranted($thing, ThingVoter::ADMIN);
 
         $rental = new Rental();
@@ -231,6 +208,7 @@ class ThingController extends Controller
                     $functionsUrl = $thingInfo->device->api->function .  "?access_token=" . $thingInfo->device->tokens->owner;
                     $functionsData = $curlManager->getCurlResponse($functionsUrl);
 
+
                     $manager = $this->getDoctrine()->getManager();
 
                     $thing = new Thing();
@@ -292,17 +270,13 @@ class ThingController extends Controller
      * Calls /deregister on the real related thing.
      * @see createDeleteForm
      * @param Request $request
-     * @param $id
+     * @ParamConverter("thing", class="SwotNetworkBundle:Thing")
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function deleteAction(Request $request, $id) {
-        /** @var Thing $thing */
-        $thing = $this->getDoctrine()->getRepository('SwotNetworkBundle:Thing')->find($id);
-
-        $this->assertThingExists($thing);
+    public function deleteAction(Request $request, Thing $thing) {
         $this->assertAccessToThingGranted($thing, ThingVoter::ADMIN);
 
-        $form = $this->createDeleteForm($id);
+        $form = $this->createDeleteForm($thing->getId());
         $form->handleRequest($request);
 
         if($form->isValid()) {

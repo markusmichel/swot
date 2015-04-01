@@ -29,6 +29,7 @@ use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use League\Url\Url;
 
 class ThingController extends Controller
 {
@@ -179,7 +180,7 @@ class ThingController extends Controller
         $user = $this->getUser();
 
         //@TODO $useQR only for development
-        $useQR = 0;
+        $useQR = 1;
 
         $data = array();
         $form = $this->createFormBuilder($data)
@@ -206,11 +207,17 @@ class ThingController extends Controller
                 /** @var CurlManager $curlManager */
                 $curlManager = $this->get('services.curl_manager');
 
-                //@TODO: better way to add parameters?
-                $thingInfo = $curlManager->getCurlResponse($url . "&network_token=" . $accessToken);
+                $formattedUrl = URL::createFromUrl($url);
+                $query = $formattedUrl->getQuery();
+                $query["network_token"] = $accessToken;
+                $formattedUrl->setQuery($query);
+                $thingInfo = $curlManager->getCurlResponse($formattedUrl->__toString());
 
-                $functionsUrl = $thingInfo->device->api->function .  "?access_token=" . $thingInfo->device->tokens->owner;
-                $functionsData = $curlManager->getCurlResponse($functionsUrl);
+                $functionsUrl = URL::createFromUrl($thingInfo->device->api->function);
+                $query = $functionsUrl->getQuery();
+                $query["access_token"] = $thingInfo->device->tokens->owner_token;
+                $functionsUrl->setQuery($query);
+                $functionsData = $curlManager->getCurlResponse($functionsUrl->__toString());
             } else {
                 $res = json_decode(ThingFixtures::$thingResponse);
                 $thingInfo = $res;

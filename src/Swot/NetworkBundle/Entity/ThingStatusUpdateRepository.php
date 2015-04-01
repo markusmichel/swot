@@ -14,18 +14,27 @@ class ThingStatusUpdateRepository extends EntityRepository
 {
     /**
      * Retrieves newsfeed for given user
+     * the user gets newsfeed from his things, friends public things and lent things
      * @param $user
      */
-    public function findUserNewsfeed($user) {
+    public function findUserNewsfeed(User $user) {
 
-        //TODO newsfeed only for own things, lent things, public things, things from friends
-        $query = $this->getEntityManager()->createQuery('
-            SELECT c
-            FROM SwotNetworkBundle:ThingStatusUpdate c
-        ');
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select("c")
+            ->from("SwotNetworkBundle:ThingStatusUpdate", "c")
+            ->join("c.thing", "a")
+            ->leftJoin("a.rentals", "r")
+            ->join("a.ownership", "o")
+            ->join("o.owner", "u")
+            ->leftJoin("u.friendships", "f")
+            ->where("o.owner = :user")
+            ->orWhere("r.thing = a AND r.userTo = :user")
+            ->orWhere("a.accessType = 'public' AND (f.userWho = :user OR f.userWith = :user)")
+            ->setParameter('user', $user)
+        ;
 
         /** @var Newsfeed $newsfeed */
-        $newsfeed = $query->getResult();
+        $newsfeed = $qb->getQuery()->getResult();
         return $newsfeed;
     }
 }

@@ -11,7 +11,7 @@
         </h1>
         <div class="hex small flex-left">
             <img class="maskborder" src="
-                    {{ (profile_image_folder ~ app.user.profileImage) | imagine_filter('profile_image_thumb')|default('http://localhost/swot/web/res/gfx/person.jpg') }}"
+                    {{ (profile_image_folder ~ app.user.profileImage) | imagine_filter('profile_image_thumb')|default(asset('res/gfx/person.jpg')) }}"
             />
         </div>
         <div class="long-hex flex-center"></div>
@@ -37,7 +37,7 @@
         <div class="hex">
             {% include 'SwotNetworkBundle:Friend:friendListEntry.html.twig' with {friend: friend} %}
             <img class="maskborder opac" src="
-                            {{ (profile_image_folder ~ friend.profileImage) | imagine_filter('profile_image_thumb')|default('http://localhost/swot/web/res/gfx/person.jpg') }}"
+                            {{ (profile_image_folder ~ friend.profileImage) | imagine_filter('profile_image_thumb')|default(asset('res/gfx/person.jpg')) }}"
                     />
         </div>
 
@@ -50,7 +50,7 @@
             <div class="hex">
                 {% include 'SwotNetworkBundle:Friend:friendListEntry.html.twig' with {friend: stranger} %}
                 <img class="maskborder opac" src="
-                            {{ (profile_image_folder ~ stranger.profileImage) | imagine_filter('profile_image_thumb')|default('http://localhost/swot/web/res/gfx/person.jpg') }}"
+                            {{ (profile_image_folder ~ stranger.profileImage) | imagine_filter('profile_image_thumb')|default(asset('res/gfx/person.jpg')) }}"
                         />
             </div>
         {% endfor %}

@@ -75,7 +75,7 @@ class RentalController extends Controller
         $manager->persist($user);
         $manager->persist($otherUser);
         $manager->remove($rental);
-//        $manager->flush();
+        $manager->flush();
 
         return new JsonResponse(array("Rental removed"), 200);
     }

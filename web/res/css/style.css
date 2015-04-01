@@ -59,9 +59,9 @@ button, .button {
 
 .alert-box {
     position: absolute;
-    top: 91px;
-    right: 40px;
+    right: 25px;
     color: #fff !important;
+    z-index: 100;
 }
 
 .header {

@@ -13,7 +13,7 @@
         </h1>
         <div class="hex small flex-left">
             <img class="maskborder" src="
-                {{ (profile_image_folder ~ user.profileImage) | imagine_filter('profile_image_thumb')|default('http://localhost/swot/web/res/gfx/person-inverted.jpg') }}"
+                {{ (profile_image_folder ~ user.profileImage) | imagine_filter('profile_image_thumb')|default( asset('res/gfx/person-inverted.jpg') ) }}"
             />
         </div>
         <div class="long-hex flex-center"></div>
@@ -45,33 +45,33 @@
     <div class="hex-list small">
         <div class="hex">
             <div class="hex-item"><div class="hex-item-inner">{{ user.firstname }}<br />{{ user.lastname }}</div></div>
-            <img class="maskborder opac" src="http://localhost/swot/web/res/gfx/person.jpg"/>
+            <img class="maskborder opac" src="{{ asset('res/gfx/person.jpg') }}"/>
         </div>
         <div class="hex">
             <div class="hex-item"><div class="hex-item-inner">{{ user.birthdate.date }}</div></div>
-            <img class="maskborder opac" src="http://localhost/swot/web/res/gfx/cake.png"/>
+            <img class="maskborder opac" src="{{ asset('res/gfx/cake.png') }}"/>
         </div>
         <div class="hex">
             <img class="maskborder opac" src=
-                    {% if user.gender == "m" %}"http://localhost/swot/web/res/gfx/gender-male.png"{% endif %}
-                    {% if user.gender == "f" %}"http://localhost/swot/web/res/gfx/gender-female.png"{% endif %}
+                    {% if user.gender == "m" %}"{{ asset('res/gfx/gender-male.png') }}"{% endif %}
+                    {% if user.gender == "f" %}"{{ asset('res/gfx/gender-female.png') }}"{% endif %}
                 />
         </div>
         <div class="hex">
             <div class="hex-item"><div class="hex-item-inner">Access: <br />{{ user.accessLevel }}</div></div>
-            <img class="maskborder opac" src="http://localhost/swot/web/res/gfx/security.png"/>
+            <img class="maskborder opac" src="{{ asset('res/gfx/security.png') }}"/>
         </div>
         <a class="hex" href="{{ path('my_friends', {user: user}) }}">
             <div class="hex-item"><div class="hex-item-inner">{% trans %}navigation.friends{% endtrans %}</div></div>
-            <img class="maskborder opac" src="http://localhost/swot/web/res/gfx/account-multiple-big.png">
+            <img class="maskborder opac" src="{{ asset('res/gfx/account-multiple-big.png') }}">
         </a>
         <a class="hex" href="{{ path('my_things', {user: user}) }}">
             <div class="hex-item"><div class="hex-item-inner">{% trans %}navigation.things{% endtrans %}</div></div>
-            <img class="maskborder opac" src="http://localhost/swot/web/res/gfx/thing.jpg">
+            <img class="maskborder opac" src="{{ asset('res/gfx/thing.jpg') }}">
         </a>
         <a class="hex" href="{{ path('conversations', {user: user}) }}">
             <div class="hex-item"><div class="hex-item-inner">{% trans %}navigation.messages{% endtrans %}</div></div>
-            <img class="maskborder opac" src="http://localhost/swot/web/res/gfx/comment-big.png">
+            <img class="maskborder opac" src="{{ asset('res/gfx/comment-big.png') }}">
         </a>
     </div>
 

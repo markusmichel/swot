@@ -21,13 +21,13 @@
             </div>
         </div>
         <div class="row main">
+            {% include 'flash-messages.html.twig' %}
             <div class="row">
-
                 <div class="small-2 columns show-for-large-up">
                     {% include 'navigation.html.twig' %}
                 </div>
                 <div class="small-12 large-9 medium columns">
-                    {% include 'flash-messages.html.twig' %}
+
                     {% block headline %}{% endblock %}
                     <div class="headline-margin"></div>
                     {% block body %}{% endblock %}

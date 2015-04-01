@@ -1,58 +1,26 @@
-{# Shows the loggin in user's friends #}
-
-{% extends "::base.html.twig" %}
-
-{% block title %}SwotNetworkBundle:Frontend:newsfeed{% endblock %}
-
-{% block headline %}
-    <div class="profile-picture-container flex-row">
-        <h1 class="profile-picture-title">
-            {% trans %}user.friend.title{% endtrans %}
-        </h1>
-        <div class="hex small flex-left">
-            <img class="maskborder" src="
-                    {{ (profile_image_folder ~ app.user.profileImage) | imagine_filter('profile_image_thumb')|default(asset('res/gfx/person.jpg')) }}"
-            />
-        </div>
-        <div class="long-hex flex-center"></div>
-        <div class="long-hex-after flex-right"></div>
-    </div>
-{% endblock %}
-
-{% block body %}
-
-   <div class="hex-list small">
+{% if user.friendships|length > 0 %}
+    {% if user != app.user %}
+        <h2>{% trans %}user.friend.friend_title{% endtrans %}</h2>
+    {% endif %}
+    <div class="hex-list small">
         {% for friendship in user.friendships %}
 
-        {# Test if userWho or userWith is the "other" friend/user #}
-        {% if friendship.userWith == user %}
-            {% set friend = friendship.userWho %}
-        {% else %}
-            {% set friend = friendship.userWith %}
-        {% endif %}
+            {# Test if userWho or userWith is the "other" friend/user #}
+            {% if friendship.userWith == user %}
+                {% set friend = friendship.userWho %}
+            {% else %}
+                {% set friend = friendship.userWith %}
+            {% endif %}
 
-        {% set friend = friendship.otherUser(user) %}
+            {% set friend = friendship.otherUser(user) %}
 
-
-        <div class="hex">
-            {% include 'SwotNetworkBundle:Friend:friendListEntry.html.twig' with {friend: friend} %}
-            <img class="maskborder opac" src="
-                            {{ (profile_image_folder ~ friend.profileImage) | imagine_filter('profile_image_thumb')|default(asset('res/gfx/person.jpg')) }}"
-                    />
-        </div>
-
-        {% endfor %}
-    </div>
-
-    <h2>{% trans %}user.friend.alreadyknow{% endtrans %}</h2>
-    <div class="hex-list small">
-        {% for stranger in strangers %}
             <div class="hex">
-                {% include 'SwotNetworkBundle:Friend:friendListEntry.html.twig' with {friend: stranger} %}
+                {% include 'SwotNetworkBundle:Friend:friendListEntry.html.twig' with {friend: friend} %}
                 <img class="maskborder opac" src="
-                            {{ (profile_image_folder ~ stranger.profileImage) | imagine_filter('profile_image_thumb')|default(asset('res/gfx/person.jpg')) }}"
+                                {{ (profile_image_folder ~ friend.profileImage) | imagine_filter('profile_image_thumb')|default(asset('res/gfx/person.jpg')) }}"
                         />
             </div>
+
         {% endfor %}
     </div>
-{% endblock %}
+{% endif %}

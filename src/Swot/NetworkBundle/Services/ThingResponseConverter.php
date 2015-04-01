@@ -7,18 +7,28 @@ use Swot\FormMapperBundle\Entity\AbstractConstraint;
 use Swot\FormMapperBundle\Entity\Action;
 use Swot\FormMapperBundle\Entity\Parameter\Parameter;
 use Swot\NetworkBundle\Entity\Thing;
+use Symfony\Component\Security\Core\Encoder\UserPasswordEncoder;
 
 class ThingResponseConverter {
+
+    protected $encoder;
+
+    public function __construct(UserPasswordEncoder $encoder) {
+        $this->encoder = $encoder;
+    }
 
     public function convertThing($thingInfo, $accessToken = null) {
         if($accessToken === null) $accessToken = uniqid();
 
         $thing = new Thing();
+        $encodedToken = $this->encoder->encodePassword($thing, $accessToken);
+
         $thing->setName($thingInfo->device->id);
-        $thing->setNetworkAccessToken($accessToken);
-        $thing->setOwnerToken("sdf");
-        $thing->setReadToken("sdf");
-        $thing->setWriteToken("sdf");
+        $thing->setNetworkAccessToken($encodedToken);
+        $thing->setBaseApiUrl($thingInfo->device->url);
+        $thing->setOwnerToken($thingInfo->device->tokens->owner_token);
+        $thing->setReadToken($thingInfo->device->tokens->read_token);
+        $thing->setWriteToken($thingInfo->device->tokens->write_token);
 
         return $thing;
     }

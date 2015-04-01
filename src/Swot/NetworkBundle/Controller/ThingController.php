@@ -3,6 +3,7 @@
 namespace Swot\NetworkBundle\Controller;
 
 use Doctrine\ORM\EntityNotFoundException;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Swot\FormMapperBundle\Entity\NotBlank;
 use Swot\FormMapperBundle\Entity\NotNull;
 use Swot\FormMapperBundle\Entity\Parameter\Parameter;
@@ -20,27 +21,18 @@ use Swot\FormMapperBundle\Form\FunctionType;
 use Swot\NetworkBundle\Form\ThingType;
 use Swot\NetworkBundle\Security\ThingVoter;
 use Swot\NetworkBundle\Services\CurlManager;
+use Swot\NetworkBundle\Services\Manager\ThingManager;
 use Swot\NetworkBundle\Services\QrReader;
+use Swot\NetworkBundle\Services\ThingResponseConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use League\Url\Url;
 
 class ThingController extends Controller
 {
-
-    /**
-     * @param $thing Thing
-     * @throws ThingNotFoundException
-     */
-    protected function assertThingExists($thing) {
-        // Check if thing exists and has an owner
-        if(null === $thing || $thing->getOwnership() === null) {
-            throw new ThingNotFoundException("Thing does not exist");
-        }
-    }
-
     /**
      * @param $thing Thing
      * @param $accessType
@@ -54,19 +46,16 @@ class ThingController extends Controller
     /**
      * Shows a thing's profile.
      * @param Request $request
-     * @param $id
+     * @ParamConverter("thing", class="SwotNetworkBundle:Thing")
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function showAction(Request $request, $id) {
+    public function showAction(Request $request, Thing $thing) {
         /** @var User $user */
         $user = $this->getUser();
 
-        /** @var Thing $thing */
-        $thing = $this->getDoctrine()->getRepository("SwotNetworkBundle:Thing")->find($id);
-        $this->assertThingExists($thing);
         $this->assertAccessToThingGranted($thing, ThingVoter::ACCESS);
 
-        $deleteForm = $this->createDeleteForm($id);
+        $deleteForm = $this->createDeleteForm($thing->getId());
         $thingStatus = json_decode(ThingFixtures::$thingResponse);
 
         $functionForms = $this->createActivateFunctionForms($thing);
@@ -121,14 +110,10 @@ class ThingController extends Controller
      * Only accessible by the thing's owner.
      *
      * @param Request $request
-     * @param $id
+     * @ParamConverter("thing", class="SwotNetworkBundle:Thing")
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function settingsAction(Request $request, $id) {
-        /** @var Thing $thing */
-        $thing = $this->getDoctrine()->getRepository("SwotNetworkBundle:Thing")->find($id);
-
-        $this->assertThingExists($thing);
+    public function settingsAction(Request $request, Thing $thing) {
         $this->assertAccessToThingGranted($thing, ThingVoter::ADMIN);
 
         $form = $this->createForm(new ThingType(), $thing);
@@ -148,17 +133,12 @@ class ThingController extends Controller
      * Only the owner can lend things.
      *
      * @param Request $request
-     * @param $id
+     * @ParamConverter("thing", class="SwotNetworkBundle:Thing")
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function lendAction(Request $request, $id) {
+    public function lendAction(Request $request, Thing $thing) {
         /** @var User $user */
         $user = $this->getUser();
-
-        /** @var Thing $thing */
-        $thing = $this->getDoctrine()->getRepository("SwotNetworkBundle:Thing")->find($id);
-
-        $this->assertThingExists($thing);
         $this->assertAccessToThingGranted($thing, ThingVoter::ADMIN);
 
         $rental = new Rental();
@@ -200,79 +180,68 @@ class ThingController extends Controller
         $user = $this->getUser();
 
         //@TODO $useQR only for development
-        $useQR = 0;
+        $useQR = 1;
 
-        if($useQR == 1){
-            $data = array();
-            $form = $this->createFormBuilder($data)
-                ->add('register','file')
-                ->getForm();
+        $data = array();
+        $form = $this->createFormBuilder($data)
+            ->add('register','file')
+            ->getForm();
 
-            if ($request->isMethod('POST')) {
-                $form->handleRequest($request);
+        $form->handleRequest($request);
 
-                if ($form->isValid()) {
+        if ($form->isValid()) {
+            // accesstoken for the thing to communicate with the network
+            $accessToken = $this->container->get("swot.security.network_token_generator")->generate();
 
-                    $data = $form->getData();
-                    /** @var UploadedFile $file */
-                    $file = $data['register'];
-                    $qr = $file->move($file->getPath(),"qr.png");
-                    $url = $this->getUrlFromQr($qr);
+            $data = $form->getData();
 
-                    /** @var CurlManager $curlManager */
-                    $curlManager = $this->get('services.curl_manager');
+            /** @var UploadedFile $file */
+            $file = $data['register'];
+            $qr = $file->move($file->getPath(),"qr.png");
 
-                    // accesstoken for the thing to communicate with the network
-                    $accessToken = uniqid();
-                    //@TODO: better way to add parameters?
-                    $thingInfo = $curlManager->getCurlResponse($url . "&network_token=" . $accessToken);
+            // dev switch
+            $functionsData = null;
+            if($useQR == 1) {
+                $url = $this->getUrlFromQr($qr);
 
-                    $thingName = $thingInfo->device->id;
-                    $functionsUrl = $thingInfo->device->api->function .  "?access_token=" . $thingInfo->device->tokens->owner;
-                    $functionsData = $curlManager->getCurlResponse($functionsUrl);
+                /** @var CurlManager $curlManager */
+                $curlManager = $this->get('services.curl_manager');
 
-                    $manager = $this->getDoctrine()->getManager();
+                $formattedUrl = URL::createFromUrl($url);
+                $query = $formattedUrl->getQuery();
+                $query["network_token"] = $accessToken;
+                $formattedUrl->setQuery($query);
+                $thingInfo = $curlManager->getCurlResponse($formattedUrl->__toString());
 
-                    $thing = new Thing();
-                    $thing->setName($thingName);
-                    $thing->setNetworkAccessToken($accessToken);
-
-                    $ownership = new Ownership();
-                    $ownership->setThing($thing);
-                    $ownership->setOwner($user);
-                    $user->addOwnership($ownership);
-                    $thing->setOwnership($ownership);
-
-                    $this->generateThingData($functionsData, $thing, $manager);
-
-                    $manager = $this->getDoctrine()->getManager();
-                    $manager->persist($ownership);
-                    $manager->persist($user);
-                    $manager->persist($thing);
-
-                    $manager->flush();
-
-                    $this->addFlash("success", "Thing added");
-                    return $this->redirectToRoute('my_things');
-                }else{
-                    $this->addFlash("failure", "Nothing added");
-                    return $this->redirectToRoute('my_things');
-                }
+                $functionsUrl = URL::createFromUrl($thingInfo->device->api->function);
+                $query = $functionsUrl->getQuery();
+                $query["access_token"] = $thingInfo->device->tokens->owner_token;
+                $functionsUrl->setQuery($query);
+                $functionsData = $curlManager->getCurlResponse($functionsUrl->__toString());
+            } else {
+                $res = json_decode(ThingFixtures::$thingResponse);
+                $thingInfo = $res;
+                $functionsData = $res->device;
             }
 
-        } else {
-            // @todo: remove fixture data
-            $thing = new Thing();
-            $thing->setName("Test Thing");
-            $thing->setNetworkAccessToken("asdadasds");
+            /** @var ThingResponseConverter $converter */
+            $converter = $this->get("thing_function_response_converter");
 
-            $ownership = new Ownership();
-            $ownership->setThing($thing);
-            $ownership->setOwner($user);
-            $user->addOwnership($ownership);
-            $thing->setOwnership($ownership);
+            /** @var ThingManager $thingManager */
+            $thingManager = $this->container->get("swot.manager.thing");
 
-            $this->generateTestFunction($thing);
+            // Create thing from response
+            $thing = $converter->convertThing($thingInfo, $accessToken);
+
+            $ownership = $thingManager->createOwnership($thing, $user);
+
+            // Convert response to Action/Function objects.
+            // Add them to the thing.
+            $functions = $converter->convertFunctions($functionsData);
+            foreach($functions as $function) {
+                $thing->addFunction($function);
+                $function->setThing($thing);
+            }
 
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($ownership);
@@ -280,10 +249,15 @@ class ThingController extends Controller
             $manager->persist($thing);
 
             $manager->flush();
-
-            $this->addFlash("success", "Thing added");
+        }
+        // Invalid
+        else {
+            $this->addFlash("failure", "Nothing added");
             return $this->redirectToRoute('my_things');
         }
+
+        $this->addFlash("success", "Thing added");
+        return $this->redirectToRoute('my_things');
     }
 
     /**
@@ -292,17 +266,13 @@ class ThingController extends Controller
      * Calls /deregister on the real related thing.
      * @see createDeleteForm
      * @param Request $request
-     * @param $id
+     * @ParamConverter("thing", class="SwotNetworkBundle:Thing")
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function deleteAction(Request $request, $id) {
-        /** @var Thing $thing */
-        $thing = $this->getDoctrine()->getRepository('SwotNetworkBundle:Thing')->find($id);
-
-        $this->assertThingExists($thing);
+    public function deleteAction(Request $request, Thing $thing) {
         $this->assertAccessToThingGranted($thing, ThingVoter::ADMIN);
 
-        $form = $this->createDeleteForm($id);
+        $form = $this->createDeleteForm($thing->getId());
         $form->handleRequest($request);
 
         if($form->isValid()) {
@@ -367,46 +337,12 @@ class ThingController extends Controller
     {
         //@TODO: only for development --> delete
         $res = json_decode(ThingFixtures::$thingResponse);
-        $functionsData = $res->device->functions;
+        $functionsData = $res->device;
 
-        $manager = $this->getDoctrine()->getManager();
+        $converter = $this->container->get('thing_function_response_converter');
+        $functions = $converter->convert($functionsData);
 
-        foreach($functionsData as $func) {
-            $function = new Action();
-            $function->setThing($thing);
-            $function->setName($func->name);
-            $function->setUrl($func->url);
-
-            foreach($func->parameters as $param) {
-                $parameter = Parameter::createParameter($param);
-                $parameter->setAction($function);
-
-                if(isset($param->constraints)) {
-                    foreach($param->constraints as $con) {
-                        $className = "\\Swot\\FormMapperBundle\\Entity\\" . $con->type;
-                        if(!class_exists($className)) continue;
-
-                        /** @var AbstractConstraint $constraint */
-                        $constraint = new $className;
-                        $constraint->init($con);
-                        $constraint->setMessage($con->message);
-                        $constraint->setFunctionParameter($parameter);
-
-                        $parameter->addConstraint($constraint);
-                        $manager->persist($constraint);
-                    }
-                }
-
-                $function->addParameter($parameter);
-                $manager->persist($parameter);
-            }
-
-            $thing->addFunction($function);
-            $manager->persist($function);
-            $manager->persist($thing);
-        }
-
-        $manager->flush();
+        return $functions;
     }
 
     /**

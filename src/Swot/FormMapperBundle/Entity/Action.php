@@ -6,6 +6,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Swot\FormMapperBundle\Entity\Parameter\Parameter;
 use Swot\NetworkBundle\Fixtures\ThingFixtures;
 use Swot\NetworkBundle\Services\CurlManager;
+use League\Url\Url;
 
 /**
  * Function
@@ -29,7 +30,13 @@ class Action
 
         $parameters["token"] = $accessToken;
 
-        $url = $this->getUrl() . "?" . http_build_query($parameters);
+        $url = URL::createFromUrl($this->getUrl());
+        $query = $url->getQuery();
+        $query->set($parameters);
+        $url->setQuery($query);
+        $url = $url->__toString();
+
+        //@TODO: only for development
         $url = "http://www.google.de";
 
         //@TODO: after development uncomment these lines
@@ -102,7 +109,7 @@ class Action
     private $thing;
 
     /**
-     * @ORM\OneToMany(targetEntity="Swot\FormMapperBundle\Entity\Parameter\Parameter", mappedBy="action")
+     * @ORM\OneToMany(targetEntity="Swot\FormMapperBundle\Entity\Parameter\Parameter", mappedBy="action", cascade={"persist"})
      */
     private $parameters;
 

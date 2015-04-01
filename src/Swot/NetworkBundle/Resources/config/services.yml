@@ -1,5 +1,9 @@
 services:
 
+    # Converter to json decoded response of thing (functions) to
+    thing_function_response_converter:
+        class:     Swot\NetworkBundle\Services\ThingResponseConverter
+
     # thing authenticator
     thing_authenticator:
         class:     Swot\NetworkBundle\Security\ThingAuthenticator

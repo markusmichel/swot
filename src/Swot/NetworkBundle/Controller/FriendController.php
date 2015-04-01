@@ -2,6 +2,7 @@
 
 namespace Swot\NetworkBundle\Controller;
 
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Swot\NetworkBundle\Entity\Friendship;
 use Swot\NetworkBundle\Entity\User;
 use Swot\NetworkBundle\Security\UserVoter;
@@ -32,16 +33,14 @@ class FriendController extends Controller
 
     /**
      * Shows any users profile if the current user has permission to see it.
-     * @param $id
+     * @ParamConverter("user", class="SwotNetworkBundle:User")
+     * @param User $user
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function showAction($id)
+    public function showAction(User $user)
     {
         /** @var Translator $translator */
         $translator = $this->get('translator');
-
-        /** @var User $user */
-        $user = $this->getDoctrine()->getRepository('SwotNetworkBundle:User')->find($id);
 
         /** @var User $currentUser */
         $currentUser = $this->getUser();
@@ -77,18 +76,16 @@ class FriendController extends Controller
      * This action is CSRF protected.
      *
      * @param Request $request
-     * @param $id
+     * @ParamConverter("friend", class="SwotNetworkBundle:User")
+     * @param User $friend
      * @return \Symfony\Component\HttpFoundation\RedirectResponse
      */
-    public function removeFriendshipAction(Request $request, $id) {
+    public function removeFriendshipAction(Request $request, User $friend) {
         /** @var Translator $translator */
         $translator = $this->get('translator');
 
         /** @var User $user */
         $user = $this->getUser();
-
-        /** @var User $friend */
-        $friend = $this->getDoctrine()->getRepository('SwotNetworkBundle:User')->find($id);
 
         if($friend === null) {
             $this->addFlash('notice', $translator->trans('User does not exist'));
@@ -113,16 +110,7 @@ class FriendController extends Controller
             return $this->redirectToRoute('friend_show', array('id' => $friend->getId()));
         }
 
-        $manager = $this->getDoctrine()->getManager();
-        $user->removeFriendship($friendship);
-        $friend->removeFriendship($friendship);
-        $friendship->setUserWho(null);
-        $friendship->setUserWith(null);
-
-        $manager->persist($user);
-        $manager->persist($friend);
-        $manager->remove($friendship);
-        $manager->flush();
+        $this->container->get("swot.manager.friendship")->remove($friendship);
 
         $this->addFlash('notice', $translator->trans('user.friend.break_up.success', array('%username%' => $friend->getUsername())));
         return $this->redirectToRoute('friend_show', array('id' => $friend->getId()));
@@ -136,18 +124,16 @@ class FriendController extends Controller
      * @todo: Send invite which must be accepted by the other user
      *
      * @param Request $request
-     * @param $id
+     * @ParamConverter("friend", class="SwotNetworkBundle:User")
+     * @param User $friend
      * @return \Symfony\Component\HttpFoundation\RedirectResponse|Response
      */
-    public function sendInviteAction(Request $request, $id) {
+    public function sendInviteAction(Request $request, User $friend) {
         /** @var Translator $translator */
         $translator = $this->get('translator');
 
         /** @var User $user */
         $user = $this->getUser();
-
-        /** @var User $friend */
-        $friend = $this->getDoctrine()->getRepository("SwotNetworkBundle:User")->find($id);
 
         if($friend === null) {
             $this->addFlash('notice', $translator->trans('user.does_not_exist'));
@@ -168,17 +154,7 @@ class FriendController extends Controller
         }
 
         // Make them friends
-        $friendship = new Friendship();
-        $friendship->setUserWho($friend);
-        $friendship->setUserWith($user);
-        $user->addFriendship($friendship);
-        $friend->addFriendship($friendship);
-
-        $manager = $this->getDoctrine()->getManager();
-        $manager->persist($friendship);
-        $manager->persist($user);
-        $manager->persist($friend);
-        $manager->flush();
+        $this->container->get("swot.manager.friendship")->create($user, $friend);
 
         $this->addFlash('notice', $translator->trans('user.friend.friendship.invite.success', array('%username%' => $friend->getUsername())));
         return $this->redirectToRoute('friend_show', array('id' => $friend->getId()));

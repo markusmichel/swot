@@ -4,23 +4,14 @@
     {% endif %}
     <div class="hex-list small">
         {% for friendship in user.friendships %}
-
             {# Test if userWho or userWith is the "other" friend/user #}
             {% if friendship.userWith == user %}
                 {% set friend = friendship.userWho %}
             {% else %}
                 {% set friend = friendship.userWith %}
             {% endif %}
-
             {% set friend = friendship.otherUser(user) %}
-
-            <div class="hex">
                 {% include 'SwotNetworkBundle:Friend:friendListEntry.html.twig' with {friend: friend} %}
-                <img class="maskborder opac" src="
-                                {{ (profile_image_folder ~ friend.profileImage) | imagine_filter('profile_image_thumb')|default(asset('res/gfx/person.jpg')) }}"
-                        />
-            </div>
-
         {% endfor %}
     </div>
 {% endif %}

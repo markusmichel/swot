@@ -420,12 +420,16 @@ a.hex:hover {
     background-color: #588C73;
  }
 
-.conversation-picture {
+.conversations-picture {
     width: 64px;
-    margin-top: 30px;
 }
 
-.conversations-picture {
+.conversations-content {
+    margin: 13px 15px 0 15px;
+    word-wrap: break-word;
+}
+
+.conversation-picture {
     width: 64px;
 }
 
@@ -434,14 +438,8 @@ a.hex:hover {
     word-wrap: break-word;
 }
 
-.conversations-content {
-    margin: 13px 15px 0 15px;
-    word-wrap: break-word;
-}
-
 .conversation-date {
     width: 100px;
-    margin-top: 27px;
     text-align: right;
 }
 

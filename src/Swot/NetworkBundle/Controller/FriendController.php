@@ -24,7 +24,7 @@ class FriendController extends Controller
         $randomStrangersCount = 10;
         $strangers = $this->getRandomStrangers($user, $randomStrangersCount);
 
-        return $this->render('SwotNetworkBundle:Friend:list.html.twig', array(
+        return $this->render('SwotNetworkBundle:Frontend:myFriends.html.twig', array(
             'user'      => $user,
             'strangers' => $strangers
         ));

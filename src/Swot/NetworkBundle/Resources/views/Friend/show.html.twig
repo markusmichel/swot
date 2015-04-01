@@ -42,7 +42,7 @@
 {% endblock %}
 
 {% block body %}
-    <div class="hex-list small">
+    <div class="hex-list normal">
         <div class="hex">
             <div class="hex-item"><div class="hex-item-inner">{{ user.firstname }}<br />{{ user.lastname }}</div></div>
             <img class="maskborder opac" src="{{ asset('res/gfx/person.jpg') }}"/>
@@ -61,6 +61,7 @@
             <div class="hex-item"><div class="hex-item-inner">Access: <br />{{ user.accessLevel }}</div></div>
             <img class="maskborder opac" src="{{ asset('res/gfx/security.png') }}"/>
         </div>
+    {% if user == app.user %}
         <a class="hex" href="{{ path('my_friends', {user: user}) }}">
             <div class="hex-item"><div class="hex-item-inner">{% trans %}navigation.friends{% endtrans %}</div></div>
             <img class="maskborder opac" src="{{ asset('res/gfx/account-multiple-big.png') }}">
@@ -74,9 +75,10 @@
             <img class="maskborder opac" src="{{ asset('res/gfx/comment-big.png') }}">
         </a>
     </div>
-
-    {% if user != app.user %}
+    {% else %}
+        </div>
         {% include 'SwotNetworkBundle:Thing:list.html.twig' with {user: user} %}
+        {% include 'SwotNetworkBundle:Friend:list.html.twig' with {user: user} %}
     {% endif %}
     
 {% endblock %}

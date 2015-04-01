@@ -8,10 +8,13 @@
     in
     Swot\NetworkBundle\Controller\FrontendController#myThingsAction
 #}
-
-<div class="hex-item">
-    <div class="hex-item-inner">
-        <a href="{{ path('friend_show', {id: friend.id}) }}">{{ friend.username }}</a> <br/>
+<a class="hex" href="{{ path('friend_show', {id: friend.id}) }}">
+    <div class="hex-item">
+        <div class="hex-item-inner">{{ friend.username }}</div>
     </div>
-</div>
+    <img class="maskborder opac" src="
+                                {{ (profile_image_folder ~ friend.profileImage) | imagine_filter('profile_image_thumb')|default(asset('res/gfx/person.jpg')) }}"
+            />
+</a>
+
 

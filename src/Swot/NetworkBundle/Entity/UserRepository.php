@@ -41,40 +41,37 @@ class UserRepository extends EntityRepository
     }
 
     public function findRandomStrangers(User $user, $count) {
-
-        //TODO: find random count * strangers
-        //TODO: user activated
-        //TODO: use query builder
-    /*
-        $query = $this->getEntityManager()->createQuery(
-            'SELECT u
-             FROM SwotNetworkBundle:User u
-             JOIN SwotNetworkBundle:Friendship f
-             WHERE (
-                f.userWho != :user
-                OR f.userWith != :user
-             )
-             AND u != :user
-             AND u.activated = FALSE
-             '
-        )
-            ->setParameter("user", $user)
-        ;
-        */
         $qb = $this->getEntityManager()->createQueryBuilder();
-        $qb->add('select', 'u')
-            ->from('SwotNetworkBundle:User', 'u')
-            ->leftJoin('SwotNetworkBundle:Friendship', 'f')
-            ->where('f.userWho != :user')
-            ->andWhere('f.userWith != :user')
-            ->andWhere('u != :user')
-            ->andWhere('u.activated = FALSE')
+        $friends = $qb->select('t')
+                      ->from('SwotNetworkBundle:User', 't')
+                      ->join('t.friendships', 'f')
+                      ->where('f.userWith = :user')
+                      ->orWhere('f.userWho = :user')
+                      ->andWhere('t != :user')
+                      ->setParameter("user", $user)
+                      ->getQuery()
+                      ->getResult();
+
+        $friendIds = array();
+        foreach($friends as $friend) {
+            $friendIds[] = $friend->getId();
+        }
+
+        $qb->resetDQLParts()
+            ->select('u')
+            ->from('SwotNetworkBundle:User', 'u');
+
+        if(count($friendIds) > 0) {
+            $qb->where($qb->expr()->notIn('u.id', $friendIds));
+        }
+        //TODO: user activated
+        $qb->andWhere('u != :user')
+            //->andWhere('u.activated = FALSE')
             ->setParameter("user", $user)
             ->setMaxResults($count * 10 );
 
-
         $result = $qb->getQuery()->getResult();
-        //$result = $query->getResult();
-        return $result;
+        shuffle($result);
+        return array_slice($result, 0, $count);
     }
 }

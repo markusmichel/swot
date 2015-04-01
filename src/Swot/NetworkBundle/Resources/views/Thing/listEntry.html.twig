@@ -1,8 +1,13 @@
-<div class="hex-item">
-    <div class="hex-item-inner">
-        <a href="{{ path('thing_show', {id: thing.id}) }}">{{ thing.name }}</a> <br/>
-        {% if thing.ownership.owner != app.user %}
-            Owner: <a href="{{ path('friend_show', {id: thing.ownership.owner.id}) }}">{{ thing.ownership.owner.username }}</a>
-        {% endif %}
+<a class="hex" href="{{ path('thing_show', {id: thing.id}) }}">
+    <div class="hex-item">
+        <div class="hex-item-inner">
+            {{ thing.name }}<br/>
+            {% if thing.ownership.owner != app.user %}
+                Owner: {{ thing.ownership.owner.username }}
+            {% endif %}
+        </div>
     </div>
-</div>
+    <img class="maskborder opac" src="{{ asset('res/gfx/thing.jpg') }}"
+            />
+</a>
+

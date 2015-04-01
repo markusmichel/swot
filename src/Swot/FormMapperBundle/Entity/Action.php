@@ -109,7 +109,7 @@ class Action
     private $thing;
 
     /**
-     * @ORM\OneToMany(targetEntity="Swot\FormMapperBundle\Entity\Parameter\Parameter", mappedBy="action", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="Swot\FormMapperBundle\Entity\Parameter\Parameter", mappedBy="action", cascade={"persist","remove"})
      */
     private $parameters;
 

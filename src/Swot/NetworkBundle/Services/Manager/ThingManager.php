@@ -65,32 +65,15 @@ class ThingManager {
     /**
      * @param Thing $thing
      */
-    private function removeFunctions(Thing $thing)
+    public function removeFunctions(Thing $thing)
     {
-        /** @var Action $function */
-        foreach ($thing->getFunctions() as $function) {
-
-            /** @var Parameter $param */
-            foreach ($function->getParameters() as $param) {
-
-                /** @var AbstractConstraint $constraint */
-                foreach ($param->getConstraints() as $constraint) {
-                    $constraint->setFunctionParameter(null);
-                    $this->em->remove($constraint);
-                }
-
-                $param->setAction(null);
-                $this->em->remove($param);
-                $param->getConstraints()->clear();
-            }
-
-            $function->setThing(null);
-            $this->em->remove($function);
-            $function->getParameters()->clear();
+        /** @var Action $func */
+        foreach($thing->getFunctions() as $func){
+            $this->em->remove($func);
         }
-
-        $this->em->remove($function);
         $thing->getFunctions()->clear();
+        $this->em->persist($thing);
+        $this->em->flush();
     }
 
     /**

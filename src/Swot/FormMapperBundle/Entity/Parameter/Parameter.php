@@ -168,7 +168,7 @@ class Parameter
     private $action;
 
     /**
-     * @ORM\OneToMany(targetEntity="\Swot\FormMapperBundle\Entity\AbstractConstraint", mappedBy="functionParameter", cascade={"persist"})
+     * @ORM\OneToMany(targetEntity="\Swot\FormMapperBundle\Entity\AbstractConstraint", mappedBy="functionParameter", cascade={"persist","remove"})
      */
     private $constraints;
 

@@ -12,4 +12,9 @@ use Doctrine\ORM\EntityRepository;
  */
 class ThingRepository extends EntityRepository
 {
+
+    public function registerThingToUser(Thing $thing, User $user) {
+
+    }
+
 }

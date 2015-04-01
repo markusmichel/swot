@@ -81,7 +81,7 @@ class Thing implements UserInterface
     private $rentals;
 
     /**
-     * @ORM\OneToMany(targetEntity="Swot\FormMapperBundle\Entity\Action", mappedBy="thing")
+     * @ORM\OneToMany(targetEntity="Swot\FormMapperBundle\Entity\Action", mappedBy="thing", cascade={"persist"})
      */
     private $functions;
 

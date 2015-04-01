@@ -11,6 +11,7 @@ use Swot\NetworkBundle\Entity\Ownership;
 use Swot\NetworkBundle\Entity\Rental;
 use Swot\NetworkBundle\Entity\Thing;
 use Swot\NetworkBundle\Entity\ThingStatusUpdate;
+use Swot\NetworkBundle\Entity\User;
 
 /**
  *
@@ -33,6 +34,16 @@ class ThingManager {
      */
     public function __construct(EntityManager $em) {
         $this->em = $em;
+    }
+
+    public function createOwnership(Thing $thing, User $user) {
+        $ownership = new Ownership();
+        $ownership->setThing($thing);
+        $ownership->setOwner($user);
+        $user->addOwnership($ownership);
+        $thing->setOwnership($ownership);
+
+        return $ownership;
     }
 
     /**

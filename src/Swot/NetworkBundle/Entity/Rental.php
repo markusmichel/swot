@@ -3,6 +3,7 @@
 namespace Swot\NetworkBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 /**
  * Rental
@@ -13,6 +14,15 @@ use Doctrine\ORM\Mapping as ORM;
  */
 class Rental
 {
+
+    /**
+     * @Assert\True(message = "The Access granted until Date must be at leas 10 minutes in the future")
+     */
+    public function isAccessGrantedUntilDateValid() {
+        $date = new \DateTime("now +10 minute");
+        return $this->getAccessGrantedUntil() > $date;
+    }
+
     /**
      * @var integer
      *
@@ -26,6 +36,7 @@ class Rental
      * @var \DateTime
      *
      * @ORM\Column(name="started", type="datetime")
+     * @Assert\DateTime()
      */
     private $started;
 
@@ -33,6 +44,7 @@ class Rental
      * @var \DateTime
      *
      * @ORM\Column(name="access_granted_until", type="datetime", nullable=true)
+     * @Assert\DateTime()
      */
     private $accessGrantedUntil;
 
@@ -40,6 +52,7 @@ class Rental
      * @var \DateTime
      *
      * @ORM\Column(name="rental_finished", type="datetime", nullable=true)
+     * @Assert\DateTime()
      */
     private $rentalFinished;
 

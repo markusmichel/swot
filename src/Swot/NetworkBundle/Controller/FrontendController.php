@@ -35,15 +35,12 @@ class FrontendController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function myThingsAction(Request $request) {
-//        $this->generateTestThings();
-//        $this->generateFriendWithThingAndLendToUser();
-        //return $this->render('SwotNetworkBundle:Frontend:myThings.html.twig');
-
         //@TODO: correct?!
         $data = array();
         $form = $this->createFormBuilder($data)
             ->add('register','file')
             ->getForm();
+
         return $this->render('SwotNetworkBundle:Frontend:myThings.html.twig', array(
             'form' => $form->createView(),
         ));

@@ -1,0 +1,9 @@
+{# Zeigt die dem Nutzer geliehenen Dinge. #}
+
+{% if things|length > 0 %}
+    <div class="hex-list small">
+        {% for thing in things %}
+            {% include 'SwotNetworkBundle:Thing:listEntry.html.twig' with {thing: thing.thing} %}
+        {% endfor %}
+    </div>
+{% endif %}

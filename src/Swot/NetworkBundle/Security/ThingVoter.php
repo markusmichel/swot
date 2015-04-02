@@ -96,7 +96,12 @@ class ThingVoter implements VoterInterface {
             // He has permission if he is the owner or the thing is lent to the user
             // @todo: check if the thing is public or restricted + owner is a friend
             case self::ACCESS:
-                if($this->isOwner($user, $thing) || $this->thingIsLentToUser($user, $thing) || $this->userIsFriendAndThingRestricted($user, $thing)) {
+                if(
+                    $this->isOwner($user, $thing) ||
+                    $this->thingIsLentToUser($user, $thing) ||
+                    $this->userIsFriendAndThingRestricted($user, $thing) ||
+                    $thing->getAccessType() === AccessType::ACCESS_TYPE_PUBLIC
+                ) {
                     return VoterInterface::ACCESS_GRANTED;
                 }
                 break;

@@ -113,6 +113,12 @@ class ThingController extends Controller
 
         $rentals = $this->getDoctrine()->getRepository("SwotNetworkBundle:Rental")->findActiveRentals($thing);
 
+        if(true === $form->isValid()) {
+            $manager = $this->getDoctrine()->getManager();
+            $manager->persist($thing);
+            $manager->flush();
+        }
+
         return $this->render('SwotNetworkBundle:Thing:settings.html.twig', array(
             'thing' => $thing,
             'form' => $form->createView(),

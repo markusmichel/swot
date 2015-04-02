@@ -1,6 +1,7 @@
 {# Zeigt die dem Nutzer verliehenen Dinge. #}
 
 {% if things|length > 0 %}
+    <h2>{% trans %}user.thing.my_lent_title{% endtrans %}</h2>
     <div class="hex-list small">
         {% for thing in things %}
             {% include 'SwotNetworkBundle:Thing:listEntry.html.twig' with {thing: thing.thing} %}

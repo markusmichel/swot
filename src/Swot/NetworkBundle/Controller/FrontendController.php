@@ -45,14 +45,27 @@ class FrontendController extends Controller
             ->add('register','file')
             ->getForm();
 
-        $randomPublicThingsCount = 10;
-        $thingRepo = $this->getDoctrine()->getRepository('SwotNetworkBundle:Thing');
-        $user = $this->getUser();
-        $publicThings = $thingRepo->findRandomPublicThings($user, $randomPublicThingsCount);
-
         return $this->render('SwotNetworkBundle:Frontend:myThings.html.twig', array(
-            'form' => $form->createView(),
-            'publicthings'=> $publicThings
+            'form' => $form->createView()
+        ));
+    }
+
+    /**
+     * Internal action without route.
+     *
+     * Shows random public things
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function showRandomPublicThingsAction() {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        $randomPublicThingsCount =$this->container->getParameter('random.publicthings.count');
+        $thingRepo = $this->getDoctrine()->getRepository('SwotNetworkBundle:Thing');
+        $publicThings = $thingRepo->findRandomPublicThings($user, $randomPublicThingsCount);
+        return $this->render("SwotNetworkBundle:Frontend:_random_publicthings.html.twig", array(
+            "publicthings" => $publicThings,
         ));
     }
 

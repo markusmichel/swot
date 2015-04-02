@@ -28,16 +28,7 @@
             {% include 'SwotNetworkBundle:Thing:listEntry.html.twig' with {thing: ownership.thing, showOwner: false} %}
     {% endfor %}
     </div>
-    <h2>{% trans %}Things lent to me{% endtrans %}</h2>
     {{ render(controller("SwotNetworkBundle:Rental:showThingsLent")) }}
-    
-    <h2>Things lent to other users</h2>
     {{ render(controller("SwotNetworkBundle:Rental:showThingsRent")) }}
-
-    <h2>{% trans %}user.thing.alreadyknow{% endtrans %}</h2>
-    <div class="hex-list small">
-        {% for thing in publicthings %}
-            {% include 'SwotNetworkBundle:Thing:listEntry.html.twig' with {thing: thing, showOwner: true} %}
-        {% endfor %}
-    </div>
+    {{ render(controller("SwotNetworkBundle:Frontend:showRandomPublicThings")) }}
 {% endblock %}

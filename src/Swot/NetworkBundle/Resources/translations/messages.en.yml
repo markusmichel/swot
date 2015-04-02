@@ -26,7 +26,7 @@ user:
         title:                My Things
         my_lent_title:        Things lent to me
         friend_title:         Things
-        friend_lent_title:    Lent things
+        friend_lent_title:    Things lent to other users
         alreadyknow:          Do you already know...?
 
 thing:

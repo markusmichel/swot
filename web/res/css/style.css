@@ -356,7 +356,7 @@ button, .button {
 }
 
 a.hex:hover {
-    background-color: #E2D0B3 !important;
+    opacity: 0.5 !important;
 }
 
 /* normal hex */

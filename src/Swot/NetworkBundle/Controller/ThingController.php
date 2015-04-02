@@ -76,8 +76,6 @@ class ThingController extends Controller
 
                 } else {
                     $this->addFlash('error', 'Function could not be activated');
-
-
                 }
             }
         }

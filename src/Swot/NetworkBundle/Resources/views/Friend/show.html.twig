@@ -93,6 +93,16 @@
             </div>
         {% endif %}
 
+
+        {% if accessibleThings|length > 0 %}
+            <h2>{% trans %}user.thing.friend_title{% endtrans %}</h2>
+            <div class="hex-list small">
+                {% for thing in accessibleThings %}
+                    {% include 'SwotNetworkBundle:Thing:listEntry.html.twig' with {thing: thing, showOwner: false} %}
+                {% endfor %}
+            </div>
+        {% endif %}
+
         {% include 'SwotNetworkBundle:Friend:list.html.twig' with {user: user} %}
     {% endif %}
     

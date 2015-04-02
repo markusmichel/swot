@@ -35,14 +35,24 @@ class FrontendController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function myThingsAction(Request $request) {
+//        $this->generateTestThings();
+//        $this->generateFriendWithThingAndLendToUser();
+        //return $this->render('SwotNetworkBundle:Frontend:myThings.html.twig');
+
         //@TODO: correct?!
         $data = array();
         $form = $this->createFormBuilder($data)
             ->add('register','file')
             ->getForm();
 
+        $randomPublicThingsCount = 10;
+        $thingRepo = $this->getDoctrine()->getRepository('SwotNetworkBundle:Thing');
+        $user = $this->getUser();
+        $publicThings = $thingRepo->findRandomPublicThings($user, $randomPublicThingsCount);
+
         return $this->render('SwotNetworkBundle:Frontend:myThings.html.twig', array(
             'form' => $form->createView(),
+            'publicthings'=> $publicThings
         ));
     }
 

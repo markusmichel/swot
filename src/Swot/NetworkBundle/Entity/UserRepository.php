@@ -67,8 +67,7 @@ class UserRepository extends EntityRepository
         //TODO: user activated
         $qb->andWhere('u != :user')
             //->andWhere('u.activated = FALSE')
-            ->setParameter("user", $user)
-            ->setMaxResults($count * 10 );
+            ->setParameter("user", $user);
 
         $result = $qb->getQuery()->getResult();
         shuffle($result);

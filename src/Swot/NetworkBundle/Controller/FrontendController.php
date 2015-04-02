@@ -44,8 +44,15 @@ class FrontendController extends Controller
         $form = $this->createFormBuilder($data)
             ->add('register','file')
             ->getForm();
+
+        $randomPublicThingsCount = 10;
+        $thingRepo = $this->getDoctrine()->getRepository('SwotNetworkBundle:Thing');
+        $user = $this->getUser();
+        $publicThings = $thingRepo->findRandomPublicThings($user, $randomPublicThingsCount);
+
         return $this->render('SwotNetworkBundle:Frontend:myThings.html.twig', array(
             'form' => $form->createView(),
+            'publicthings'=> $publicThings
         ));
     }
 

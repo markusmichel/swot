@@ -1,8 +1,8 @@
-<a class="hex" href="{{ path('thing_show', {id: thing.id}) }}">
+<a class="hex {% if thing.accessType == "public" %}public-thing{% endif %}" href="{{ path('thing_show', {id: thing.id}) }}">
     <div class="hex-item">
         <div class="hex-item-inner">
             {{ thing.name }}<br/>
-            {% if thing.ownership.owner != app.user %}
+            {% if showOwner is defined and showOwner %}
                 Owner: {{ thing.ownership.owner.username }}
             {% endif %}
         </div>

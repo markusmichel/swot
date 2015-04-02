@@ -19,19 +19,25 @@
 
 {% block body %}
 
-    {# Flash messages #}
-    {% for flashMessage in app.session.flashbag.get('notice') %}
-        <div class="flash-notice">
-            {{ flashMessage }}
-        </div>
-    {% endfor %}
-
-    {# <a href="{{ path('register_thing') }}">Register new thing</a> #}
-
     <form action="{{ path('register_thing') }}" method="POST" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
         <input type="submit"  value="Register Thing" />
     </form>
+    <div class="hex-list small">
+    {% for ownership in app.user.ownerships %}
+            {% include 'SwotNetworkBundle:Thing:listEntry.html.twig' with {thing: ownership.thing, showOwner: false} %}
+    {% endfor %}
+    </div>
+    <h2>{% trans %}Things lent to me{% endtrans %}</h2>
+    {{ render(controller("SwotNetworkBundle:Rental:showThingsLent")) }}
+    
+    <h2>Things lent to other users</h2>
+    {{ render(controller("SwotNetworkBundle:Rental:showThingsRent")) }}
 
-    {% include 'SwotNetworkBundle:Thing:list.html.twig' with {user: app.user} %}
+    <h2>{% trans %}user.thing.alreadyknow{% endtrans %}</h2>
+    <div class="hex-list small">
+        {% for thing in publicthings %}
+            {% include 'SwotNetworkBundle:Thing:listEntry.html.twig' with {thing: thing, showOwner: true} %}
+        {% endfor %}
+    </div>
 {% endblock %}

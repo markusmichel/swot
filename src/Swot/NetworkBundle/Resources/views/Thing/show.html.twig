@@ -41,6 +41,11 @@
 {% endblock %}
 
 {% block body %}
+     {% if thing.description|length > 0 %}
+        <div class="thing-desc">
+            {{ thing.description }}
+        </div>
+    {% endif %}
     <div class="hex-list small">
         {% if thing.ownership.owner != app.user %}
         <a class="hex" href="{{ path('friend_show', {id: thing.ownership.owner.id}) }}">

@@ -24,8 +24,8 @@ h2 {
     margin: 20px 0 20px 0;
     text-transform: uppercase;
     font-size: 25px;
-    background-color: #EF5B4D;
-    color: #fff;
+    background-color: #F7E48C;
+    color: #000;
     padding-left: 20px;
     padding-top: 5px;
     padding-bottom: 5px;
@@ -220,6 +220,12 @@ button, .button {
     margin-right: 25px;
 }
 
+.thing-desc {
+    padding: 20px;
+    border: #F7E48C 2px solid;
+    margin-bottom: 20px;
+}
+
 .opac {
     opacity: 0.5;
 }
@@ -321,6 +327,17 @@ button, .button {
     text-overflow: ellipsis;
 }
 
+.hex {
+    overflow: hidden;
+    color: #fff;
+    text-align: center;
+    background-color: #588C73;
+}
+
+.hex.public-thing {
+    background-color: #85C700;
+}
+
 .hex-item-inner a, .hex-item-inner {
     color: #fff;
 }
@@ -339,13 +356,8 @@ a.hex:hover {
     margin-right: 0;
     width: 150px;
     height: 132px;
-    overflow: hidden;
-    color: #fff;
     -webkit-mask-image: url(../gfx/hexagon_mask.png);
     mask: url(../gfx/hexagon_mask.png);
-    text-align: center;
-    background-color: #588C73;
-
 }
 
 .hex-list.normal .hex .hex-item, .hex-normal .hex-item {
@@ -373,12 +385,8 @@ a.hex:hover {
 .hex-list.small .hex, .hex.small {
     width: 100px;
     height: 88px;
-    overflow: hidden;
-    color: #fff;
     -webkit-mask-image: url(../gfx/hexagon_mask_small.png);
     mask: url(../gfx/hexagon_mask_small.png);
-    text-align: center;
-    background-color: #588C73;
 }
 
 .hex-list.small .hex .hex-item, .hex.small .hex-item {
@@ -405,12 +413,8 @@ a.hex:hover {
 .hex-list.tiny .hex, .hex.tiny {
     width: 64px;
     height: 56px;
-    overflow: hidden;
-    color: #fff;
     -webkit-mask-image: url(../gfx/hexagon_mask_tiny.png);
     mask: url(../gfx/hexagon_mask_tiny.png);
-    text-align: center;
-    background-color: #588C73;
 }
 
 .hex-list.tiny .hex .maskborder, .hex.tiny .maskborder {

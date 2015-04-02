@@ -156,12 +156,13 @@ class MessageController extends Controller
             $userTo = $message->getTo();
 
             $conversation = $this->getDoctrine()->getRepository('SwotNetworkBundle:Conversation')->findConversationBetween($user, $userTo);
-            if($conversation === null) $conversation = new Conversation();
+            if($conversation === null) {
+                $conversation = new Conversation();
+                $user->addConversation($conversation);
+                $userTo->addConversation($conversation);
+            }
 
             $conversation->addMessage($message);
-
-            $user->addConversation($conversation);
-            $userTo->addConversation($conversation);
 
             $message->setConversation($conversation);
 

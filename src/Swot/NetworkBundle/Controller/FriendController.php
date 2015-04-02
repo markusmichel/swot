@@ -201,11 +201,15 @@ class FriendController extends Controller
         return $form;
     }
 
+    /**
+     * @param User $user
+     * @param $randomStrangersCount
+     * @return random people who are not befriended with user
+     */
     private function getRandomStrangers(User $user, $randomStrangersCount)
     {
         $userRepo = $this->getDoctrine()->getRepository('SwotNetworkBundle:User');
         $strangers = $userRepo->findRandomStrangers($user, $randomStrangersCount);
         return $strangers;
     }
-
 }

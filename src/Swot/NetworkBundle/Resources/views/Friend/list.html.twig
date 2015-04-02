@@ -11,7 +11,7 @@
                 {% set friend = friendship.userWith %}
             {% endif %}
             {% set friend = friendship.otherUser(user) %}
-                {% include 'SwotNetworkBundle:Friend:friendListEntry.html.twig' with {friend: friend} %}
+                {% include 'SwotNetworkBundle:Friend:listEntry.html.twig' with {friend: friend} %}
         {% endfor %}
     </div>
 {% endif %}

@@ -8,17 +8,5 @@
         {% endfor %}
     </div>
 {% endif %}
-{% if user.thingsLent|length > 0 %}
-    <h2>
-        {% if user != app.user %}
-            {% trans %}user.thing.friend_lent_title{% endtrans %}
-        {% else %}
-            {% trans %}user.thing.my_lent_title{% endtrans %}
-        {% endif %}
-    </h2>
-    <div class="hex-list small">
-        {% for thing in user.thingsLent %}
-            {% include 'SwotNetworkBundle:Thing:listEntry.html.twig' with {thing: thing.thing} %}
-        {% endfor %}
-    </div>
-{% endif %}
+
+{{ render(controller("SwotNetworkBundle:Rental:showThingsLent")) }}

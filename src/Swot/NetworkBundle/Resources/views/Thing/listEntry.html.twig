@@ -1,4 +1,4 @@
-<a class="hex" href="{{ path('thing_show', {id: thing.id}) }}">
+<a class="hex {% if thing.accessType == "public" %}public-thing{% endif %}" href="{{ path('thing_show', {id: thing.id}) }}">
     <div class="hex-item">
         <div class="hex-item-inner">
             {{ thing.name }}<br/>

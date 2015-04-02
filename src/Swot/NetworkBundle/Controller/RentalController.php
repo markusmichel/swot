@@ -88,9 +88,9 @@ class RentalController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function showThingsLentAction() {
-        $thingsLent = $this->getDoctrine()->getRepository("SwotNetworkBundle:Rental")->findActiveRentThingsByUser($this->getUser());
+        $thingsLent = $this->getDoctrine()->getRepository("SwotNetworkBundle:Rental")->findActiveLentThingsByUser($this->getUser());
 
-        return $this->render("SwotNetworkBundle:Rental:_things_rent.html.twig", array(
+        return $this->render("SwotNetworkBundle:Rental:_things_lent.html.twig", array(
             "things" => $thingsLent,
         ));
     }
@@ -103,9 +103,9 @@ class RentalController extends Controller
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function showThingsRentAction() {
-        $thingsLent = $this->getDoctrine()->getRepository("SwotNetworkBundle:Rental")->findActiveLentThingsByUser($this->getUser());
+        $thingsLent = $this->getDoctrine()->getRepository("SwotNetworkBundle:Rental")->findActiveRentThingsByUser($this->getUser());
 
-        return $this->render("SwotNetworkBundle:Rental:_things_lent.html.twig", array(
+        return $this->render("SwotNetworkBundle:Rental:_things_rent.html.twig", array(
             "things" => $thingsLent,
         ));
     }

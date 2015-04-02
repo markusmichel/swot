@@ -2,7 +2,7 @@
     <div class="hex-item">
         <div class="hex-item-inner">
             {{ thing.name }}<br/>
-            {% if thing.ownership.owner != app.user %}
+            {% if showOwner %}
                 Owner: {{ thing.ownership.owner.username }}
             {% endif %}
         </div>

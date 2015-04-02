@@ -61,12 +61,8 @@ class FriendController extends Controller
             $this->generateUrl('conversation', array('id' => $conversation->getId())) :
             $this->generateUrl('new_message');
 
-        //get things of user which can be accessed by the current user
-        $accessibleThings = $this->getAccessibleThings($user, $currentUser);
-
         return $this->render('SwotNetworkBundle:Friend:show.html.twig', array(
             'user'              => $user,
-            'accessibleThings'  => $accessibleThings,
             'breakUpForm'       => $this->createRemoveFriendshipForm($user)->createView(),
             'sendInviteForm'    => $this->createSendInviteForm($user)->createView(),
             'sendMessageLink'   => $sendMessageLink,
@@ -216,27 +212,4 @@ class FriendController extends Controller
         $strangers = $userRepo->findRandomStrangers($user, $randomStrangersCount);
         return $strangers;
     }
-
-    /**
-     * @param User $friend
-     * @param User $currentUser
-     * @return things the current user has access to and are owned by friend
-     */
-    private function getAccessibleThings(User $friend, User $currentUser) {
-        $things = array();
-        foreach ($currentUser->getThingsLent() as $rental) {
-            if ($rental->getUserFrom() == $friend) {
-                $things[] = $rental->getThing();
-            }
-        }
-
-        foreach ($friend->getOwnerships() as $ownership) {
-            if ($ownership->getThing()->getAccessType() == "public") {
-                $things[] = $ownership->getThing();
-            }
-        }
-
-        return $things;
-    }
-
 }

@@ -82,3 +82,4 @@ parameters:
     thing.api.functions:                    '/functions'
     thing.api.status:                       '/status'
     thing.api.deregister:                   '/deregister'
+    thing.api.profileimage:                 '/profileimage'

@@ -193,6 +193,7 @@ class ThingController extends Controller
 
             // dev switch
             $functionsData = null;
+            $profileImage = null;
             if($useQR == 1) {
                 $url = $this->getUrlFromQr($qr);
 
@@ -205,11 +206,16 @@ class ThingController extends Controller
                 $formattedUrl->setQuery($query);
                 $thingInfo = $curlManager->getCurlResponse($formattedUrl->__toString());
 
+                $imageUrl = URL::createFromUrl($thingInfo->device->api->profileimage);
+                //@TODO: keep without tokens?!
+                $profileImage = $curlManager->getCurlImageResponse($imageUrl->__toString());
+
                 $functionsUrl = URL::createFromUrl($thingInfo->device->api->function);
                 $query = $functionsUrl->getQuery();
                 $query["access_token"] = $thingInfo->device->tokens->owner_token;
                 $functionsUrl->setQuery($query);
                 $functionsData = $curlManager->getCurlResponse($functionsUrl->__toString());
+
             } else {
                 $res = json_decode(ThingFixtures::$thingResponse);
                 $thingInfo = $res;
@@ -223,7 +229,7 @@ class ThingController extends Controller
             $thingManager = $this->container->get("swot.manager.thing");
 
             // Create thing from response
-            $thing = $converter->convertThing($thingInfo, $accessToken);
+            $thing = $converter->convertThing($thingInfo, $profileImage, $accessToken);
 
             $ownership = $thingManager->createOwnership($thing, $user);
 

@@ -1,4 +1,8 @@
-<a class="hex {% if thing.accessType == constant('Swot\\NetworkBundle\\Security\\AccessType::ACCESS_TYPE_PUBLIC') %}public-thing{% endif %}" href="{{ path('thing_show', {id: thing.id}) }}">
+<a class="hex
+    {% if thing.accessType == constant('Swot\\NetworkBundle\\Security\\AccessType::ACCESS_TYPE_PUBLIC') %}public-thing
+    {% elseif thing.accessType == constant('Swot\\NetworkBundle\\Security\\AccessType::ACCESS_TYPE_RESTRICTED') %}restricted-thing
+    {% elseif thing.accessType == constant('Swot\\NetworkBundle\\Security\\AccessType::ACCESS_TYPE_PRIVATE') %}private-thing{% endif %}
+    " href="{{ path('thing_show', {id: thing.id}) }}">
     <div class="hex-item">
         <div class="hex-item-inner">
             {{ thing.name }}<br/>

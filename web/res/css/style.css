@@ -338,6 +338,14 @@ button, .button {
     background-color: #85C700;
 }
 
+.hex.private-thing {
+    background-color: #D96459;
+}
+
+.hex.restricted-thing {
+    background-color: #FFA00A;
+}
+
 .hex-item-inner a, .hex-item-inner {
     color: #fff;
 }
@@ -348,7 +356,7 @@ button, .button {
 }
 
 a.hex:hover {
-    background-color: #D96459 !important;
+    background-color: #E2D0B3 !important;
 }
 
 /* normal hex */

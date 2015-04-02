@@ -3,6 +3,7 @@
 namespace Swot\NetworkBundle\Controller;
 
 use Doctrine\ORM\EntityRepository;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\ParamConverter;
 use Swot\NetworkBundle\Entity\Conversation;
 use Swot\NetworkBundle\Entity\ConversationRepository;
 use Swot\NetworkBundle\Entity\Message;
@@ -35,22 +36,13 @@ class MessageController extends Controller
 
     /**
      * Lists all messages in one specific conversation involving the current user.
+     * @ParamConverter("conversation", class="SwotNetworkBundle:Conversation")
      * @param $id ID of the user the current user has a conversation with.
      * @return Response
      */
-    public function conversationAction(Request $request, $id) {
+    public function conversationAction(Request $request, Conversation $conversation) {
         /** @var User $user */
         $user = $this->getUser();
-
-        /** @var Conversation $conversation */
-        $conversation = $this->getDoctrine()->getRepository('SwotNetworkBundle:Conversation')->find($id);
-
-        // Entity not found
-        if($conversation === null) {
-            // @todo: message string in translation file
-            $this->addFlash('error', 'Conversation does not exist');
-            return $this->redirectToRoute('conversations');
-        }
 
         $messages = $this->getDoctrine()->getRepository('SwotNetworkBundle:Message')->findMessagesInConversation($conversation);
 

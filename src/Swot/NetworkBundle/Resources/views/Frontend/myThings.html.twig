@@ -34,4 +34,10 @@
     </form>
 
     {% include 'SwotNetworkBundle:Thing:list.html.twig' with {user: app.user} %}
+    <h2>{% trans %}user.thing.alreadyknow{% endtrans %}</h2>
+    <div class="hex-list small">
+        {% for thing in publicthings %}
+            {% include 'SwotNetworkBundle:Thing:listEntry.html.twig' with {thing: thing} %}
+        {% endfor %}
+    </div>
 {% endblock %}

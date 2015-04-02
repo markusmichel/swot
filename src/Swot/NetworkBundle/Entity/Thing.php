@@ -112,6 +112,20 @@ class Thing implements UserInterface
     private $baseApiUrl;
 
     /**
+     * @var text
+     *
+     * @ORM\Column(name="description")
+     */
+    private $description;
+
+    /**
+     * @var string
+     *
+     * @ORM\Column(name="geolocation")
+     */
+    private $geoLocation;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -522,5 +536,51 @@ class Thing implements UserInterface
     public function setBaseApiUrl($baseApiUrl)
     {
         $this->baseApiUrl = $baseApiUrl;
+    }
+
+    /**
+     * Set description
+     *
+     * @param string $description
+     * @return Thing
+     */
+    public function setDescription($description)
+    {
+        $this->description = $description;
+
+        return $this;
+    }
+
+    /**
+     * Get description
+     *
+     * @return string 
+     */
+    public function getDescription()
+    {
+        return $this->description;
+    }
+
+    /**
+     * Set geoLocation
+     *
+     * @param string $geoLocation
+     * @return Thing
+     */
+    public function setGeoLocation($geoLocation)
+    {
+        $this->geoLocation = $geoLocation;
+
+        return $this;
+    }
+
+    /**
+     * Get geoLocation
+     *
+     * @return string 
+     */
+    public function getGeoLocation()
+    {
+        return $this->geoLocation;
     }
 }

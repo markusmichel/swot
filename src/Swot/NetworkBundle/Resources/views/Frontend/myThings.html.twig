@@ -23,13 +23,11 @@
         {{ form_widget(form) }}
         <input type="submit"  value="Register Thing" />
     </form>
-
+    <div class="hex-list small">
     {% for ownership in app.user.ownerships %}
-        <div class="hex-list small">
             {% include 'SwotNetworkBundle:Thing:listEntry.html.twig' with {thing: ownership.thing, showOwner: false} %}
-        </div>
     {% endfor %}
-
+    </div>
     <h2>{% trans %}Things lent to me{% endtrans %}</h2>
     {{ render(controller("SwotNetworkBundle:Rental:showThingsLent")) }}
     

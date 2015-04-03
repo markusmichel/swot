@@ -22,12 +22,27 @@ class FriendController extends Controller
         /** @var User $user */
         $user = $this->getUser();
 
-        $randomStrangersCount = 10;
-        $strangers = $this->getRandomStrangers($user, $randomStrangersCount);
-
         return $this->render('SwotNetworkBundle:Frontend:myFriends.html.twig', array(
-            'user'      => $user,
-            'strangers' => $strangers
+            'user'      => $user
+        ));
+    }
+
+    /**
+     * Internal action without route.
+     *
+     * Shows random stranger
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function showRandomStrangersAction() {
+        /** @var User $user */
+        $user = $this->getUser();
+
+        $randomStrangersCount =$this->container->getParameter('random.strangers.count');
+        $userRepo = $this->getDoctrine()->getRepository('SwotNetworkBundle:User');
+        $strangers = $userRepo->findRandomStrangers($user, $randomStrangersCount);
+        return $this->render("SwotNetworkBundle:Frontend:_random_stranger.html.twig", array(
+            "strangers" => $strangers,
         ));
     }
 
@@ -200,12 +215,4 @@ class FriendController extends Controller
 
         return $form;
     }
-
-    private function getRandomStrangers(User $user, $randomStrangersCount)
-    {
-        $userRepo = $this->getDoctrine()->getRepository('SwotNetworkBundle:User');
-        $strangers = $userRepo->findRandomStrangers($user, $randomStrangersCount);
-        return $strangers;
-    }
-
 }

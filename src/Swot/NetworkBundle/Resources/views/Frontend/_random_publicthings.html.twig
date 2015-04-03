@@ -1,0 +1,10 @@
+{# Shows random public things #}
+
+{% if publicthings|length > 0 %}
+    <h2>{% trans %}user.thing.alreadyknow{% endtrans %}</h2>
+    <div class="hex-list small">
+        {% for thing in publicthings %}
+            {% include 'SwotNetworkBundle:Thing:listEntry.html.twig' with {thing: thing, showOwner: true} %}
+        {% endfor %}
+    </div>
+{% endif %}

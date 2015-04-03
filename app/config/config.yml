@@ -82,3 +82,5 @@ parameters:
     thing.api.functions:                    '/functions'
     thing.api.status:                       '/status'
     thing.api.deregister:                   '/deregister'
+    random.strangers.count:                 '10'
+    random.publicthings.count:              '10'

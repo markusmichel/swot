@@ -20,11 +20,6 @@
 {% block body %}
     {% include 'SwotNetworkBundle:Friend:list.html.twig' with {user: app.user} %}
     {% if user == app.user %}
-        <h2>{% trans %}user.friend.alreadyknow{% endtrans %}</h2>
-        <div class="hex-list small">
-            {% for stranger in strangers %}
-                {% include 'SwotNetworkBundle:Friend:friendListEntry.html.twig' with {friend: stranger} %}
-            {% endfor %}
-        </div>
+        {{ render(controller("SwotNetworkBundle:Friend:showRandomStrangers")) }}
     {% endif %}
 {% endblock %}

@@ -31,4 +31,40 @@ class RentalRepository extends EntityRepository
 
         return $query->getResult();
     }
+
+    /**
+     * Dinge, die dem Nutzer verliehen wurden.
+     *
+     * @param User $user
+     * @return array
+     */
+    public function findActiveRentThingsByUser(User $user) {
+        $query = $this->getEntityManager()->createQuery("
+            SELECT r FROM SwotNetworkBundle:Rental r
+            WHERE r.userTo = :user
+            and r.accessGrantedUntil > :now
+        ")
+            ->setParameter("user", $user)
+            ->setParameter("now", new \DateTime());
+
+        return $query->getResult();
+    }
+
+    /**
+     * Liefert die aktuell vom Nutzer verliehenen Dinge.
+     *
+     * @param User $user
+     * @return array
+     */
+    public function findActiveLentThingsByUser(User $user) {
+        $query = $this->getEntityManager()->createQuery("
+            SELECT r FROM SwotNetworkBundle:Rental r
+            WHERE r.userFrom = :user
+            and r.accessGrantedUntil > :now
+        ")
+            ->setParameter("user", $user)
+            ->setParameter("now", new \DateTime());
+
+        return $query->getResult();
+    }
 }

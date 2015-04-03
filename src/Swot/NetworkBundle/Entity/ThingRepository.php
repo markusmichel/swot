@@ -17,4 +17,34 @@ class ThingRepository extends EntityRepository
 
     }
 
+    public function findRandomPublicThings(User $user, $count) {
+        $qb = $this->getEntityManager()->createQueryBuilder();
+
+        $things = $qb->select('t')
+            ->from('SwotNetworkBundle:Thing', 't')
+            ->leftJoin('t.rentals', 'r')
+            ->leftJoin('t.ownership', 'o')
+            ->where("t.accessType = 'public'")
+            ->andWhere('r.userTo = :user OR o.owner = :user')
+            ->setParameter("user", $user)
+            ->getQuery()
+            ->getResult();
+
+        $thingIds = array();
+        foreach($things as $thing) {
+            $thingIds[] = $thing->getId();
+        }
+
+        $qb = $this->getEntityManager()->createQueryBuilder();
+        $qb->select('a')
+           ->from('SwotNetworkBundle:Thing', 'a')
+           ->where("a.accessType = 'public'");
+        if(count($thingIds) > 0) {
+            $qb->andWhere($qb->expr()->notIn('a.id', $thingIds));
+        }
+
+        $result = $qb->getQuery()->getResult();
+        shuffle($result);
+        return array_slice($result, 0, $count);
+    }
 }

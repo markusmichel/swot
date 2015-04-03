@@ -1,0 +1,10 @@
+{# Shows random stranger #}
+
+{% if strangers|length > 0 %}
+    <h2>{% trans %}user.friend.alreadyknow{% endtrans %}</h2>
+    <div class="hex-list small">
+        {% for stranger in strangers %}
+            {% include 'SwotNetworkBundle:Friend:listEntry.html.twig' with {friend: stranger} %}
+        {% endfor %}
+    </div>
+{% endif %}

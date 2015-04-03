@@ -17,7 +17,7 @@ class ThingResponseConverter {
         $this->encoder = $encoder;
     }
 
-    public function convertThing($thingInfo, $accessToken = null) {
+    public function convertThing($thingInfo, $profileImageName, $accessToken = null) {
         if($accessToken === null) $accessToken = uniqid();
 
         $thing = new Thing();
@@ -29,6 +29,9 @@ class ThingResponseConverter {
         $thing->setOwnerToken($thingInfo->device->tokens->owner_token);
         $thing->setReadToken($thingInfo->device->tokens->read_token);
         $thing->setWriteToken($thingInfo->device->tokens->write_token);
+
+        if($profileImageName != null && $profileImageName != "")
+            $thing->setProfileImage($profileImageName);
 
         return $thing;
     }

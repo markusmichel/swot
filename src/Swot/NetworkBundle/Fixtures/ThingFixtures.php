@@ -13,6 +13,7 @@ class ThingFixtures {
             "device": {
                 "id": 12345,
                 "classification": "sdf",
+                "url": "http://.....",
                 "api": {
                     "deregister": "http://.....",
                     "function": "http://....",
@@ -59,6 +60,12 @@ TAG;
             "device": {
                 "id": 12345,
                 "classification": "sdf",
+                "url": "http://.....",
+                "tokens": {
+                    "owner_token": "293487239",
+                    "write_token": "2305982304",
+                    "read_token": "23405834905"
+                },
                 "functions": [{
                         "name": "Function-A",
                         "url": "http://www.example.com",

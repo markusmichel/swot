@@ -1,12 +1,15 @@
 html, body{
     height:100%;
+    width: 100%;
+    margin: 0;
+    padding: 0;
+    overflow-x: hidden;
 }
 
 body {
     font-family: 'Slabo 27px', serif;
     min-width: 362px;
     cursor: default;
-
 }
 
 ul {
@@ -127,7 +130,7 @@ button, .button {
 }
 
 .main {
-    margin-top: 40px;
+    margin-top: 20px;
 }
 
 .sticky {
@@ -145,9 +148,10 @@ button, .button {
 }
 
 .icons-nav {
-    width: 309px;
+    width: 257px;
     margin-left: auto;
     margin-right: auto;
+    height: 45px;
 }
 
 .nav-item {
@@ -488,4 +492,9 @@ a.hex:hover {
 
 .conversations-date {
     text-align: right;
+}
+
+.conversation-container {
+    overflow-y: scroll;
+    padding-right: 10px;
 }

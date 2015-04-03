@@ -8,6 +8,7 @@
 {% endblock %}
 
 {% block body %}
+    <div class="conversation-container">
     {% for message in messages %}
         <div class="flex-row">
             <div class="flex-left conversation-picture">
@@ -34,11 +35,26 @@
         </div>
         <hr/>
     {% endfor %}
-
+    </div>
     <form action="{{ path('conversation', {id: conversation.id}) }}" method="post" {{ form_enctype(messageForm) }}>
         {{ form_widget(messageForm) }}
 
         <button type="submit">send</button>
     </form>
+{% endblock %}
+{% block jscode %}
+    {{ parent() }}
+    var gapSpace = 306;
 
+    adjustHeight = function() {
+        var container = $('.conversation-container');
+        container
+            .css('max-height', $(window).height() - gapSpace)
+            .scrollTop(container.prop('scrollHeight'));
+    }
+
+    adjustHeight();
+    $( window ).resize(function() {
+        adjustHeight();
+    });
 {% endblock %}

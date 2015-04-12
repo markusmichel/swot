@@ -70,6 +70,7 @@ class ThingController extends Controller
                 $accessToken = $thing->getNetworkAccessToken();
                 $res = $function->activate($accessToken);
 
+                // @todo: validate response code instead of json message
                 if(strcasecmp($res->status, "success") == 0) {
                     $this->addFlash('success', 'Function activated');
                     return $this->redirectToRoute('thing_show', array('id' => $thing->getId()));

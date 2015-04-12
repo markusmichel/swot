@@ -30,5 +30,21 @@
     {% else %}
         <h2>{% trans %}user.no_newsfeed{% endtrans %}</h2>
     {% endif %}
+{% endblock %}
 
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(function() {
+            (function() {
+                var timeout = 3000;
+                var callback = function() {
+                    $.get("/");
+
+                    setTimeout(callback, timeout);
+                };
+                callback();
+            }());
+        });
+    </script>
 {% endblock %}

@@ -222,12 +222,13 @@ button, .button {
 .thing-detail.meta-info {
     float: right;
     margin-right: 25px;
+    margin-top: -20px;
 }
 
 .thing-desc {
-    padding: 20px;
-    border: #F7E48C 2px solid;
-    margin-bottom: 20px;
+    font-style: italic;
+    padding-left: 40px;
+    margin: 0 0 30px 0;
 }
 
 .opac {
@@ -336,6 +337,7 @@ button, .button {
     color: #fff;
     text-align: center;
     background-color: #588C73;
+    display: inline-block;
 }
 
 .hex.public-thing {
@@ -355,7 +357,6 @@ button, .button {
 }
 
 .hex-list .hex {
-    display: inline-block;
     margin-right: 15px;
 }
 
@@ -453,14 +454,14 @@ a.hex:hover {
 }
 
 .long-hex {
-    height: 88px;
+    height: 68px;
     background-color: #588C73;
     margin-left: 25px;
 }
 
 .long-hex-after  {
-    width: 45px;
-    height: 88px;
+    width: 35px;
+    height: 68px;
     overflow: hidden;
     -webkit-mask-image: url(../gfx/hexagon_long_after.png);
     mask: url(../gfx/hexagon_long_after.png);
@@ -497,4 +498,40 @@ a.hex:hover {
 .conversation-container {
     overflow-y: scroll;
     padding-right: 10px;
+}
+
+.attributes > div {
+    height: 31px;
+    padding-top: 5px;
+    padding-left: 41px;
+    margin: 0 0 20px 0;
+    font-weight: bold;
+}
+
+.gender-f {
+    background: transparent url("../gfx/gender-female.png") no-repeat left center;
+    padding-left: 41px;
+}
+
+.gender-m {
+    background: transparent url("../gfx/gender-male.png") no-repeat left center;
+}
+
+.birthdate {
+    background: transparent url("../gfx/cake.png") no-repeat left center;
+}
+
+.access {
+    background: transparent url("../gfx/security.png") no-repeat left center;
+}
+
+.category {
+    background: transparent url("../gfx/tag-outline.png") no-repeat left center;
+}
+
+.thing-owner-name {
+    display: inline-block;
+    vertical-align: top;
+    padding-top: 17px;
+    margin-bottom: 35px;
 }

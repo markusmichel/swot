@@ -114,14 +114,14 @@ class Thing implements UserInterface
     /**
      * @var text
      *
-     * @ORM\Column(name="description")
+     * @ORM\Column(name="description", nullable=true)
      */
     private $description;
 
     /**
      * @var string
      *
-     * @ORM\Column(name="geolocation")
+     * @ORM\Column(name="geolocation", nullable=true)
      */
     private $geoLocation;
 

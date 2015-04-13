@@ -23,11 +23,15 @@
         {{ form_widget(form) }}
         <input type="submit"  value="Register Thing" />
     </form>
-    <div class="hex-list small">
-    {% for ownership in app.user.ownerships %}
-            {% include 'SwotNetworkBundle:Thing:listEntry.html.twig' with {thing: ownership.thing, showOwner: false} %}
-    {% endfor %}
-    </div>
+    {% if app.user.ownerships|length > 0 %}
+        <div class="hex-list small">
+        {% for ownership in app.user.ownerships %}
+                {% include 'SwotNetworkBundle:Thing:listEntry.html.twig' with {thing: ownership.thing, showOwner: false} %}
+        {% endfor %}
+        </div>
+    {% else %}
+        <h2>{% trans %}user.thing.no_things{% endtrans %}</h2>
+    {% endif %}
     {{ render(controller("SwotNetworkBundle:Rental:showThingsLent")) }}
     {{ render(controller("SwotNetworkBundle:Rental:showThingsRent")) }}
     {{ render(controller("SwotNetworkBundle:Frontend:showRandomPublicThings")) }}

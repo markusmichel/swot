@@ -20,7 +20,7 @@
     <ul class="button-top-bar">
         {% if thing.functions|length > 0 %}
             <li>
-                <a data-dropdown="function-drop" data-options="is_hover:true;align:bottom" class="button secondary" aria-controls="function-drop" aria-expanded="false">{% trans %}thing.functions{% endtrans %}</a>
+                <a data-dropdown="function-drop" data-options="is_hover:true;align:bottom" class="button secondary" style="font-weight: bold;" aria-controls="function-drop" aria-expanded="false">{% trans %}thing.functions{% endtrans %}</a>
                 <ul id="function-drop" class="medium f-dropdown" data-dropdown-content aria-hidden="true" tabindex="-1">
                     {% for function in thing.functions %}
                         <li><a href="#" data-reveal-id="modal-function-{{ function.id }}">{{ function.name }}</a></li>

@@ -41,6 +41,9 @@ class Action
 
         //@TODO: after development uncomment these lines
         /** @var CurlManager $curlManager */
+        //@TODO good practice?!
+        $curlManager = new CurlManager("placeholder");
+        return $curlManager->getCurlResponse($url);
         //$curlManager = $this->get('services.curl_manager');
         //return $curlManager->getCurlResponse($url);
 

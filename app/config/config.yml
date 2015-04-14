@@ -34,6 +34,7 @@ twig:
     strict_variables: "%kernel.debug%"
     globals:
         profile_image_folder:   "%swot.directory.upload.profile_images%"
+        long_poll_intervall:    3000 # in ms
 
 # Assetic Configuration
 assetic:

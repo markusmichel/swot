@@ -5,7 +5,12 @@
             {{ newsitem.message }}
         </div>
         <div class="flex-right conversations-date">
-            <div class="meta-info">from: {{ newsitem.sent|date }}</div>
+            <div class="meta-info">from:
+                {# date("U") formats datetime as timestamp #}
+                <span class="message-sent" data-timestamp="{{ newsitem.sent|date("U") }}">
+                    {{ newsitem.sent|date }}
+                </span>
+            </div>
         </div>
     </div>
     <hr/>

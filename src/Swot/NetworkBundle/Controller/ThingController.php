@@ -103,10 +103,15 @@ class ThingController extends Controller
      * @param Thing $thing
      * @return Response
      */
-    public function showUpdatesSinceAction(Request $request, Thing $thing, \DateTime $since, $_format) {
+    public function showUpdatesSinceAction(Request $request, Thing $thing, $since, $_format) {
         $this->assertAccessToThingGranted($thing, ThingVoter::ACCESS);
 
-        $updates = $this->getDoctrine()->getRepository("SwotNetworkBundle:ThingStatusUpdate")->findUpdatesForThingSince($thing, $since);
+        $sinceDate = new \DateTime();
+        $sinceDate->setTimestamp(intval($since));
+        $updates = $this->getDoctrine()->getRepository("SwotNetworkBundle:ThingStatusUpdate")->findUpdatesForThingSince($thing, $sinceDate);
+
+//        print_r($since);
+//        die();
 
         switch($_format) {
             case "html":

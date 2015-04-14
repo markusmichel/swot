@@ -18,3 +18,7 @@ delete_message:
 conversation:
     path:     /{id}
     defaults: { _controller: SwotNetworkBundle:Message:conversation }
+
+messages_in_conversation_since:
+    path:     /{id}/messages/since/{since}
+    defaults: { _controller: SwotNetworkBundle:Message:messagesInConversationSince, since: "0" }

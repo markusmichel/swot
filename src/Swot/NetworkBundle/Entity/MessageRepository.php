@@ -29,4 +29,20 @@ class MessageRepository extends EntityRepository
 
         return $query->getResult();
     }
+
+    public function findMessagesInConversationSince(Conversation $conversation, \DateTime $since) {
+        $query = $this->getEntityManager()->createQuery('
+            SELECT m
+            FROM SwotNetworkBundle:Message m
+            JOIN m.conversation c
+            WHERE c = :conversation
+            AND m.sent > :since
+            ORDER BY m.sent ASC
+        ')
+            ->setParameter('conversation', $conversation)
+            ->setParameter("since", $since)
+        ;
+
+        return $query->getResult();
+    }
 }

@@ -9,32 +9,8 @@
 
 {% block body %}
     <div class="conversation-container">
-    {% for message in messages %}
-        <div class="flex-row">
-            <div class="flex-left conversation-picture">
-                <a href="{{ path('friend_show', {id: message.from.id}) }}">
-                    <div class="hex tiny">
-                        <img class="maskborder" src="{{ (profile_image_folder ~ message.from.profileImage|default('person.jpg')) | imagine_filter('profile_image_thumb_tiny') }}"/>
-                    </div>
-                </a>
-            </div>
-            <div class="flex-center conversation-content">
-                <a href="{{ path('friend_show', {id: message.from.id}) }}">
-                    {% if message.from == partner %}
-                        {{ message.from.username  }}
-                    {% else %}
-                        {% trans %}conversation.self{% endtrans %}
-                    {% endif %}
-                </a>
-                <div>{{ message.text }}</div>
-            </div>
-            <div class="flex-right conversation-date">
-                <div class="meta-info">{{ message.sent|date }}</div>
-                {{ form(deleteForms[message.id]) }}
-            </div>
-        </div>
-        <hr/>
-    {% endfor %}
+        {# Render messages #}
+        {{ render(controller("SwotNetworkBundle:Message:messagesInConversationSince", { id: conversation.id, since: 0 })) }}
     </div>
     <form action="{{ path('conversation', {id: conversation.id}) }}" method="post" {{ form_enctype(messageForm) }}>
         {{ form_widget(messageForm) }}

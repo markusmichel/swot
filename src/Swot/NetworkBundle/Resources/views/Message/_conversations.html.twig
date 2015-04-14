@@ -1,0 +1,26 @@
+{% for conversation in conversations %}
+    {% if conversation.messages|length > 0 %}
+        {% set partner = (conversation.messages|last).otherUser(app.user) %}
+        <div class="flex-row ">
+            <div class="flex-left conversations-picture">
+                <a href="{{ path('friend_show', {id: partner.id}) }}">
+                    <div class="hex tiny">
+                        <img class="maskborder" src="{{ (profile_image_folder ~ partner.profileImage|default('person.jpg')) | imagine_filter('profile_image_thumb_tiny') }}"/>
+                    </div>
+                </a>
+            </div>
+            <div class="flex-center conversations-content">
+                <a href="{{ path('conversation', {id: conversation.id}) }}">
+                    {{ partner.username }}
+                </a>
+            </div>
+            <div class="flex-right conversations-date">
+                <div class="meta-info">from:
+                    <span class="message-sent" data-timestamp="{{ conversation.updated|date('U') }}"></span>
+                    {{ conversation.updated|date }}
+                </div>
+            </div>
+        </div>
+        <hr/>
+    {% endif %}
+{% endfor %}

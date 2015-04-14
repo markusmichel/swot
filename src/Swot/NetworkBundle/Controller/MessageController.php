@@ -25,13 +25,17 @@ class MessageController extends Controller
      * @return Response
      */
     public function conversationsAction() {
+        return $this->render('SwotNetworkBundle:Message:conversations.html.twig', array());
+    }
+
+
+    public function conversationsSinceAction($since) {
         /** @var ConversationRepository $repo */
         $repo = $this->getDoctrine()->getRepository('SwotNetworkBundle:Conversation');
-
         $conversations = $repo->findUsersConversations($this->getUser());
 
-        return $this->render('SwotNetworkBundle:Message:conversations.html.twig', array(
-            'conversations' => $conversations,
+        return $this->render("SwotNetworkBundle:Message:_conversations.html.twig", array(
+            "conversations" => $conversations,
         ));
     }
 

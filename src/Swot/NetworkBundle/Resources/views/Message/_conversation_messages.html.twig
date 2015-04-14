@@ -18,7 +18,7 @@
             <div>{{ message.text }}</div>
         </div>
         <div class="flex-right conversation-date">
-            <div class="meta-info">{{ message.sent|date }}</div>
+            <div class="meta-info message-sent" data-timestamp="{{ message.sent|date("U") }}">{{ message.sent|date }}</div>
             {{ form(deleteForms[message.id]) }}
         </div>
     </div>

@@ -79,7 +79,9 @@
                  */
                 $messageContainer = $('#messages');
                 var getLastMessageDate = function() {
-                    return parseInt($messageContainer.find('.message-sent').first().attr('data-timestamp'));
+                    var since = parseInt($messageContainer.find('.message-sent').last().attr('data-timestamp'));
+                    if(isNaN(since)) since = 0;
+                    return since;
                 };
 
                 var timeout = {{ long_poll_intervall }};

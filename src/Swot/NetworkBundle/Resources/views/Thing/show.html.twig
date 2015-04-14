@@ -63,6 +63,7 @@
         <div id="messages">
             {{ include("SwotNetworkBundle:Thing:thing_messages.html.twig", {messages: messages}) }}
         </div>
+        {% else %}<h2>{% trans %}thing.no_newsfeed{% endtrans %}</h2>
     {% endif %}
 
 {% endblock %}

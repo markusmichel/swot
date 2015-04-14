@@ -39,6 +39,7 @@ thing:
     accessType:               Access type
     functions:                Functions
     newsfeed:                 Newsfeed
+    no_newsfeed:              No News yet...
 
 settings:
     page_title:               Settings

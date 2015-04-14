@@ -13,6 +13,10 @@ newsfeed:
     path:     /
     defaults: { _controller: SwotNetworkBundle:Frontend:newsfeed }
 
+newsfeed_since:
+    path:     /newsfeed/since/{since}
+    defaults: { _controller: SwotNetworkBundle:Frontend:newsfeedSince, since: "0" }
+
 my_things:
     path:     /things
     defaults: { _controller: SwotNetworkBundle:Frontend:myThings }

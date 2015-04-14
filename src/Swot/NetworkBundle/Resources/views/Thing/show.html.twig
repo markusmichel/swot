@@ -14,8 +14,8 @@
         <div class="long-hex-after flex-right"></div>
     </div>
     <div class="thing-detail meta-info">
-        <div>{% trans %}common.registered_since{% endtrans %}: {{ thing.ownerSince.date }}</div>
-        <div>{% trans %}thing.owner_since{% endtrans %}: {{ thing.ownership.since.date }}</div>
+        <div>{% trans %}common.registered_since{% endtrans %}: {{ thing.ownerSince.date|date("Y-m-d") }}</div>
+        {% if thing.ownership.owner == app.user %}<div>{% trans %}thing.owner_since{% endtrans %}: {{ thing.ownership.since.date|date("Y-m-d") }}</div>{% endif %}
     </div>
     <ul class="button-top-bar">
         {% if thing.functions|length > 0 %}
@@ -66,12 +66,31 @@
         {% else %}<h2>{% trans %}thing.no_newsfeed{% endtrans %}</h2>
     {% endif %}
 
+    <div id="myModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+        <p>Are you sure?</p>
+        <button id="confirmDeleteBtn">Accept</button>
+        <button>Decline</button>
+        <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+    </div>
+
 {% endblock %}
 
 {% block javascripts %}
     {{ parent() }}
     <script>
         $(function() {
+
+            var flag = true;
+            $('form').submit(function() {
+                if (flag) $('#myModal').foundation('reveal', 'open');
+                else return true;
+                return false;
+            });
+
+            $('#confirmDeleteBtn').click(function() {
+                flag = false;
+                $('form').submit();
+            });
             (function() {
                 /**
                  * Get timestamp of last received message and periodically check if there are new ones.

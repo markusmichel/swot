@@ -18,7 +18,7 @@
         <div class="long-hex-after flex-right"></div>
     </div>
     <div class="thing-detail meta-info">
-        <div>{% trans %}common.registered_since{% endtrans %}: {{ user.registeredDate.date }}</div>
+        <div>{% trans %}common.registered_since{% endtrans %}: {{ user.registeredDate.date|date("Y-m-d") }}</div>
     </div>
 
     {#

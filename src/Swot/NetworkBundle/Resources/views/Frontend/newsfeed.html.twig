@@ -5,6 +5,7 @@
 {% block title %}SwotNetworkBundle:Frontend:newsfeed{% endblock %}
 
 {% block body %}
+    <h2>{% trans %}thing.newsfeed{% endtrans %}</h2>
     <div id="newsfeed">
         {{ render(controller("SwotNetworkBundle:Frontend:newsfeedSince", { since: 0 })) }}
     </div>
@@ -21,7 +22,7 @@
                  */
                 $messageContainer = $('#newsfeed');
                 var getLastMessageDate = function() {
-                    return parseInt($messageContainer.find('.newsitem-sent').last().attr('data-timestamp'));
+                    return parseInt($messageContainer.find('.newsitem-sent').first().attr('data-timestamp'));
                 };
 
                 var timeout = {{ long_poll_intervall }};

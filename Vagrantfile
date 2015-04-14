@@ -34,7 +34,7 @@ Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
 		config.vm.network "forwarded_port", guest: 80, host: 9090
 		config.vm.synced_folder ".", "/var/www", type: "rsync",
-			rsync__exclude: ".git/",
+			rsync__exclude: [".git/", "app/cache/", "app/logs"],
 			rsync__args: ["--chmod=ugo=rwX","--verbose", "--archive", "--delete", "-z"]
 	end
 

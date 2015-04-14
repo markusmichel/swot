@@ -1,0 +1,26 @@
+{% for newsitem in newsfeed %}
+    <div class="flex-row ">
+        <div class="flex-left conversations-picture">
+            <a href="{{ path('thing_show', {id: newsitem.thing.id}) }}">
+                <div class="hex tiny">
+                    <img class="maskborder" src="{{ (profile_image_folder ~ newsitem.thing.profileImage|default('thing.jpg')) | imagine_filter('profile_image_thumb_tiny') }}"/>
+                </div>
+            </a>
+        </div>
+        <div class="flex-center conversations-content">
+            <a href="{{ path('thing_show', {id: newsitem.thing.id}) }}">
+                {{ newsitem.thing.name }}
+            </a>
+            <div>{{ newsitem.message }}</div>
+        </div>
+        <div class="flex-right conversations-date">
+            <div class="meta-info">from:
+                {# date("U") formats datetime as timestamp #}
+                <span class="newsitem-sent" data-timestamp="{{ newsitem.sent|date("U") }}">
+                        {{ newsitem.sent|date }}
+                </span>
+            </div>
+        </div>
+    </div>
+    <hr/>
+{% endfor %}

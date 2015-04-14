@@ -13,6 +13,7 @@ use Swot\NetworkBundle\Form\NewMessageType;
 use Swot\NetworkBundle\Security\MessageVoter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Bundle\FrameworkBundle\Translation\Translator;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
@@ -24,13 +25,17 @@ class MessageController extends Controller
      * @return Response
      */
     public function conversationsAction() {
+        return $this->render('SwotNetworkBundle:Message:conversations.html.twig', array());
+    }
+
+
+    public function conversationsSinceAction($since) {
         /** @var ConversationRepository $repo */
         $repo = $this->getDoctrine()->getRepository('SwotNetworkBundle:Conversation');
-
         $conversations = $repo->findUsersConversations($this->getUser());
 
-        return $this->render('SwotNetworkBundle:Message:conversations.html.twig', array(
-            'conversations' => $conversations,
+        return $this->render("SwotNetworkBundle:Message:_conversations.html.twig", array(
+            "conversations" => $conversations,
         ));
     }
 
@@ -57,12 +62,6 @@ class MessageController extends Controller
             return $this->redirectToRoute('conversations');
         }
 
-        $deleteForms = array();
-        /** @var Message $message */
-        foreach($messages as $message) {
-            $deleteForms[$message->getId()] = $this->createDeleteMessageForm($message)->createView();
-        }
-
         $message = new Message();
         $message->setFrom($user);
         $message->setTo($partner);
@@ -85,7 +84,6 @@ class MessageController extends Controller
             'messages'  => $messages,
             'conversation' => $conversation,
             'partner'   => $partner,
-            'deleteForms' => $deleteForms,
             'messageForm' => $messageForm->createView(),
         ));
     }
@@ -203,6 +201,42 @@ class MessageController extends Controller
             $this->addFlash('success', 'Message removed');
             return $this->redirectToRoute('conversation', array('id' => $conversation->getId()));
         }
+    }
+
+    /**
+     * @ParamConverter("conversation", class="SwotNetworkBundle:Conversation")
+     * @param Conversation $conversation
+     * @param $since
+     * @return JsonResponse
+     */
+    public function messagesInConversationSinceAction(Conversation $conversation, $since) {
+        $sinceDate = new \DateTime();
+        $sinceDate->setTimestamp(intval($since));
+
+        // User not involved in the requested conversation
+        if(!$this->getUser()->getConversations()->contains($conversation)) {
+            // @todo: better solution than empty response? ex. Exception?
+            return new Response();
+        }
+
+        $messages = $this->getDoctrine()->getRepository("SwotNetworkBundle:Message")->findMessagesInConversationSince($conversation, $sinceDate);
+
+        /** @var User $partner */
+        $partners = $conversation->getAllUsersBut($this->getUser());
+        $partner = $partners->first();
+
+        $deleteForms = array();
+        /** @var Message $message */
+        foreach($messages as $message) {
+            $deleteForms[$message->getId()] = $this->createDeleteMessageForm($message)->createView();
+        }
+
+        $view = $this->renderView("SwotNetworkBundle:Message:_conversation_messages.html.twig", array(
+            "messages" => $messages,
+            "deleteForms" => $deleteForms,
+            "partner" => $partner,
+        ));
+        return new Response($view);
     }
 
     private function createDeleteMessageForm(Message $message) {

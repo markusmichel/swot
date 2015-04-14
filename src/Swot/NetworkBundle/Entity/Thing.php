@@ -71,12 +71,12 @@ class Thing implements UserInterface
     private $readToken;
 
     /**
-     * @ORM\OneToOne(targetEntity="Ownership", mappedBy="thing", cascade={"persist"})
+     * @ORM\OneToOne(targetEntity="Ownership", mappedBy="thing", cascade={"persist", "remove"})
      */
     private $ownership;
 
     /**
-     * @ORM\OneToMany(targetEntity="Rental", mappedBy="thing")
+     * @ORM\OneToMany(targetEntity="Rental", mappedBy="thing", cascade={"persist", "remove"})
      */
     private $rentals;
 
@@ -92,7 +92,7 @@ class Thing implements UserInterface
     private $accessType;
 
     /**
-     * @ORM\OneToMany(targetEntity="ThingStatusUpdate", mappedBy="thing")
+     * @ORM\OneToMany(targetEntity="ThingStatusUpdate", mappedBy="thing", cascade={"remove"})
      */
     private $statusUpdates;
 

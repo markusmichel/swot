@@ -24,5 +24,10 @@ thing_activate_function:
     defaults: { _controller: "SwotNetworkBundle:Thing:activateFunction" }
     methods:  [POST]
 
+thing_update_messages_since:
+    path:     /{id}/updates/since/{since}.{_format}
+    defaults: { _controller: "SwotNetworkBundle:Thing:showUpdatesSince", _format: "html", since: "0" }
+    requirements: { _format: "html|json" }
+
 thing_newsfeed_content:
     path:     /{id}/newsfeed

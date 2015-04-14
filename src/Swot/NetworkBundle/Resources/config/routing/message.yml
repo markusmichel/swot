@@ -2,6 +2,10 @@ conversations:
     path:     /
     defaults: { _controller: SwotNetworkBundle:Message:conversations }
 
+conversations_since:
+    path:     /since/{since}
+    defaults: { _controller: SwotNetworkBundle:Message:conversationsSince, since: "0" }
+
 new_message:
     path:     /write
     defaults: { _controller: SwotNetworkBundle:Message:newMessage }
@@ -18,3 +22,7 @@ delete_message:
 conversation:
     path:     /{id}
     defaults: { _controller: SwotNetworkBundle:Message:conversation }
+
+messages_in_conversation_since:
+    path:     /{id}/messages/since/{since}
+    defaults: { _controller: SwotNetworkBundle:Message:messagesInConversationSince, since: "0" }

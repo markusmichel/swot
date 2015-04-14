@@ -13,11 +13,11 @@ use Doctrine\ORM\EntityRepository;
 class ThingStatusUpdateRepository extends EntityRepository
 {
     /**
-     * Retrieves newsfeed for given user
+     * Finds newsfeed for given user since given date
      * the user gets newsfeed from his things, friends public things and lent things
      * @param $user
      */
-    public function findUserNewsfeed(User $user) {
+    public function findUserNewsfeedSince(User $user, \DateTime $since) {
 
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select("c")
@@ -30,11 +30,34 @@ class ThingStatusUpdateRepository extends EntityRepository
             ->where("o.owner = :user")
             ->orWhere("r.thing = a AND r.userTo = :user")
             ->orWhere("a.accessType = 'public' AND (f.userWho = :user OR f.userWith = :user)")
+            ->andWhere("c.sent > :since")
+            ->setParameter('since', $since)
             ->setParameter('user', $user)
         ;
 
         /** @var Newsfeed $newsfeed */
         $newsfeed = $qb->getQuery()->getResult();
         return $newsfeed;
+    }
+
+    /**
+     * Finds all Status updates for a Thing since the given date.
+     * The exact since Date is not included!
+     *
+     * @param Thing $thing
+     * @param \DateTime $since
+     * @return array
+     */
+    public function findUpdatesForThingSince(Thing $thing, \DateTime $since) {
+        $query = $this->getEntityManager()->createQuery("
+            SELECT u FROM SwotNetworkBundle:ThingStatusUpdate u
+            WHERE u.thing = :thing
+            AND u.sent > :since
+            ORDER BY u.sent DESC
+        ")
+        ->setParameter("thing", $thing)
+        ->setParameter("since", $since);
+
+        return $query->getResult();
     }
 }

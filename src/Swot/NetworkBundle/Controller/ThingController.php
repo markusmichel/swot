@@ -19,6 +19,7 @@ use Swot\NetworkBundle\Services\ThingResponseConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\HttpFoundation\JsonResponse;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use League\Url\Url;
@@ -94,6 +95,37 @@ class ThingController extends Controller
             'functionForms' => $functionForms,
             'messages'      => $messages,
         ));
+    }
+
+    /**
+     * @ParamConverter("thing", class="SwotNetworkBundle:Thing")
+     * @param Request $request
+     * @param Thing $thing
+     * @return Response
+     */
+    public function showUpdatesSinceAction(Request $request, Thing $thing, $since, $_format) {
+        $this->assertAccessToThingGranted($thing, ThingVoter::ACCESS);
+
+        $sinceDate = new \DateTime();
+        $sinceDate->setTimestamp(intval($since));
+        $updates = $this->getDoctrine()->getRepository("SwotNetworkBundle:ThingStatusUpdate")->findUpdatesForThingSince($thing, $sinceDate);
+
+//        print_r($since);
+//        die();
+
+        switch($_format) {
+            case "html":
+                return new Response($this->renderView("SwotNetworkBundle:Thing:thing_messages.html.twig", array("messages" => $updates)));
+                break;
+            case "json":
+                $serializer = $this->container->get('jms_serializer');
+                $serialized = $serializer->serialize($updates, "json");
+
+                $response = new Response($serialized);
+                $response->headers->set('Content-Type', 'application/json');
+                return $response;
+                break;
+        }
     }
 
     /**

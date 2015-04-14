@@ -16,17 +16,28 @@ class FrontendController extends Controller
 {
     /**
      * Index page when logged in.
-     * Shows logged in user's newsfeed.
      * @return \Symfony\Component\HttpFoundation\Response
      */
     public function newsfeedAction()
     {
-        $user = $this->getUser();
-        $newsfeed = $this->getDoctrine()->getRepository('SwotNetworkBundle:ThingStatusUpdate')->findUserNewsfeed($user);
+        return $this->render('SwotNetworkBundle:Frontend:newsfeed.html.twig');
+    }
 
-        return $this->render('SwotNetworkBundle:Frontend:newsfeed.html.twig', array(
-            'newsfeed' => $newsfeed
+    /**
+     * @param $since
+     * @return JsonResponse
+     */
+    public function newsfeedSinceAction($since) {
+        $sinceDate = new \DateTime();
+        $sinceDate->setTimestamp(intval($since));
+
+        $user = $this->getUser();
+        $newsfeed = $this->getDoctrine()->getRepository('SwotNetworkBundle:ThingStatusUpdate')->findUserNewsfeedSince($user, $sinceDate);
+
+        $view = $this->renderView("SwotNetworkBundle:Frontend:_newsfeed_items.html.twig", array(
+            "newsfeed" => $newsfeed
         ));
+        return new Response($view);
     }
 
     /**

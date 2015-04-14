@@ -28,7 +28,7 @@
                 var url = "{{ path('newsfeed_since', {since: '__since_placeholder__', _format: 'html' }) }}";
                 var callback = function() {
                     var since = getLastMessageDate();
-                    console.log(since);
+
                     var replacedUrl = url.replace('__since_placeholder__', encodeURI(since.toString()));
                     $.get(replacedUrl, function(res) {
                         if(res !== "") {

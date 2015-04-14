@@ -3,6 +3,9 @@
 namespace Swot\NetworkBundle\Services;
 
 
+use Swot\NetworkBundle\Exception\ThingIsUnavailableException;
+use Swot\NetworkBundle\Exception\ThingSendFailureException;
+
 class CurlManager {
 
 
@@ -34,13 +37,14 @@ class CurlManager {
 
                 }
                 // @todo: create exception
-                else die('Server responded with code ' . $result->info['http_code']);
+                //else die('Server responded with code ' . $result->info['http_code']);
+                else throw new ThingSendFailureException("Something went wrong. Thing responded with: " . $result->info['http_code']);
             }
 
             // something went wrong
             // ($result still contains all data that could be gathered)
             // @todo: create exception
-            else die('cURL responded with: ' . $result->response[0]);
+            else throw new ThingIsUnavailableException('Thing is unavailable. cURL responded with: ' . $result->response[0]);
         });
 
         return json_decode($response);
@@ -67,13 +71,15 @@ class CurlManager {
                         //print_r($result);
                 }
                 // @todo: create exception
-                else die('Server responded with code ' . $result->info['http_code']);
+                //else die('Server responded with code ' . $result->info['http_code']);
+                else throw new ThingSendFailureException("Something went wrong. Thing responded with: " . $result->info['http_code']);
             }
 
             // something went wrong
             // ($result still contains all data that could be gathered)
             // @todo: create exception
-            else die('cURL responded with: ' . $result->response[0]);
+            //else die('cURL responded with: ' . $result->response[0]);
+            else throw new ThingIsUnavailableException('Thing is unavailable. cURL responded with: ' . $result->response[0]);
         });
 
         $ext = pathinfo($url, PATHINFO_EXTENSION);

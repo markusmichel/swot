@@ -3,6 +3,10 @@
 namespace Swot\NetworkBundle\Entity;
 
 use Doctrine\ORM\Mapping as ORM;
+use JMS\Serializer\Annotation\ExclusionPolicy;
+use JMS\Serializer\Annotation\Expose;
+use JMS\Serializer\Annotation\Exclude;
+use JMS\Serializer\Annotation\VirtualProperty;
 
 /**
  * ThingStatusUpdate
@@ -45,8 +49,17 @@ class ThingStatusUpdate
 
     /**
      * @ORM\ManyToOne(targetEntity="Thing", inversedBy="statusUpdates")
+     * @Exclude()
      */
     private $thing;
+
+    /**
+     * @VirtualProperty()
+     * @return null
+     */
+    public function getThingId() {
+        return $this->thing === null ? null : $this->thing->getId();
+    }
 
     /**
      * Get id

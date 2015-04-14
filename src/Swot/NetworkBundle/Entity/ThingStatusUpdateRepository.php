@@ -37,4 +37,25 @@ class ThingStatusUpdateRepository extends EntityRepository
         $newsfeed = $qb->getQuery()->getResult();
         return $newsfeed;
     }
+
+    /**
+     * Finds all Status updates for a Thing since the given date.
+     * The exact since Date is not included!
+     *
+     * @param Thing $thing
+     * @param \DateTime $since
+     * @return array
+     */
+    public function findUpdatesForThingSince(Thing $thing, \DateTime $since) {
+        $query = $this->getEntityManager()->createQuery("
+            SELECT u FROM SwotNetworkBundle:ThingStatusUpdate u
+            WHERE u.thing = :thing
+            AND u.sent > :since
+            ORDER BY u.sent DESC
+        ")
+        ->setParameter("thing", $thing)
+        ->setParameter("since", $since);
+
+        return $query->getResult();
+    }
 }

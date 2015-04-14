@@ -1,0 +1,12 @@
+{# Shows a list of ThingStatusUpdates #}
+{% for newsitem in messages %}
+    <div class="flex-row ">
+        <div class="flex-center conversations-content">
+            {{ newsitem.message }}
+        </div>
+        <div class="flex-right conversations-date">
+            <div class="meta-info">from: {{ newsitem.sent|date }}</div>
+        </div>
+    </div>
+    <hr/>
+{% endfor %}

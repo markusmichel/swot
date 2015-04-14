@@ -60,17 +60,7 @@
 
     {% if messages|length > 0 %}
         <h2>{% trans %}thing.newsfeed{% endtrans %}</h2>
-        {% for newsitem in messages %}
-            <div class="flex-row ">
-                <div class="flex-center conversations-content">
-                    {{ newsitem.message }}
-                </div>
-                <div class="flex-right conversations-date">
-                    <div class="meta-info">from: {{ newsitem.sent|date }}</div>
-                </div>
-            </div>
-            <hr/>
-        {% endfor %}
+        {{ include("SwotNetworkBundle:Thing:thing_messages.html.twig", {messages: messages}) }}
     {% endif %}
 
 {% endblock %}

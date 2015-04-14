@@ -5,31 +5,9 @@
 {% block title %}SwotNetworkBundle:Frontend:newsfeed{% endblock %}
 
 {% block body %}
-    {% if newsfeed|length > 0 %}
-        {% for newsitem in newsfeed %}
-            <div class="flex-row ">
-                <div class="flex-left conversations-picture">
-                    <a href="{{ path('thing_show', {id: newsitem.thing.id}) }}">
-                        <div class="hex tiny">
-                            <img class="maskborder" src="{{ (profile_image_folder ~ newsitem.thing.profileImage|default('thing.jpg')) | imagine_filter('profile_image_thumb_tiny') }}"/>
-                        </div>
-                    </a>
-                </div>
-                <div class="flex-center conversations-content">
-                    <a href="{{ path('thing_show', {id: newsitem.thing.id}) }}">
-                        {{ newsitem.thing.name }}
-                    </a>
-                    <div>{{ newsitem.message }}</div>
-                </div>
-                <div class="flex-right conversations-date">
-                    <div class="meta-info">from: {{ newsitem.sent|date }}</div>
-                </div>
-            </div>
-            <hr/>
-        {% endfor %}
-    {% else %}
-        <h2>{% trans %}user.no_newsfeed{% endtrans %}</h2>
-    {% endif %}
+    <div id="newsfeed">
+        {{ render(controller("SwotNetworkBundle:Frontend:newsfeedSince", { since: 0 })) }}
+    </div>
 {% endblock %}
 
 {% block javascripts %}
@@ -37,14 +15,32 @@
     <script>
         $(function() {
             (function() {
-                var timeout = 3000;
+                /**
+                 * Get timestamp of last received message and periodically check if there are new ones.
+                 * Add new messages in first place.
+                 */
+                $messageContainer = $('#newsfeed');
+                var getLastMessageDate = function() {
+                    return parseInt($messageContainer.find('.newsitem-sent').last().attr('data-timestamp'));
+                };
+
+                var timeout = {{ long_poll_intervall }};
+                var url = "{{ path('newsfeed_since', {since: '__since_placeholder__', _format: 'html' }) }}";
                 var callback = function() {
-                    $.get("/");
+                    var since = getLastMessageDate();
+                    console.log(since);
+                    var replacedUrl = url.replace('__since_placeholder__', encodeURI(since.toString()));
+                    $.get(replacedUrl, function(res) {
+                        if(res !== "") {
+                            $messageContainer.prepend(res);
+                        }
+                    });
 
                     setTimeout(callback, timeout);
                 };
-                callback();
-            }());
+               callback();
+            }())
         });
     </script>
 {% endblock %}
+

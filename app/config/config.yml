@@ -35,6 +35,7 @@ twig:
     globals:
         profile_image_folder:   "%swot.directory.upload.profile_images%"
         long_poll_intervall:    3000 # in ms
+        gap_space:              306 # in px
 
 # Assetic Configuration
 assetic:

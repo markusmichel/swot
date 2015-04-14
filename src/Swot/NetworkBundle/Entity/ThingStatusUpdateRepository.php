@@ -13,11 +13,11 @@ use Doctrine\ORM\EntityRepository;
 class ThingStatusUpdateRepository extends EntityRepository
 {
     /**
-     * Retrieves newsfeed for given user
+     * Finds newsfeed for given user since given date
      * the user gets newsfeed from his things, friends public things and lent things
      * @param $user
      */
-    public function findUserNewsfeed(User $user) {
+    public function findUserNewsfeedSince(User $user, \DateTime $since) {
 
         $qb = $this->getEntityManager()->createQueryBuilder();
         $qb->select("c")
@@ -30,6 +30,8 @@ class ThingStatusUpdateRepository extends EntityRepository
             ->where("o.owner = :user")
             ->orWhere("r.thing = a AND r.userTo = :user")
             ->orWhere("a.accessType = 'public' AND (f.userWho = :user OR f.userWith = :user)")
+            ->andWhere("c.sent > :since")
+            ->setParameter('since', $since)
             ->setParameter('user', $user)
         ;
 

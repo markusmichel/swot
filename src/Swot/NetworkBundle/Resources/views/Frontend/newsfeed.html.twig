@@ -20,9 +20,9 @@
                  * Get timestamp of last received message and periodically check if there are new ones.
                  * Add new messages in first place.
                  */
-                $messageContainer = $('#newsfeed');
+                var $messageContainer = $('#newsfeed');
                 var getLastMessageDate = function() {
-                    var since = parseInt($messageContainer.find('.message-sent').last().attr('data-timestamp'));
+                    var since = parseInt($messageContainer.find('.newsitem-sent').last().attr('data-timestamp'));
                     if(isNaN(since)) since = 0;
                     return since;
                 };

@@ -79,3 +79,5 @@ navigation:
 
 common:
     registered_since:         Registered since
+
+confirmation_question:        Are you sure?

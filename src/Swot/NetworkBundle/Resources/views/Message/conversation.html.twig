@@ -23,24 +23,27 @@
     {{ parent() }}
     <script>
         $(function() {
-            adjustHeight = function() {
-                var container = $('.conversation-container');
-                container
-                        .css('max-height', $(window).height() - {{ gap_space }})
-                        .scrollTop(container.prop('scrollHeight'));
-            };
-
-            adjustHeight();
-            $( window ).resize(function() {
-                adjustHeight();
-            });
-
             (function() {
+                /**
+                 * Makes sure the messages container is scrolled to bottom
+                 */
+                adjustHeight = function() {
+                    var container = $('.conversation-container');
+                    container
+                            .css('max-height', $(window).height() - {{ gap_space }})
+                            .scrollTop(container.prop('scrollHeight'));
+                };
+
+                adjustHeight();
+                $( window ).resize(function() {
+                    adjustHeight();
+                });
+
                 /**
                  * Get timestamp of last received message and periodically check if there are new ones.
                  * Add new messages in first place.
                  */
-                $messageContainer = $('.conversation-container');
+                var $messageContainer = $('.conversation-container');
                 var getLastMessageDate = function() {
                     var since = parseInt($messageContainer.find('.message-sent').last().attr('data-timestamp'));
                     if(isNaN(since)) since = 0;

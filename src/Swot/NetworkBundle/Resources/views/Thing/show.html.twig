@@ -66,8 +66,8 @@
         {% else %}<h2>{% trans %}thing.no_newsfeed{% endtrans %}</h2>
     {% endif %}
 
-    <div id="myModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-        <p>Are you sure?</p>
+    <div id="confirmationModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+        <p class="lead" >{% trans %}confirmation_question{% endtrans %}</p>
         <button id="confirmDeleteBtn" class="alert">Accept</button>
         <button id="closeModalBtn">Decline</button>
         <a class="close-reveal-modal" aria-label="Close">&#215;</a>
@@ -79,26 +79,29 @@
     {{ parent() }}
     <script>
         $(function() {
-
-            var flag = true;
-            $('form').submit(function() {
-                if ($(this).attr('action').indexOf('delete') < 0) return true;
-
-                if (flag) $('#myModal').foundation('reveal', 'open');
-                else return true;
-
-                return false;
-            });
-
-            $('#confirmDeleteBtn').click(function() {
-                flag = false;
-                $('form').submit();
-            });
-            $('#closeModalBtn').click(function() {
-                $('#myModal').foundation('reveal', 'close');
-            });
-
             (function() {
+
+                /*
+                * handles delete confirmation moda
+                */
+                var flag = true;
+                $('form').submit(function() {
+                    if ($(this).attr('action').indexOf('delete') < 0) return true;
+
+                    if (flag) $('#confirmationModal').foundation('reveal', 'open');
+                    else return true;
+
+                    return false;
+                });
+
+                $('#confirmDeleteBtn').click(function() {
+                    flag = false;
+                    $('form').submit();
+                });
+                $('#closeModalBtn').click(function() {
+                    $('#confirmationModal').foundation('reveal', 'close');
+                });
+
                 /**
                  * Get timestamp of last received message and periodically check if there are new ones.
                  * Add new messages in first place.

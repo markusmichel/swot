@@ -65,6 +65,9 @@
                             $('.nav').removeClass('sticky');
                         }
                     });
+
+                    //if flash message is visible, it's will be faded out and removed
+                    $(".alert-box").delay(3000).fadeOut(300, function() { $(this).remove(); });
                 });
             </script>
         {% endblock %}

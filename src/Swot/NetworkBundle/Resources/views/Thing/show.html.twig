@@ -68,8 +68,8 @@
 
     <div id="myModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
         <p>Are you sure?</p>
-        <button id="confirmDeleteBtn">Accept</button>
-        <button>Decline</button>
+        <button id="confirmDeleteBtn" class="alert">Accept</button>
+        <button id="closeModalBtn">Decline</button>
         <a class="close-reveal-modal" aria-label="Close">&#215;</a>
     </div>
 
@@ -82,8 +82,11 @@
 
             var flag = true;
             $('form').submit(function() {
+                if ($(this).attr('action').indexOf('delete') < 0) return true;
+
                 if (flag) $('#myModal').foundation('reveal', 'open');
                 else return true;
+
                 return false;
             });
 
@@ -91,12 +94,16 @@
                 flag = false;
                 $('form').submit();
             });
+            $('#closeModalBtn').click(function() {
+                $('#myModal').foundation('reveal', 'close');
+            });
+
             (function() {
                 /**
                  * Get timestamp of last received message and periodically check if there are new ones.
                  * Add new messages in first place.
                  */
-                $messageContainer = $('#messages');
+                var $messageContainer = $('#messages');
                 var getLastMessageDate = function() {
                     return parseInt($messageContainer.find('.message-sent').first().attr('data-timestamp'));
                 };

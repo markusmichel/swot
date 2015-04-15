@@ -482,7 +482,7 @@ a.hex:hover {
 }
 
 .conversation-container {
-    overflow-y: scroll;
+    overflow-y: auto;
     padding-right: 10px;
 }
 

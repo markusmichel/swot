@@ -18,7 +18,7 @@
 {% endblock %}
 
 {% block body %}
-    {% include 'SwotNetworkBundle:Friend:list.html.twig' with {user: app.user} %}
+    {{ render(controller("SwotNetworkBundle:Friend:showAppUserFriendList")) }}
     {% if user == app.user %}
         {{ render(controller("SwotNetworkBundle:Friend:showRandomStrangers")) }}
     {% endif %}

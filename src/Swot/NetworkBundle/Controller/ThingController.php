@@ -116,9 +116,6 @@ class ThingController extends Controller
         $sinceDate->setTimestamp(intval($since));
         $updates = $this->getDoctrine()->getRepository("SwotNetworkBundle:ThingStatusUpdate")->findUpdatesForThingSince($thing, $sinceDate);
 
-//        print_r($since);
-//        die();
-
         switch($_format) {
             case "html":
                 return new Response($this->renderView("SwotNetworkBundle:Thing:thing_messages.html.twig", array("messages" => $updates)));

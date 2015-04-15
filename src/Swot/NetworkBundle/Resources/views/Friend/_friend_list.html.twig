@@ -1,9 +1,9 @@
-{% if user.friendships|length > 0 %}
+{% if friendships|length > 0 %}
     {% if user != app.user %}
         <h2>{% trans %}user.friend.friend_title{% endtrans %}</h2>
     {% endif %}
     <div class="hex-list small">
-        {% for friendship in user.friendships %}
+        {% for friendship in friendships %}
             {# Test if userWho or userWith is the "other" friend/user #}
             {% if friendship.userWith == user %}
                 {% set friend = friendship.userWho %}
@@ -14,4 +14,6 @@
                 {% include 'SwotNetworkBundle:Friend:listEntry.html.twig' with {friend: friend} %}
         {% endfor %}
     </div>
+{% else %}
+    <h2>{% trans %}user.friend.no_friends{% endtrans %}</h2>
 {% endif %}

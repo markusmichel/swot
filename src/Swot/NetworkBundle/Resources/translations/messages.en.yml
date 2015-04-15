@@ -10,6 +10,7 @@ user:
     friend:
         title:                My Friends
         friend_title:         Friends
+        no_friends:           No friends yet...
         break_up:
             label:            Break with %username%
             success:          Successfully broke up with %username%

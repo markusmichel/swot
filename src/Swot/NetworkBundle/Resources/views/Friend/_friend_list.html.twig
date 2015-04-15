@@ -14,4 +14,6 @@
                 {% include 'SwotNetworkBundle:Friend:listEntry.html.twig' with {friend: friend} %}
         {% endfor %}
     </div>
+{% else %}
+    <h2>{% trans %}user.friend.no_friends{% endtrans %}</h2>
 {% endif %}

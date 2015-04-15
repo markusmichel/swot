@@ -49,13 +49,14 @@ class ThingController extends Controller
         $this->assertAccessToThingGranted($thing, ThingVoter::ACCESS);
 
         $deleteForm = $this->createDeleteForm($thing->getId());
+        //@TODO: implement status handling
         $thingStatus = json_decode(ThingFixtures::$thingResponse);
 
         $functionForms = $this->createActivateFunctionForms($thing);
 
         // Check if ONE form was submitted and which was it was.
         // Validate the form and activate the function on the thing if valid.
-        // @todo: check if admin function
+        // @todo: check if admin function#
         if($request->getMethod() === "POST" && $request->request->has('_fid') && $this->isGranted(ThingVoter::ACCESS, $thing)) {
             $fid = $request->request->get('_fid');
 
@@ -68,7 +69,12 @@ class ThingController extends Controller
             $form->handleRequest($request);
             if($form->isValid() === true) {
 
-                $accessToken = $thing->getNetworkAccessToken();
+                $accessToken = null;
+                if($this->isGranted(ThingVoter::ACCESS, $thing))
+                    $accessToken = $thing->getWriteToken();
+                else if ($this->isGranted(ThingVoter::ADMIN, $thing))
+                    $accessToken = $thing->getOwnerToken();
+
                 $res = $function->activate($accessToken);
 
                 // @todo: validate response code instead of json message

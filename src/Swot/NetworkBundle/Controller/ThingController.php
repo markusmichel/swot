@@ -151,6 +151,7 @@ class ThingController extends Controller
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($thing);
             $manager->flush();
+            $this->addFlash("success", "Settings saved.");
         }
 
         return $this->render('SwotNetworkBundle:Thing:settings.html.twig', array(

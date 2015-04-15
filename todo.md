@@ -3,9 +3,6 @@ Netzwerk:
 - wenn newsfeed leer, was anderes anzeigen
 - RegisterFormular schön machen
 
-- FlashMessage zeigen nachdem Settings unter einem Gerät geändert wurden.
-- FlashMessages nach einer gewissen Zeit verschwinden lassen
-
 - AccessLevel bei Personen checken --> obwohl nicht befreundet sieht man alles?!
 
 - Messages werden nach dem Löschen nicht live geupdated --> erst nach neuladen der Seite

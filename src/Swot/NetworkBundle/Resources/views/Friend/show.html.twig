@@ -18,7 +18,7 @@
         <div class="long-hex-after flex-right"></div>
     </div>
     <div class="thing-detail meta-info">
-        <div>{% trans %}common.registered_since{% endtrans %}: {{ user.registeredDate.date }}</div>
+        <div>{% trans %}common.registered_since{% endtrans %}: {{ user.registeredDate.date|date("Y-m-d") }}</div>
     </div>
 
     {#
@@ -67,4 +67,39 @@
 
         {% include 'SwotNetworkBundle:Friend:list.html.twig' with {user: user} %}
 
+        <div id="confirmationModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+            <p class="lead">{% trans %}confirmation_question{% endtrans %}</p>
+            <button id="confirmDeleteBtn" class="alert">Accept</button>
+            <button id="closeModalBtn">Decline</button>
+            <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+        </div>
+{% endblock %}
+{% block javascripts %}
+    {{ parent() }}
+    <script>
+        $(function() {
+            (function() {
+                /*
+                 * handles break up confirmation moda
+                 */
+                var flag = true;
+                $('form').submit(function() {
+                    if ($(this).attr('action').indexOf('remove') < 0) return true;
+
+                    if (flag) $('#confirmationModal').foundation('reveal', 'open');
+                    else return true;
+
+                    return false;
+                });
+
+                $('#confirmDeleteBtn').click(function() {
+                    flag = false;
+                    $('form').submit();
+                });
+                $('#closeModalBtn').click(function() {
+                    $('#confirmationModal').foundation('reveal', 'close');
+                });
+            }());
+        });
+    </script>
 {% endblock %}

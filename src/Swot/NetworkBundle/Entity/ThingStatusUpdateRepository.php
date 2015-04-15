@@ -31,6 +31,7 @@ class ThingStatusUpdateRepository extends EntityRepository
             ->orWhere("r.thing = a AND r.userTo = :user")
             ->orWhere("a.accessType = 'public' AND (f.userWho = :user OR f.userWith = :user)")
             ->andWhere("c.sent > :since")
+            ->orderBy("c.sent", "DESC")
             ->setParameter('since', $since)
             ->setParameter('user', $user)
         ;

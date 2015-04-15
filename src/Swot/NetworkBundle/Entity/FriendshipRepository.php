@@ -42,4 +42,59 @@ class FriendshipRepository extends EntityRepository
         $result = $query->getSingleResult();
         return $result;
     }
+
+    /**
+     * Finds friendships of given user without app user
+     * @param Int $userId
+     * @param User $appUser
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @return Friendship
+     */
+    public function findUserFriendships($user, $appUser) {
+
+        $query = $this->getEntityManager()->createQuery(
+        'SELECT f
+         FROM SwotNetworkBundle:Friendship f
+         WHERE (
+            f.userWho = :user OR f.userWith = :user
+         )
+         AND (
+           f.userWho != :appUser AND f.userWith != :appUser
+         )
+         '
+        )
+            ->setParameter("user", $user)
+            ->setParameter("appUser", $appUser)
+        ;
+
+        /** @var Friendship $result */
+        $result = $query->getResult();
+        return $result;
+    }
+
+    /**
+     * Finds friendships of app user
+     * @param User $user
+     * @throws \Doctrine\ORM\NoResultException
+     * @throws \Doctrine\ORM\NonUniqueResultException
+     * @return Friendship
+     */
+    public function findAppUserFriendships($user) {
+
+        $query = $this->getEntityManager()->createQuery(
+            'SELECT f
+             FROM SwotNetworkBundle:Friendship f
+             WHERE (
+                f.userWho = :user OR f.userWith = :user
+             )
+             '
+        )
+            ->setParameter("user", $user)
+        ;
+
+        /** @var Friendship $result */
+        $result = $query->getResult();
+        return $result;
+    }
 }

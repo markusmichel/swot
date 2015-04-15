@@ -30,6 +30,47 @@ class FriendController extends Controller
     /**
      * Internal action without route.
      *
+     * Gets friends of given user without app user
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function showFriendListAction($userId) {
+        /** @var User $appUser */
+        $appUser = $this->getUser();
+        $userRepo = $this->getDoctrine()->getRepository('SwotNetworkBundle:User');
+        $user = $userRepo->find($userId);
+
+        $friendshipRepo = $this->getDoctrine()->getRepository('SwotNetworkBundle:Friendship');
+        $friendships = $friendshipRepo->findUserFriendships($user, $appUser);
+
+        return $this->render("SwotNetworkBundle:Friend:_friend_list.html.twig", array(
+            "friendships" => $friendships,
+            "user" => $user
+        ));
+    }
+
+    /**
+     * Internal action without route.
+     *
+     * Gets friends of app user
+     *
+     * @return \Symfony\Component\HttpFoundation\Response
+     */
+    public function showAppUserFriendListAction() {
+        /** @var User $user */
+        $user = $this->getUser();
+        $friendshipRepo = $this->getDoctrine()->getRepository('SwotNetworkBundle:Friendship');
+        $friendships = $friendshipRepo->findAppUserFriendships($user);
+
+        return $this->render("SwotNetworkBundle:Friend:_friend_list.html.twig", array(
+            "friendships" => $friendships,
+            "user" => $user
+        ));
+    }
+
+    /**
+     * Internal action without route.
+     *
      * Shows random stranger
      *
      * @return \Symfony\Component\HttpFoundation\Response

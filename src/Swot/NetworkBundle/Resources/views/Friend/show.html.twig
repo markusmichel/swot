@@ -48,31 +48,30 @@
         <div class="access">{{ user.accessLevel }}</div>
     </div>
 
-        {# Show the users things if allowed #}
-        {% if user.ownerships|length > 0 %}
-            {% if user != app.user %}
-                <h2>{{ user.username }}
-                    {% if user.ownerships|length > 0 %}'s {% trans %}user.thing.friend_title{% endtrans %}
-                    {% else %}{% trans %}user.thing.friend_no_things{% endtrans %}{% endif %}
-                </h2>
-            {% endif %}
-            <div class="hex-list small">
-                {% for ownership in user.ownerships %}
-                    {% if is_granted("access", ownership.thing) %}
-                        {% include 'SwotNetworkBundle:Thing:listEntry.html.twig' with {thing: ownership.thing, showOwner: false} %}
-                    {% endif %}
-                {% endfor %}
-            </div>
+    {# Show the users things if allowed #}
+    {% if user.ownerships|length > 0 %}
+        {% if user != app.user %}
+            <h2>{{ user.username }}
+                {% if user.ownerships|length > 0 %}'s {% trans %}user.thing.friend_title{% endtrans %}
+                {% else %}{% trans %}user.thing.friend_no_things{% endtrans %}{% endif %}
+            </h2>
         {% endif %}
-
-        {% include 'SwotNetworkBundle:Friend:list.html.twig' with {user: user} %}
-
-        <div id="confirmationModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
-            <p class="lead">{% trans %}confirmation_question{% endtrans %}</p>
-            <button id="confirmDeleteBtn" class="alert">Accept</button>
-            <button id="closeModalBtn">Decline</button>
-            <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+        <div class="hex-list small">
+            {% for ownership in user.ownerships %}
+                {% if is_granted("access", ownership.thing) %}
+                    {% include 'SwotNetworkBundle:Thing:listEntry.html.twig' with {thing: ownership.thing, showOwner: false} %}
+                {% endif %}
+            {% endfor %}
         </div>
+    {% endif %}
+
+    {{ render(controller("SwotNetworkBundle:Friend:showFriendList", {'userId': user.id})) }}
+    <div id="confirmationModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
+        <p class="lead">{% trans %}confirmation_question{% endtrans %}</p>
+        <button id="confirmDeleteBtn" class="alert">Accept</button>
+        <button id="closeModalBtn">Decline</button>
+        <a class="close-reveal-modal" aria-label="Close">&#215;</a>
+    </div>
 {% endblock %}
 {% block javascripts %}
     {{ parent() }}

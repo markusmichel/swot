@@ -22,7 +22,7 @@
                  */
                 var $messageContainer = $('#newsfeed');
                 var getLastMessageDate = function() {
-                    var since = parseInt($messageContainer.find('.newsitem-sent').last().attr('data-timestamp'));
+                    var since = parseInt($messageContainer.find('.newsitem-sent').first().attr('data-timestamp'));
                     if(isNaN(since)) since = 0;
                     return since;
                 };

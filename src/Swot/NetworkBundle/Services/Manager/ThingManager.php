@@ -53,11 +53,6 @@ class ThingManager {
      * @param Thing $thing
      */
     public function remove(Thing $thing) {
-        $this->removeOwnerships($thing);
-        $this->removeRentals($thing);
-        $this->removeFunctions($thing);
-        $this->removeStatusUpdates($thing);
-
         $this->em->remove($thing);
         $this->em->flush();
     }
@@ -74,47 +69,5 @@ class ThingManager {
         $thing->getFunctions()->clear();
         $this->em->persist($thing);
         $this->em->flush();
-    }
-
-    /**
-     * @param Thing $thing
-     */
-    private function removeRentals(Thing $thing)
-    {
-        /** @var Rental $rental */
-        foreach ($thing->getRentals() as $rental) {
-            $rental->getThing()->removeRental($rental);
-            $rental->getUserFrom()->removeThingsRent($rental);
-            $rental->getUserFrom()->removeThingsLent($rental);
-            $rental->getUserTo()->removeThingsRent($rental);
-            $rental->getUserTo()->removeThingsLent($rental);
-
-            $this->em->persist($rental->getUserFrom());
-            $this->em->persist($rental->getUserTo());
-            $this->em->remove($rental);
-        }
-    }
-
-    /**
-     * @param Thing $thing
-     */
-    private function removeStatusUpdates(Thing $thing)
-    {
-        /** @var ThingStatusUpdate $update */
-        foreach ($thing->getStatusUpdates() as $update) {
-            $update->setThing(null);
-            $this->em->remove($update);
-        }
-    }
-
-    /**
-     * @param Thing $thing
-     */
-    private function removeOwnerships(Thing $thing)
-    {
-        /** @var Ownership $ownership */
-        $ownership = $thing->getOwnership();
-        $ownership->getOwner()->removeOwnership($ownership);
-        $this->em->remove($ownership);
     }
 }

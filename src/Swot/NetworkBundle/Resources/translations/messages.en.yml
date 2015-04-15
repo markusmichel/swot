@@ -25,7 +25,7 @@ user:
 
     thing:
         title:                My Things
-        no_things:            You dont have any things
+        no_things:            No things yet...
         my_lent_title:        Things lent to me
         friend_title:         Things
         friend_no_things:     has no Things

@@ -5,7 +5,8 @@
 {% block title %}SwotNetworkBundle:Frontend:newsfeed{% endblock %}
 
 {% block body %}
-    <h2>{% trans %}thing.newsfeed{% endtrans %}</h2>
+    <h2 id="newsHeadline">{% trans %}thing.newsfeed{% endtrans %}</h2>
+    <h2 id="noNewsHeadline">{% trans %}thing.no_newsfeed{% endtrans %}</h2>
     <div id="newsfeed">
         {{ render(controller("SwotNetworkBundle:Frontend:newsfeedSince", { since: 0 })) }}
     </div>
@@ -16,6 +17,21 @@
     <script>
         $(function() {
             (function() {
+                /**
+                 * Shows no newsfeed headline if there are no news
+                 *
+                 */
+                $('#noNewsHeadline').hide();
+                var switchHeadline = function() {
+                    if ($('#newsfeed').children().length > 0) {
+                        $('#newsHeadline').show();
+                        $('#noNewsHeadline').hide();
+                    } else {
+                        $('#newsHeadline').hide();
+                        $('#noNewsHeadline').show();
+                    }
+                };
+
                 /**
                  * Get timestamp of last received message and periodically check if there are new ones.
                  * Add new messages in first place.
@@ -34,6 +50,7 @@
 
                     var replacedUrl = url.replace('__since_placeholder__', encodeURI(since.toString()));
                     $.get(replacedUrl, function(res) {
+                        switchHeadline();
                         if(res !== "") {
                             $messageContainer.prepend(res);
                         }

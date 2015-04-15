@@ -18,17 +18,15 @@
 {% endblock %}
 
 {% block body %}
-
     <form action="{{ path('register_thing') }}" method="POST" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
-        <input type="submit"  value="Register Thing" />
+        <input type="submit" class="button primary"  value="Register Thing" />
     </form>
 
     <div id="submitModal" class="reveal-modal" data-reveal data-options="close_on_background_click:false">
         <h2 id="modalTitle">Thing is being added...</h2>
         <p class="lead">This may take a while...</p>
     </div>
-
 
     {% if app.user.ownerships|length > 0 %}
         <div class="hex-list small">

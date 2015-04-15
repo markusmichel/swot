@@ -18,6 +18,7 @@ use Swot\NetworkBundle\Services\Manager\ThingManager;
 use Swot\NetworkBundle\Services\ThingResponseConverter;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use League\Url\Url;
 
 /**
  * Class ThingRestController
@@ -83,10 +84,12 @@ class ThingRestController extends FOSRestController
 
         $baseUrl = $thing->getBaseApiUrl();
 
-        //@TODO: better way to build url
-        $functionsUrl = $baseUrl . $this->container->getParameter('thing.api.functions') . "?access_token=".$thing->getOwnerToken();
-
-        $functionsData = $curlManager->getCurlResponse($functionsUrl);
+        $functionsUrl = $baseUrl . $this->container->getParameter('thing.api.functions');
+        $formattedUrl = URL::createFromUrl($functionsUrl);
+        $query = $formattedUrl->getQuery();
+        $query["access_token"] = $thing->getOwnerToken();
+        $formattedUrl->setQuery($query);
+        $functionsData = $curlManager->getCurlResponse($formattedUrl->__toString());
 
         $functions = $converter->convertFunctions($functionsData);
 

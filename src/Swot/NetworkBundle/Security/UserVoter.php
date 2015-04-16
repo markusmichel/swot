@@ -87,7 +87,14 @@ class UserVoter implements VoterInterface {
 
         switch($attribute) {
             case self::SHOW:
-                if($user->isFriendOf($currentUser) || $user === $currentUser)
+                // Alwys granted if the user is the current user or the profile is public
+                if($user === $currentUser || $user->getAccessLevel() === AccessType::ACCESS_TYPE_PUBLIC)
+                    return VoterInterface::ACCESS_GRANTED;
+                // Deny if profile is private
+                elseif($user->getAccessLevel() === AccessType::ACCESS_TYPE_PRIVATE)
+                    return VoterInterface::ACCESS_DENIED;
+                // Allow if the users are friends and the profile is restricted
+                elseif($user->isFriendOf($currentUser) && $user->getAccessLevel() === AccessType::ACCESS_TYPE_RESTRICTED)
                     return VoterInterface::ACCESS_GRANTED;
                 break;
             case self::FRIEND:

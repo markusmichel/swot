@@ -40,13 +40,16 @@
 {% endblock %}
 
 {% block body %}
-    <div class="attributes">
-        {% if user.gender == "m" %}<div class="gender-m">{% endif %}
-        {% if user.gender == "f" %}<div class="gender-f">{% endif %}
-        {{ user.firstname }} {{ user.lastname }}</div>
-        <div class="birthdate">{{ user.birthdate.date }}</div>
-        <div class="access">{{ user.accessLevel }}</div>
-    </div>
+    {% if is_granted('show', user) %}
+        <div class="attributes">
+            {% if user.gender == "m" %}<div class="gender-m">{% endif %}
+            {% if user.gender == "f" %}<div class="gender-f">{% endif %}
+            {{ user.firstname }} {{ user.lastname }}</div>
+            <div class="birthdate">{{ user.birthdate.date }}</div>
+            <div class="access">{{ user.accessLevel }}</div>
+        </div>
+    {% endif %}
+
 
     {# Show the users things if allowed #}
     {% if user != app.user %}

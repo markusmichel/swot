@@ -7,8 +7,6 @@ Netzwerk:
 - Messages werden nach dem Löschen nicht live geupdated --> erst nach neuladen der Seite
 - Ein Gerät übertragen --> Benutzer wird gewechselt
 
-- FireFox optimieren --> keine Hexagon
-
 - Geräte-Status Objekt berücksichtigen!!!
 
 

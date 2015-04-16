@@ -56,6 +56,10 @@ button, .button {
     margin-top: -13px;
 }
 
+.no-cssmasks .button-top-bar {
+    margin-left: 110px;
+}
+
 .button-top-bar li {
     display: inline-block;
 }
@@ -395,7 +399,7 @@ a.hex:hover {
     margin-left: -36px;
 }
 
-.no-cssmasks.hex-list.small .hex {
+.no-cssmasks .hex-list.small .hex {
     margin-left: 0;
 }
 
@@ -403,7 +407,7 @@ a.hex:hover {
     margin-bottom: -48px;
 }
 
-.no-cssmasks.hex-list.small .hex:nth-child(2n) {
+.no-cssmasks .hex-list.small .hex:nth-child(2n) {
     margin-bottom: 0;
 }
 

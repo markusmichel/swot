@@ -48,10 +48,9 @@
                     // handles hexagon classes if css mask is not supported
                     if ( document.body.style[ '-webkit-mask-repeat' ] !== undefined ) {
                         Modernizr.cssmasks = true;
-                        $('.hex-list').addClass('cssmasks');
                     } else {
                         Modernizr.cssmasks = false;
-                        $('.hex-list').addClass('no-cssmasks');
+                        $('body').addClass('no-cssmasks');
                     }
 
                     //make sidebar nav sticky if scrolled down

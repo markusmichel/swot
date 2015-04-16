@@ -43,20 +43,20 @@ class UserVoter implements VoterInterface {
     }
 
     /**
-     * Checks if the current user has the rights to access the thing.
+     * Checks if the current user has the rights to access the user (-profile).
      *
      * This method returns one of the following constants:
      * ACCESS_GRANTED, ACCESS_DENIED, or ACCESS_ABSTAIN.
      *
      * @param TokenInterface $token A TokenInterface instance
-     * @param User $message
+     * @param User $user
      * @param array $attributes An array of attributes associated with the method being invoked
      * @return int either ACCESS_GRANTED, ACCESS_ABSTAIN, or ACCESS_DENIED
      */
-    public function vote(TokenInterface $token, $message, array $attributes)
+    public function vote(TokenInterface $token, $user, array $attributes)
     {
         // check if class of this object is supported by this voter
-        if (!$this->supportsClass(get_class($message))) {
+        if (!$this->supportsClass(get_class($user))) {
             return VoterInterface::ACCESS_ABSTAIN;
         }
 
@@ -77,21 +77,21 @@ class UserVoter implements VoterInterface {
             return VoterInterface::ACCESS_ABSTAIN;
         }
 
-        /** @var User $message */
+        /** @var User $user */
         $currentUser = $token->getUser();
 
         // Check if the user is logged in and the user exists
-        if(!$currentUser instanceof UserInterface || $message === null) {
+        if(!$currentUser instanceof UserInterface || $user === null) {
             return VoterInterface::ACCESS_DENIED;
         }
 
         switch($attribute) {
             case self::SHOW:
-                if($message->isFriendOf($currentUser) || $message === $currentUser)
+                if($user->isFriendOf($currentUser) || $user === $currentUser)
                     return VoterInterface::ACCESS_GRANTED;
                 break;
             case self::FRIEND:
-                if($message->isFriendOf($currentUser) || $message === $currentUser)
+                if($user->isFriendOf($currentUser) || $user === $currentUser)
                     return VoterInterface::ACCESS_GRANTED;
                 break;
         }

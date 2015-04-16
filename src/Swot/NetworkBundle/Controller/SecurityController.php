@@ -4,6 +4,7 @@ namespace Swot\NetworkBundle\Controller;
 
 use Swot\NetworkBundle\Entity\User;
 use Swot\NetworkBundle\Form\UserType;
+use Swot\NetworkBundle\Security\AccessType;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\Authentication\Token\UsernamePasswordToken;
@@ -40,6 +41,7 @@ class SecurityController extends Controller
                  * activate user by default unless mail confirmation is implemented
                  */
                 $userToRegister->setActivated(true);
+                $userToRegister->setAccessLevel(AccessType::ACCESS_TYPE_RESTRICTED);
 
                 $userToRegister->setPassword($encodedPassword);
 

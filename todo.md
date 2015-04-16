@@ -1,6 +1,5 @@
 # Todo:
 Netzwerk:
-- wenn newsfeed leer, was anderes anzeigen
 - RegisterFormular schön machen
 
 - AccessLevel bei Personen checken --> obwohl nicht befreundet sieht man alles?!

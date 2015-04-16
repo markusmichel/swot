@@ -1,6 +1,5 @@
 # Todo:
 Netzwerk:
-- RegisterFormular schön machen
 
 - AccessLevel bei Personen checken --> obwohl nicht befreundet sieht man alles?!
 

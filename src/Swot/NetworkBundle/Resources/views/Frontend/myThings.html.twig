@@ -15,14 +15,17 @@
         <div class="long-hex flex-center"></div>
         <div class="long-hex-after flex-right"></div>
     </div>
+    <ul class="button-top-bar">
+        <li>
+            <button class="primary secondary" style="font-weight: bold;" id="registerThingBtn">Register Thing</button>
+        </li>
+    </ul>
 {% endblock %}
 
 {% block body %}
     <form action="{{ path('register_thing') }}" method="POST" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
-        <input type="submit" class="button primary"  value="Register Thing" />
     </form>
-
     <div id="submitModal" class="reveal-modal" data-reveal data-options="close_on_background_click:false">
         <h2 id="modalTitle">Thing is being added...</h2>
         <p class="lead">This may take a while...</p>
@@ -47,6 +50,14 @@
 
     <script>
         $(function() {
+            $('#form').hide();
+            $('#registerThingBtn').click(function(e) {
+                $('#form_register').click();
+                e.preventDefault();
+            });
+            $('#form_register').change(function() {
+                $('form').submit();
+            });
             $('form').submit(function(){
                 $('#submitModal').foundation('reveal', 'open');
             });

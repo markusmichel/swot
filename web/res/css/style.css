@@ -395,8 +395,16 @@ a.hex:hover {
     margin-left: -36px;
 }
 
+.no-cssmasks.hex-list.small .hex {
+    margin-left: 0;
+}
+
 .hex-list.small .hex:nth-child(2n) {
     margin-bottom: -48px;
+}
+
+.no-cssmasks.hex-list.small .hex:nth-child(2n) {
+    margin-bottom: 0;
 }
 
 .hex-list.small .hex .maskborder, .hex.small .maskborder {

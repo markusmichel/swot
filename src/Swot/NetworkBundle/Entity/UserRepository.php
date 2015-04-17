@@ -64,7 +64,7 @@ class UserRepository extends EntityRepository
         if(count($friendIds) > 0) {
             $qb->where($qb->expr()->notIn('u.id', $friendIds));
         }
-        //TODO: user activated
+
         $qb->andWhere('u != :user')
             ->andWhere('u.activated = TRUE')
             ->setParameter("user", $user);

@@ -248,11 +248,37 @@ API
 				]
 			}
 		],
-		"status": [
-			{
-
-			}
-		]
+		"status":
+		[        
+            0 : {
+                "title" : "value",
+                "value" : "value"
+            },        
+        
+            1 : {
+                "title" : "value",
+                "type" : "table",
+                "value" : {
+                    "header" : ["header1", "header2" ...]
+                    "data" : [
+                        [value1, value2, value3 ...],
+                        [value11, value22, value33 ...]
+                    ]
+                }
+            },
+        
+            2 : {
+                "title" : "value",
+                "type" : "percentage",
+                "value" : "80"
+            },
+        
+            3 : {
+                "title" : "value",
+                "type" : "html",
+                "value" : "<div>...</div>"
+            }            
+        ]
 	}
 }
 ```

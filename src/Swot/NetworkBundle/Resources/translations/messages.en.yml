@@ -41,6 +41,8 @@ thing:
     functions:                Functions
     newsfeed:                 Newsfeed
     no_newsfeed:              No News yet...
+    register:                 Register Thing
+    load_qr:                  Load QR-Code
 
 settings:
     page_title:               Settings

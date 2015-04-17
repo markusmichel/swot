@@ -17,16 +17,17 @@
     </div>
     <ul class="button-top-bar">
         <li>
-            <button class="primary secondary" style="font-weight: bold;" id="registerThingBtn">Register Thing</button>
+            <label>{% trans %}thing.load_qr{% endtrans %}</label>
+            <button class="primary secondary" id="registerThingBtn">{% trans %}thing.register{% endtrans %}</button>
         </li>
     </ul>
 {% endblock %}
 
 {% block body %}
-    <form action="{{ path('register_thing') }}" method="POST" {{ form_enctype(form) }}>
+    <form style="display: none;" action="{{ path('register_thing') }}" method="POST" {{ form_enctype(form) }}>
         {{ form_widget(form) }}
     </form>
-    <div id="submitModal" class="reveal-modal" data-reveal data-options="close_on_background_click:false">
+    <div style="display: none;"  id="submitModal" class="reveal-modal" data-reveal data-options="close_on_background_click:false">
         <h2 id="modalTitle">Thing is being added...</h2>
         <p class="lead">This may take a while...</p>
     </div>

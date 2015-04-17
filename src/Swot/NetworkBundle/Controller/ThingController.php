@@ -104,12 +104,13 @@ class ThingController extends Controller
     }
 
     /**
+     * Shows messages of a thing since a date
+     *
      * @ParamConverter("thing", class="SwotNetworkBundle:Thing")
-     * @param Request $request
      * @param Thing $thing
      * @return Response
      */
-    public function showUpdatesSinceAction(Request $request, Thing $thing, $since, $_format) {
+    public function showUpdatesSinceAction(Thing $thing, $since, $_format) {
         $this->assertAccessToThingGranted($thing, ThingVoter::ACCESS);
 
         $sinceDate = new \DateTime();
@@ -129,6 +130,26 @@ class ThingController extends Controller
                 return $response;
                 break;
         }
+    }
+
+    /**
+     * Shows a thing´s information
+     *
+     * @ParamConverter("thing", class="SwotNetworkBundle:Thing")
+     * @param Thing $thing
+     * @return Response
+     */
+    public function showInformationAction(Thing $thing) {
+        $this->assertAccessToThingGranted($thing, ThingVoter::ACCESS);
+
+        $information = $thing->getInformation();
+
+        $serializer = $this->container->get('jms_serializer');
+        $serialized = $serializer->serialize($information, "json");
+
+        $response = new Response($serialized);
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 
     /**

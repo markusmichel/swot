@@ -58,6 +58,10 @@
         <div class="access">{{ thing.accessType }}</div>
     </div>
 
+    <div id="#information">
+
+    </div>
+
     {% if messages|length > 0 %}
         <h2>{% trans %}thing.newsfeed{% endtrans %}</h2>
         <div id="messages">
@@ -81,8 +85,16 @@
         $(function() {
             (function() {
 
+                var $infoContainer = $('#information');
                 /*
-                * handles delete confirmation moda
+                * Renders information into Container
+                */
+                var renderInformation = function(informationJSON) {
+                    var information = $.parseJSON(informationJSON);
+                };
+
+                /*
+                * handles delete confirmation modal
                 */
                 var flag = true;
                 $('form').submit(function() {
@@ -104,23 +116,31 @@
 
                 /**
                  * Get timestamp of last received message and periodically check if there are new ones.
+                 * Also checks for information updates
                  * Add new messages in first place.
                  */
                 var $messageContainer = $('#messages');
+
                 var getLastMessageDate = function() {
-                    var since = parseInt($messageContainer.find('.message-sent').last().attr('data-timestamp'));
+                    var since = parseInt($messageContainer.find('.message-sent').first().attr('data-timestamp'));
                     if(isNaN(since)) since = 0;
                     return since;
                 };
 
                 var timeout = {{ long_poll_intervall }};
                 var url = "{{ path('thing_update_messages_since', {id: thing.id, since: '__since_placeholder__', _format: 'html' }) }}";
+                var infoUrl = "{{ path('thing_information', {id: thing.id}) }}";
                 var callback = function() {
                     var since = getLastMessageDate();
                     var replacedUrl = url.replace('__since_placeholder__', encodeURI(since.toString()));
                     $.get(replacedUrl, function(res) {
                         if(res !== "") {
                             $messageContainer.prepend(res);
+                        }
+                    });
+                    $.get(infoUrl, function(res) {
+                        if(res !== "") {
+                            renderInformation(res);
                         }
                     });
 

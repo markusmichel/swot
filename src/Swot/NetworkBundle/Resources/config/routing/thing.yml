@@ -29,5 +29,9 @@ thing_update_messages_since:
     defaults: { _controller: "SwotNetworkBundle:Thing:showUpdatesSince", _format: "html", since: "0" }
     requirements: { _format: "html|json" }
 
+thing_information:
+    path:     /{id}/information
+    defaults: { _controller: "SwotNetworkBundle:Thing:showInformation" }
+
 thing_newsfeed_content:
     path:     /{id}/newsfeed

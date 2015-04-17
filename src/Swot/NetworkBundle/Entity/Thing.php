@@ -126,6 +126,13 @@ class Thing implements UserInterface
     private $geoLocation;
 
     /**
+     * @var text
+     *
+     * @ORM\Column(name="information", nullable=true)
+     */
+    private $information;
+
+    /**
      * Get id
      *
      * @return integer 
@@ -582,5 +589,28 @@ class Thing implements UserInterface
     public function getGeoLocation()
     {
         return $this->geoLocation;
+    }
+
+    /**
+     * Set information
+     *
+     * @param string $information
+     * @return Thing
+     */
+    public function setInformation($information)
+    {
+        $this->information = $information;
+
+        return $this;
+    }
+
+    /**
+     * Get information
+     *
+     * @return string 
+     */
+    public function getInformation()
+    {
+        return $this->information;
     }
 }

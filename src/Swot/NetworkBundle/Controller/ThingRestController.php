@@ -111,4 +111,50 @@ class ThingRestController extends FOSRestController
         )));
     }
 
+    /**
+     *
+     * @RequestParam(name="information", strict=true, allowBlank=false, description="The thing's information")
+     *
+     * @Post("/information/update")
+     *
+     * @param ParamFetcher $fetcher
+     * @return Response
+     */
+    public function postThingInformationUpdateAction(ParamFetcher $fetcher) {
+        /** @var Thing $thing */
+        $thing = $this->getUser();
+
+        /** @var ThingManager $thingManager */
+        $thingManager = $this->get('swot.manager.thing');
+        $thingManager->removeFunctions($thing);
+
+        /** @var CurlManager $curlManager */
+        $curlManager = $this->get('services.curl_manager');
+        /** @var ThingResponseConverter $converter */
+        $converter = $this->get("thing_function_response_converter");
+
+        $baseUrl = $thing->getBaseApiUrl();
+
+        $informationUrl = $baseUrl . $this->container->getParameter('thing.api.information');
+        $formattedUrl = URL::createFromUrl($informationUrl);
+        $query = $formattedUrl->getQuery();
+        $query["access_token"] = $thing->getOwnerToken();
+        $formattedUrl->setQuery($query);
+        $informationData = $curlManager->getCurlResponse($formattedUrl->__toString());
+
+        $information = $converter->convertFunctions($informationData);
+        $thing->setInformation($information);
+
+        /** @var EntityManager $manager */
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($thing);
+
+        $manager->flush();
+
+        return $this->handleView(new View(array(
+            "code" => Response::HTTP_OK,
+            "message" => "Information updated",
+        )));
+    }
+
 }

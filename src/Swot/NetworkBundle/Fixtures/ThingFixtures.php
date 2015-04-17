@@ -169,12 +169,12 @@ TAG;
     {
 		"status":
 		[
-            0 : {
+            {
                 "title" : "value",
                 "value" : "value"
             },
 
-            1 : {
+            {
                 "title" : "value",
                 "type" : "table",
                 "value" : {
@@ -186,13 +186,13 @@ TAG;
                 }
             },
 
-            2 : {
+            {
                 "title" : "value",
                 "type" : "percentage",
                 "value" : "80"
             },
 
-            3 : {
+            {
                 "title" : "value",
                 "type" : "html",
                 "value" : "<div>...</div>"

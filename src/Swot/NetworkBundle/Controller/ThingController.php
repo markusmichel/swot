@@ -266,7 +266,7 @@ class ThingController extends Controller
                 $query = $formattedUrl->getQuery();
                 $query["network_token"] = $accessToken;
                 $formattedUrl->setQuery($query);
-                $thingInfo = $curlManager->getCurlResponse($formattedUrl->__toString());
+                $thingInfo = $curlManager->getCurlResponse($formattedUrl->__toString(), true);
 
                 $imageUrl = URL::createFromUrl($thingInfo->device->api->profileimage);
                 //@TODO: keep without tokens?!
@@ -276,7 +276,7 @@ class ThingController extends Controller
                 $query = $functionsUrl->getQuery();
                 $query["access_token"] = $thingInfo->device->tokens->owner_token;
                 $functionsUrl->setQuery($query);
-                $functionsData = $curlManager->getCurlResponse($functionsUrl->__toString());
+                $functionsData = $curlManager->getCurlResponse($functionsUrl->__toString(), true);
 
             } else {
                 $res = json_decode(ThingFixtures::$thingResponse);

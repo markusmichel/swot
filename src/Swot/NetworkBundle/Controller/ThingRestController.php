@@ -87,9 +87,9 @@ class ThingRestController extends FOSRestController
         $functionsUrl = $baseUrl . $this->container->getParameter('thing.api.functions');
         $formattedUrl = URL::createFromUrl($functionsUrl);
         $query = $formattedUrl->getQuery();
-        $query["access_token"] = $thing->getOwnerToken();
+        $query["token"] = $thing->getReadToken();
         $formattedUrl->setQuery($query);
-        $functionsData = $curlManager->getCurlResponse($formattedUrl->__toString());
+        $functionsData = $curlManager->getCurlResponse($formattedUrl->__toString(), true);
 
         $functions = $converter->convertFunctions($functionsData);
 
@@ -126,24 +126,21 @@ class ThingRestController extends FOSRestController
 
         /** @var ThingManager $thingManager */
         $thingManager = $this->get('swot.manager.thing');
-        $thingManager->removeFunctions($thing);
 
         /** @var CurlManager $curlManager */
         $curlManager = $this->get('services.curl_manager');
-        /** @var ThingResponseConverter $converter */
-        $converter = $this->get("thing_function_response_converter");
 
         $baseUrl = $thing->getBaseApiUrl();
 
         $informationUrl = $baseUrl . $this->container->getParameter('thing.api.information');
         $formattedUrl = URL::createFromUrl($informationUrl);
         $query = $formattedUrl->getQuery();
-        $query["access_token"] = $thing->getOwnerToken();
+        $query["token"] = $thing->getReadToken();
         $formattedUrl->setQuery($query);
-        $informationData = $curlManager->getCurlResponse($formattedUrl->__toString());
+        $informationData = $curlManager->getCurlResponse($formattedUrl->__toString(), false);
 
-        $information = $converter->convertFunctions($informationData);
-        $thing->setInformation($information);
+        //@TODO: correct escaping of $informationData
+        $thing->setInformation(trim(addslashes($informationData)));
 
         /** @var EntityManager $manager */
         $manager = $this->getDoctrine()->getManager();

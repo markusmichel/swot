@@ -18,9 +18,10 @@ class CurlManager {
     /**
      * Gets a response via cURL.
      * @param $url String URL for cURL request
+     * @param $decodeJson Boolean Determines if the JSON string should be decoded or not
      * @return mixed content of the cURL reponse
      */
-    public function getCurlResponse($url){
+    public function getCurlResponse($url, $decodeJson){
 
         $response = null;
         $curl = new \Zebra_cURL();
@@ -47,7 +48,8 @@ class CurlManager {
             else throw new ThingIsUnavailableException('Thing is unavailable. cURL responded with: ' . $result->response[0]);
         });
 
-        return json_decode($response);
+        if($decodeJson) return json_decode($response);
+        else return $response;
     }
 
     /**

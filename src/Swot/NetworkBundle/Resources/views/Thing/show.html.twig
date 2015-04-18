@@ -81,18 +81,19 @@
         <div ng-controller="ThingInformationController as ctrl">
             {# Angular code --> verbatim --> don't render with Twig #}
             {% verbatim %}
-            {{ ctl }}
-                <div ng-repeat="f in ctrl.fixture">
-                    <div>Title: {{ f.title }}</div>
+                <div ng-repeat="f in ctrl.data">
+                    <div>{{ f.title }}</div>
 
                     <div ng-switch="f.type">
+
+                        <!-- Percentage type -->
                         <div ng-switch-when="percentage">
-                            PERCENTAGE
-                            {{ f.value }}
                             <div class="progress">
                                 <span class="meter" ng-style="{ width: f.value + '%' }"></span>
                             </div>
                         </div>
+
+                        <!-- Table type -->
                         <div ng-switch-when="table">
                             <table>
                                 <thead>
@@ -105,10 +106,22 @@
                                 </tbody>
                             </table>
                         </div>
+
+                        <!-- HTML type -->
                         <div ng-switch-when="html">
                             HTML
                             <div ng-bind-html="f.value | safe"></div>
                         </div>
+
+                        <!-- Boolean type -->
+                        <div ng-switch-when="boolean">
+                            <div ng-switch="f.value">
+                                <div ng-switch-when="true" class="label round radius success">yes</div>
+                                <div ng-switch-when="false" class="label round radius alert">no</div>
+                            </div>
+                        </div>
+
+                        <!-- Default type = plain text -->
                         <div ng-switch-default>
                             {{ f.value }}
                         </div>
@@ -197,42 +210,7 @@
     </script>
 
     <script>
-
-        var fixture = [
-            {
-                "title" : "value",
-                "value" : "value"
-            },
-
-            {
-                "title" : "value",
-                "type" : "table",
-                "value" : {
-                    "header" : ["header1", "header2", "header3"],
-                    "data" : [
-                        ["value1", "value2", "value3"],
-                        ["value1", "value2", "value3"]
-                    ]
-                }
-            },
-
-            {
-                "title" : "value",
-                "type" : "percentage",
-                "value" : "10"
-            },
-
-            {
-                "title" : "value",
-                "type" : "html",
-                "value" : "<div><b>html value example</b></div>"
-            },
-
-            {
-                "title" : "value",
-                "value" : "value"
-            },
-        ];
+        // @todo: interval / Skala / Rating
 
         angular.module('swotApp', [])
             .filter("safe", function($sce) {
@@ -242,67 +220,28 @@
             })
             .directive("ngRaw", function($sce) {
                 return function(scope, element, attr) {
-                    console.log("RAW", attr.ngRaw);
-//                    element.html(value || '');
                     scope.$watch($sce.parseAsHtml($sce.trustAsHtml(attr.ngRaw)), function(value) {
                         console.log("val:" , value);
                         element.html(value || '');
                     });
                 };
             })
-            .controller('ThingInformationController', function($interval, $sce) {
-                    var todoList = this;
-                    todoList.fixture = fixture;
-                    console.log(fixture, todoList.fixture);
+            .controller('ThingInformationController', function($interval, $http) {
+                    var status = this;
+                    var url = "{{ path('thing_information', {id: thing.id}) }}";
+                    var interval = {{ long_poll_intervall }};
+                    var initialStatus = [];
+                    status.data = [];
 
                     var i = 0;
                     $interval(function() {
-                        todoList.fixture = [
-                            {
-                                "title" : "value",
-                                "value" : "value"
-                            },
-
-                            {
-                                "title" : "value",
-                                "type" : "table",
-                                "value" : {
-                                    "header" : ["header1", "header2", "header3"],
-                                    "data" : [
-                                        ["value1", "value2", "value3"],
-                                        ["value1", "value2", "value3"]
-                                    ]
-                                }
-                            },
-
-                            {
-                                "title" : "value",
-                                "type" : "percentage",
-                                "value" : i++
-                            },
-
-                            {
-                                "title" : "value",
-                                "type" : "html",
-                                "value" : "<div><b>html value example</b></div>"
-                            },
-
-                            {
-                                "title" : "value",
-                                "value" : "value"
-                            },
-                        ];
-                    }, 500);
-
-                    angular.bind(todoList, function() {
-                        console.log("bind");
-                    });
-
-                    todoList.getSafeHtml = function() {
-//                        return $sce.parseAsHtml($text);
-                        console.log("get safe html");
-                        return "FOOOO";
-                    };
+                        $http.get(url)
+                        .success(function(res) {
+                            console.log("status", res);
+                            status.data = res.status;
+//                            angular.copy(res.status, todoList.fixture);
+                        })
+                    }, interval);
             });
     </script>
 {% endblock %}

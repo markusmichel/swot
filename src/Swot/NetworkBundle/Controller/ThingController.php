@@ -143,9 +143,11 @@ class ThingController extends Controller
         $this->assertAccessToThingGranted($thing, ThingVoter::ACCESS);
 
         $information = $thing->getInformation();
-        $information = ThingFixtures::$informationResponse;
+        $information = json_decode(ThingFixtures::$informationResponse);
 
-        return new JsonResponse(json_decode($information));
+        $information->status[3]->value = rand(0, 100);
+
+        return new JsonResponse($information);
     }
 
     /**

@@ -170,32 +170,38 @@ TAG;
 		"status":
 		[
             {
-                "title" : "value",
-                "value" : "value"
+                "title" : "Status",
+                "value" : "working"
+            },
+
+            {
+                "title": "Working",
+                "type": "boolean",
+                "value": true
             },
 
             {
                 "title" : "value",
                 "type" : "table",
                 "value" : {
-                    "header" : ["header1", "header2" ...]
+                    "header" : ["header1", "header2", "header3"],
                     "data" : [
-                        [value1, value2, value3 ...],
-                        [value11, value22, value33 ...]
+                        ["value1", "value2", "value3"],
+                        ["value1", "value2", "value3"]
                     ]
                 }
             },
 
             {
-                "title" : "value",
+                "title" : "Progress making coffee",
                 "type" : "percentage",
-                "value" : "80"
+                "value" : "0"
             },
 
             {
                 "title" : "value",
                 "type" : "html",
-                "value" : "<div>...</div>"
+                "value" : "<div><b>html value example</b></div>"
             }
         ]
 	}

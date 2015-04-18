@@ -202,6 +202,12 @@ TAG;
                 "title" : "value",
                 "type" : "html",
                 "value" : "<div><b>html value example</b></div>"
+            },
+
+            {
+                "title": "finished",
+                "type": "boolean",
+                "value": false
             }
         ]
 	}

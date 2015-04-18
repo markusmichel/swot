@@ -73,6 +73,51 @@
         <a class="close-reveal-modal" aria-label="Close">&#215;</a>
     </div>
 
+    <div ng-app="swotApp">
+        <div ng-controller="ThingInformationController as ctrl">
+            {# Angular code --> verbatim --> don't render with Twig #}
+            {% verbatim %}
+            {{ ctl }}
+                <div ng-repeat="f in ctrl.fixture">
+                    <div>Title: {{ f.title }}</div>
+
+                    <div ng-switch="f.type">
+                        <div ng-switch-when="percentage">
+                            PERCENTAGE
+                            {{ f.value }}
+                            <div class="progress">
+                                <span class="meter" ng-style="{ width: f.value + '%' }"></span>
+                            </div>
+                        </div>
+                        <div ng-switch-when="table">
+                            <table>
+                                <thead>
+                                    <th ng-repeat="header in f.value.header">{{ header }}</th>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="row in f.value.data">
+                                        <td ng-repeat="val in row">{{ val }}</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                        <div ng-switch-when="html">
+                            HTML
+                            <div ng-bind-html="f.value | safe"></div>
+                        </div>
+                        <div ng-switch-default>
+                            {{ f.value }}
+                        </div>
+                    </div>
+                    <hr/>
+
+                </div>
+            {% endverbatim %}
+
+        </div>
+
+    </div>
+
 {% endblock %}
 
 {% block javascripts %}
@@ -127,7 +172,117 @@
                     setTimeout(callback, timeout);
                 };
                 callback();
-            }());
+            });
         });
+    </script>
+
+    <script>
+
+        var fixture = [
+            {
+                "title" : "value",
+                "value" : "value"
+            },
+
+            {
+                "title" : "value",
+                "type" : "table",
+                "value" : {
+                    "header" : ["header1", "header2", "header3"],
+                    "data" : [
+                        ["value1", "value2", "value3"],
+                        ["value1", "value2", "value3"]
+                    ]
+                }
+            },
+
+            {
+                "title" : "value",
+                "type" : "percentage",
+                "value" : "10"
+            },
+
+            {
+                "title" : "value",
+                "type" : "html",
+                "value" : "<div><b>html value example</b></div>"
+            },
+
+            {
+                "title" : "value",
+                "value" : "value"
+            },
+        ];
+
+        angular.module('swotApp', [])
+            .filter("safe", function($sce) {
+                return function(input) {
+                    return $sce.trustAsHtml(input);
+                }
+            })
+            .directive("ngRaw", function($sce) {
+                return function(scope, element, attr) {
+                    console.log("RAW", attr.ngRaw);
+//                    element.html(value || '');
+                    scope.$watch($sce.parseAsHtml($sce.trustAsHtml(attr.ngRaw)), function(value) {
+                        console.log("val:" , value);
+                        element.html(value || '');
+                    });
+                };
+            })
+            .controller('ThingInformationController', function($interval, $sce) {
+                    var todoList = this;
+                    todoList.fixture = fixture;
+                    console.log(fixture, todoList.fixture);
+
+                    var i = 0;
+                    $interval(function() {
+                        todoList.fixture = [
+                            {
+                                "title" : "value",
+                                "value" : "value"
+                            },
+
+                            {
+                                "title" : "value",
+                                "type" : "table",
+                                "value" : {
+                                    "header" : ["header1", "header2", "header3"],
+                                    "data" : [
+                                        ["value1", "value2", "value3"],
+                                        ["value1", "value2", "value3"]
+                                    ]
+                                }
+                            },
+
+                            {
+                                "title" : "value",
+                                "type" : "percentage",
+                                "value" : i++
+                            },
+
+                            {
+                                "title" : "value",
+                                "type" : "html",
+                                "value" : "<div><b>html value example</b></div>"
+                            },
+
+                            {
+                                "title" : "value",
+                                "value" : "value"
+                            },
+                        ];
+                    }, 500);
+
+                    angular.bind(todoList, function() {
+                        console.log("bind");
+                    });
+
+                    todoList.getSafeHtml = function() {
+//                        return $sce.parseAsHtml($text);
+                        console.log("get safe html");
+                        return "FOOOO";
+                    };
+            });
     </script>
 {% endblock %}

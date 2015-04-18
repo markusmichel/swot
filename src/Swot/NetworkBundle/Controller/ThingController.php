@@ -53,7 +53,9 @@ class ThingController extends Controller
         $thingStatus = json_decode(ThingFixtures::$thingResponse);
 
         $thing->setInformation(ThingFixtures::$informationResponse);
-        $information = ($thing->getInformation());
+        $information = $thing->getInformation();
+
+        // @todo: remove fixture data
         $information = trim(ThingFixtures::$informationResponse);
 
         // fix newlines. @todo: extract in model or curl manager

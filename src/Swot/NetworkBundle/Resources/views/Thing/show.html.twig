@@ -202,6 +202,8 @@
                         }
                     });
 
+                    // @todo: call callback in $.get callback to prevent calling the same url multiple time in a short time
+                    // @todo: call this code in angular?
                     setTimeout(callback, timeout);
                 };
                 callback();
@@ -225,19 +227,21 @@
                     });
                 };
             })
-            .controller('ThingInformationController', function($interval, $http) {
+            .controller('ThingInformationController', function($interval, $http, $timeout) {
                     var status = this;
                     var url = "{{ path('thing_information', {id: thing.id}) }}";
                     var interval = {{ long_poll_intervall }};
                     status.data = JSON.parse('{{ thing.information | raw }}').status;
 
-                    $interval(function() {
+                    var cb = function() {
                         $http.get(url)
                         .success(function(res) {
                             status.data = res.status;
 //                            angular.copy(res.status, todoList.fixture);
+
+                            $timeout(cb, interval);
                         })
-                    }, interval);
+                    }();
             });
     </script>
 {% endblock %}

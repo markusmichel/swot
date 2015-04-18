@@ -221,7 +221,6 @@
             .directive("ngRaw", function($sce) {
                 return function(scope, element, attr) {
                     scope.$watch($sce.parseAsHtml($sce.trustAsHtml(attr.ngRaw)), function(value) {
-                        console.log("val:" , value);
                         element.html(value || '');
                     });
                 };
@@ -231,13 +230,10 @@
                     var url = "{{ path('thing_information', {id: thing.id}) }}";
                     var interval = {{ long_poll_intervall }};
                     status.data = JSON.parse('{{ thing.information | raw }}').status;
-                    console.log(status.data);
 
-                    var i = 0;
                     $interval(function() {
                         $http.get(url)
                         .success(function(res) {
-                            console.log("status", res);
                             status.data = res.status;
 //                            angular.copy(res.status, todoList.fixture);
                         })

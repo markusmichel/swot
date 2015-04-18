@@ -104,12 +104,13 @@ class ThingController extends Controller
     }
 
     /**
+     * Shows messages of a thing since a date
+     *
      * @ParamConverter("thing", class="SwotNetworkBundle:Thing")
-     * @param Request $request
      * @param Thing $thing
      * @return Response
      */
-    public function showUpdatesSinceAction(Request $request, Thing $thing, $since, $_format) {
+    public function showUpdatesSinceAction(Thing $thing, $since, $_format) {
         $this->assertAccessToThingGranted($thing, ThingVoter::ACCESS);
 
         $sinceDate = new \DateTime();
@@ -129,6 +130,26 @@ class ThingController extends Controller
                 return $response;
                 break;
         }
+    }
+
+    /**
+     * Shows a thing´s information
+     *
+     * @ParamConverter("thing", class="SwotNetworkBundle:Thing")
+     * @param Thing $thing
+     * @return Response
+     */
+    public function showInformationAction(Thing $thing) {
+        $this->assertAccessToThingGranted($thing, ThingVoter::ACCESS);
+
+        $information = $thing->getInformation();
+
+        $serializer = $this->container->get('jms_serializer');
+        $serialized = $serializer->serialize($information, "json");
+
+        $response = new Response($serialized);
+        $response->headers->set('Content-Type', 'application/json');
+        return $response;
     }
 
     /**
@@ -245,7 +266,7 @@ class ThingController extends Controller
                 $query = $formattedUrl->getQuery();
                 $query["network_token"] = $accessToken;
                 $formattedUrl->setQuery($query);
-                $thingInfo = $curlManager->getCurlResponse($formattedUrl->__toString());
+                $thingInfo = $curlManager->getCurlResponse($formattedUrl->__toString(), true);
 
                 $imageUrl = URL::createFromUrl($thingInfo->device->api->profileimage);
                 //@TODO: keep without tokens?!
@@ -255,7 +276,7 @@ class ThingController extends Controller
                 $query = $functionsUrl->getQuery();
                 $query["access_token"] = $thingInfo->device->tokens->owner_token;
                 $functionsUrl->setQuery($query);
-                $functionsData = $curlManager->getCurlResponse($functionsUrl->__toString());
+                $functionsData = $curlManager->getCurlResponse($functionsUrl->__toString(), true);
 
             } else {
                 $res = json_decode(ThingFixtures::$thingResponse);

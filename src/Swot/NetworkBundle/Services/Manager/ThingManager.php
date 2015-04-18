@@ -76,7 +76,7 @@ class ThingManager {
             $query["access_token"] = $thing->getOwnerToken();
             $query["network_token"] = $thing->getNetworkAccessToken();
             $formattedUrl->setQuery($query);
-            $deregisterResponse = $this->curlManager->getCurlResponse($formattedUrl->__toString());
+            $deregisterResponse = $this->curlManager->getCurlResponse($formattedUrl->__toString(), true);
 
             if($deregisterResponse->statusCode != 200)
                 throw new ThingIsUnavailableException("Unable to delete the selected Thing");

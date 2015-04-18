@@ -30,6 +30,7 @@ class Action
 
         $parameters["token"] = $accessToken;
 
+        //@TODO: for real use use this url
         $url = URL::createFromUrl($this->getUrl());
         $query = $url->getQuery();
         $query->set($parameters);
@@ -39,47 +40,12 @@ class Action
         //@TODO: only for development
         $url = "http://www.google.de";
 
-        //@TODO: after development uncomment these lines
         /** @var CurlManager $curlManager */
         //@TODO good practice?!
         $curlManager = new CurlManager("placeholder");
-        return $curlManager->getCurlResponse($url);
+        return $curlManager->getCurlResponse($url, true);
         //$curlManager = $this->get('services.curl_manager');
         //return $curlManager->getCurlResponse($url);
-
-
-        // @TODO: delete the following lines after development
-        // Callback will use reference to this variable
-        $response = null;
-
-        $curl = new \Zebra_cURL();
-        $curl->get($url, function($result) use (&$response) {
-            // everything went well at cURL level
-            if ($result->response[1] == CURLE_OK) {
-
-                // if server responded with code 200 (meaning that everything went well)
-                // see http://httpstatus.es/ for a list of possible response codes
-                if ($result->info['http_code'] == 200) {
-
-                    $response = json_decode($result->body);
-
-                    //@TODO: only for dev
-                    $response = ThingFixtures::$activateFunctionResponse;
-                    $response = json_decode($response);
-
-
-                }
-                // @todo: create exception
-                else die('Server responded with code ' . $result->info['http_code']);
-            }
-
-            // something went wrong
-            // ($result still contains all data that could be gathered)
-            // @todo: create exception
-            else die('cURL responded with: ' . $result->response[0]);
-        });
-
-        return $response;
     }
 
     /**

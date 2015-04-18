@@ -230,8 +230,8 @@
                     var status = this;
                     var url = "{{ path('thing_information', {id: thing.id}) }}";
                     var interval = {{ long_poll_intervall }};
-                    var initialStatus = [];
-                    status.data = [];
+                    status.data = JSON.parse('{{ thing.information | raw }}').status;
+                    console.log(status.data);
 
                     var i = 0;
                     $interval(function() {

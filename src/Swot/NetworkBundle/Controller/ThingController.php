@@ -52,6 +52,14 @@ class ThingController extends Controller
         //@TODO: implement status handling
         $thingStatus = json_decode(ThingFixtures::$thingResponse);
 
+        $thing->setInformation(ThingFixtures::$informationResponse);
+        $information = ($thing->getInformation());
+        $information = trim(ThingFixtures::$informationResponse);
+
+        // fix newlines. @todo: extract in model or curl manager
+        $information = trim(preg_replace('/[\s]+/', ' ', $information));
+        $thing->setInformation($information);
+
         $functionForms = $this->createActivateFunctionForms($thing);
 
         // Check if ONE form was submitted and which was it was.

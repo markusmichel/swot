@@ -143,13 +143,9 @@ class ThingController extends Controller
         $this->assertAccessToThingGranted($thing, ThingVoter::ACCESS);
 
         $information = $thing->getInformation();
+        $information = ThingFixtures::$informationResponse;
 
-        $serializer = $this->container->get('jms_serializer');
-        $serialized = $serializer->serialize($information, "json");
-
-        $response = new Response($serialized);
-        $response->headers->set('Content-Type', 'application/json');
-        return $response;
+        return new JsonResponse(json_decode($information));
     }
 
     /**

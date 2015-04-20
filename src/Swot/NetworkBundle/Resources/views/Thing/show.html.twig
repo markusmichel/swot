@@ -212,11 +212,11 @@
                     var status = this;
                     var url = "{{ path('thing_information', {id: thing.id}) }}";
                     var interval = {{ long_poll_intervall }};
-                    status.data = JSON.parse('{{ thing.information | raw }}').status;
+                    status.data = JSON.parse('{{ thing.information | raw }}').information;
                     var cb = function() {
                         $http.get(url)
                         .success(function(res) {
-                            status.data = res.status;
+                            status.data = res.information;
 //                            angular.copy(res.status, todoList.fixture);
 
                             $timeout(cb, interval);

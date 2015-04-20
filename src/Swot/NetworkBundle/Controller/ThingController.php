@@ -158,8 +158,8 @@ class ThingController extends Controller
         $information = $thing->getInformation();
         $information = json_decode(ThingFixtures::$informationResponse);
 
-        $information->status[3]->value = rand(0, 100);
-        $information->status[1]->value = rand(0, 1) === 0 ? true : false;
+        $information->information[3]->value = rand(0, 100);
+        $information->information[1]->value = rand(0, 1) === 0 ? true : false;
 
         return new JsonResponse($information);
     }

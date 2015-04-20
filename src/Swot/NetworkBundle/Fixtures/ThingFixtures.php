@@ -167,7 +167,7 @@ TAG;
 
     public static $informationResponse = <<<TAG
     {
-		"status":
+		"information":
 		[
             {
                 "title" : "Status",

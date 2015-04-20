@@ -60,9 +60,8 @@
                             $messageContainer.append(res);
                             adjustHeight();
                         }
+                        setTimeout(callback, timeout);
                     });
-
-                    setTimeout(callback, timeout);
                 };
                 callback();
             }());

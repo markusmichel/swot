@@ -328,7 +328,7 @@ class ThingController extends Controller
         }
 
         $this->addFlash("success", "Thing added");
-        return $this->redirectToRoute('my_things');
+        return $this->redirectToRoute('thing_show', array("id" => $thing->getId()));
     }
 
     /**

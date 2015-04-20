@@ -58,18 +58,6 @@
         <div class="access">{{ thing.accessType }}</div>
     </div>
 
-    <div id="#information">
-
-    </div>
-
-    {% if messages|length > 0 %}
-        <h2>{% trans %}thing.newsfeed{% endtrans %}</h2>
-        <div id="messages">
-            {{ include("SwotNetworkBundle:Thing:thing_messages.html.twig", {messages: messages}) }}
-        </div>
-        {% else %}<h2>{% trans %}thing.no_newsfeed{% endtrans %}</h2>
-    {% endif %}
-
     <div id="confirmationModal" class="reveal-modal" data-reveal aria-labelledby="modalTitle" aria-hidden="true" role="dialog">
         <p class="lead" >{% trans %}confirmation_question{% endtrans %}</p>
         <button id="confirmDeleteBtn" class="alert">Accept</button>
@@ -135,6 +123,14 @@
 
     </div>
 
+    {% if messages|length > 0 %}
+        <h2>{% trans %}thing.newsfeed{% endtrans %}</h2>
+        <div id="messages">
+            {{ include("SwotNetworkBundle:Thing:thing_messages.html.twig", {messages: messages}) }}
+        </div>
+    {% else %}<h2>{% trans %}thing.no_newsfeed{% endtrans %}</h2>
+    {% endif %}
+
 {% endblock %}
 
 {% block javascripts %}
@@ -142,15 +138,6 @@
     <script>
         $(function() {
             (function() {
-
-                var $infoContainer = $('#information');
-                /*
-                * Renders information into Container
-                */
-                var renderInformation = function(informationJSON) {
-                    var information = $.parseJSON(informationJSON);
-                };
-
                 /*
                 * handles delete confirmation modal
                 */
@@ -187,7 +174,6 @@
 
                 var timeout = {{ long_poll_intervall }};
                 var url = "{{ path('thing_update_messages_since', {id: thing.id, since: '__since_placeholder__', _format: 'html' }) }}";
-                var infoUrl = "{{ path('thing_information', {id: thing.id}) }}";
                 var callback = function() {
                     var since = getLastMessageDate();
                     var replacedUrl = url.replace('__since_placeholder__', encodeURI(since.toString()));
@@ -195,19 +181,14 @@
                         if(res !== "") {
                             $messageContainer.prepend(res);
                         }
-                    });
-                    $.get(infoUrl, function(res) {
-                        if(res !== "") {
-                            renderInformation(res);
-                        }
+                        setTimeout(callback, timeout);
                     });
 
                     // @todo: call callback in $.get callback to prevent calling the same url multiple time in a short time
                     // @todo: call this code in angular?
-                    setTimeout(callback, timeout);
                 };
                 callback();
-            });
+            }());
         });
     </script>
 
@@ -232,7 +213,6 @@
                     var url = "{{ path('thing_information', {id: thing.id}) }}";
                     var interval = {{ long_poll_intervall }};
                     status.data = JSON.parse('{{ thing.information | raw }}').status;
-
                     var cb = function() {
                         $http.get(url)
                         .success(function(res) {
@@ -241,7 +221,8 @@
 
                             $timeout(cb, interval);
                         })
-                    }();
+                    };
+                    cb();
             });
     </script>
 {% endblock %}

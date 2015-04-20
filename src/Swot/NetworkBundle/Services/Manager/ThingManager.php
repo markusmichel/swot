@@ -72,11 +72,8 @@ class ThingManager {
         if($useCurlToDelete == 1){
             $url = $thing->getBaseApiUrl() . $this->deregisterRoute;
             $formattedUrl = URL::createFromUrl($url);
-            $query = $formattedUrl->getQuery();
-            $query["access_token"] = $thing->getOwnerToken();
-            $query["network_token"] = $thing->getNetworkAccessToken();
-            $formattedUrl->setQuery($query);
-            $deregisterResponse = $this->curlManager->getCurlResponse($formattedUrl->__toString(), true);
+
+            $deregisterResponse = $this->curlManager->getCurlResponse($formattedUrl->__toString(), true, $thing->getOwnerToken());
 
             if($deregisterResponse->statusCode != 200)
                 throw new ThingIsUnavailableException("Unable to delete the selected Thing");
@@ -97,5 +94,32 @@ class ThingManager {
         $thing->getFunctions()->clear();
         $this->em->persist($thing);
         $this->em->flush();
+    }
+
+    /**
+     * @param Action $function The thing function to execute
+     * @param $accessToken String The authentication token to communcicate with the thing
+     * @return mixed string Thing response
+     */
+    public function activateFunction(Action $function, $accessToken)
+    {
+        $parameters = array();
+        /** @var Parameter $param */
+        foreach($function->getParameters() as $param) {
+            $parameters[$param->getName()] = $param->getValue();
+        }
+
+        //@TODO: for real use use this url
+        $url = URL::createFromUrl($function->getUrl());
+        $query = $url->getQuery();
+        $query->set($parameters);
+        $url->setQuery($query);
+        $url = $url->__toString();
+
+        //@TODO: only for development
+        $url = "http://www.google.de";
+
+        return $this->curlManager->getCurlResponse($url, true, $accessToken);
+
     }
 }

@@ -19,12 +19,25 @@ class CurlManager {
      * Gets a response via cURL.
      * @param $url String URL for cURL request
      * @param $decodeJson Boolean Determines if the JSON string should be decoded or not
+     * @param $accessToken String The accesstoken to authenticate with the thing
+     * @param $networkToken String The networktoken used to authenticate with the thing in certain situations
      * @return mixed content of the cURL reponse
      */
-    public function getCurlResponse($url, $decodeJson){
+    public function getCurlResponse($url, $decodeJson, $accessToken = "", $networkToken = ""){
 
         $response = null;
         $curl = new \Zebra_cURL();
+
+        // put the accesstoken and if needed the networktoken in the HTTP-Header
+        if($networkToken != "")
+            $token = array("accesstoken: " . $accessToken, "networktoken: " . $networkToken);
+        else if ($accessToken == "" && $networkToken != "")
+            $token = array("networktoken: " . $networkToken);
+        else
+            $token = array("accesstoken: " . $accessToken);
+
+        $curl->option(CURLOPT_HTTPHEADER, $token);
+
         $curl->get($url, function($result) use (&$response) {
             // everything went well at cURL level
             if ($result->response[1] == CURLE_OK) {
@@ -57,10 +70,14 @@ class CurlManager {
      * @param $url String URL for cURL request
      * @return mixed content of the cURL reponse
      */
-    public function getCurlImageResponse($url){
+    public function getCurlImageResponse($url, $accessToken){
 
         $curl = new \Zebra_cURL();
         $fullPath = $this->uploadDir . basename($url);
+
+        // put the accesstoken in the HTTP-Header
+        $token = array("accesstoken: " . $accessToken);
+        $curl->option(CURLOPT_HTTPHEADER, $token);
 
         $curl->download($url, $this->uploadDir, function($result) use (&$fullPath){
             // everything went well at cURL level

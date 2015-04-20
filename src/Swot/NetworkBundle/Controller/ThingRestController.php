@@ -86,10 +86,7 @@ class ThingRestController extends FOSRestController
 
         $functionsUrl = $baseUrl . $this->container->getParameter('thing.api.functions');
         $formattedUrl = URL::createFromUrl($functionsUrl);
-        $query = $formattedUrl->getQuery();
-        $query["token"] = $thing->getReadToken();
-        $formattedUrl->setQuery($query);
-        $functionsData = $curlManager->getCurlResponse($formattedUrl->__toString(), true);
+        $functionsData = $curlManager->getCurlResponse($formattedUrl->__toString(), true, $thing->getReadToken());
 
         $functions = $converter->convertFunctions($functionsData);
 
@@ -134,12 +131,9 @@ class ThingRestController extends FOSRestController
 
         $informationUrl = $baseUrl . $this->container->getParameter('thing.api.information');
         $formattedUrl = URL::createFromUrl($informationUrl);
-        $query = $formattedUrl->getQuery();
-        $query["token"] = $thing->getReadToken();
-        $formattedUrl->setQuery($query);
-        $informationData = $curlManager->getCurlResponse($formattedUrl->__toString(), false);
+        $informationData = $curlManager->getCurlResponse($formattedUrl->__toString(), false, $thing->getReadToken());
 
-        //@TODO: correct escaping of $informationData
+        //@TODO: correct escaping of $informationData?
         $thing->setInformation(trim(addslashes($informationData)));
 
         /** @var EntityManager $manager */

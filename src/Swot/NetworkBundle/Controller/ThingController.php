@@ -80,12 +80,15 @@ class ThingController extends Controller
             if($form->isValid() === true) {
 
                 $accessToken = null;
-                if($this->isGranted(ThingVoter::ACCESS, $thing))
-                    $accessToken = $thing->getWriteToken();
-                else if ($this->isGranted(ThingVoter::ADMIN, $thing))
+                if($this->isGranted(ThingVoter::ADMIN, $thing))
                     $accessToken = $thing->getOwnerToken();
+                else if ($this->isGranted(ThingVoter::ACCESS, $thing))
+                    $accessToken = $thing->getWriteToken();
 
-                $res = $function->activate($accessToken);
+                // activate thing function
+                /** @var ThingManager $thingManager */
+                $thingManager = $this->container->get("swot.manager.thing");
+                $res = $thingManager->activateFunction($function, $accessToken);
 
                 // @todo: validate response code instead of json message
                 if(strcasecmp($res->status, "success") == 0) {
@@ -272,20 +275,14 @@ class ThingController extends Controller
                 $curlManager = $this->get('services.curl_manager');
 
                 $formattedUrl = URL::createFromUrl($url);
-                $query = $formattedUrl->getQuery();
-                $query["network_token"] = $accessToken;
-                $formattedUrl->setQuery($query);
-                $thingInfo = $curlManager->getCurlResponse($formattedUrl->__toString(), true);
+                $thingInfo = $curlManager->getCurlResponse($formattedUrl->__toString(), true, "", $accessToken);
 
                 $imageUrl = URL::createFromUrl($thingInfo->device->api->profileimage);
                 //@TODO: keep without tokens?!
-                $profileImage = $curlManager->getCurlImageResponse($imageUrl->__toString());
+                $profileImage = $curlManager->getCurlImageResponse($imageUrl->__toString(), $thingInfo->device->tokens->read_token);
 
                 $functionsUrl = URL::createFromUrl($thingInfo->device->api->function);
-                $query = $functionsUrl->getQuery();
-                $query["access_token"] = $thingInfo->device->tokens->owner_token;
-                $functionsUrl->setQuery($query);
-                $functionsData = $curlManager->getCurlResponse($functionsUrl->__toString(), true);
+                $functionsData = $curlManager->getCurlResponse($functionsUrl->__toString(), true, $thingInfo->device->tokens->read_token);
 
             } else {
                 $res = json_decode(ThingFixtures::$thingResponse);

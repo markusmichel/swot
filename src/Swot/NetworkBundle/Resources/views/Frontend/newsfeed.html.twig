@@ -53,9 +53,9 @@
                         if(res !== "") {
                             $messageContainer.prepend(res);
                         }
+                        setTimeout(callback, timeout);
                     });
 
-                    setTimeout(callback, timeout);
                 };
                callback();
             }())

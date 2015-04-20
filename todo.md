@@ -2,6 +2,7 @@
 Netzwerk:
 - Geräte-Status Objekt berücksichtigen!!!
 - Exception handling
+- falls funktionen vom gerät leer sind --> ignorieren
 
 Gerät:
 - Exception handling

@@ -280,6 +280,7 @@ class ThingController extends Controller
                 $imageUrl = URL::createFromUrl($thingInfo->device->api->profileimage);
                 $profileImage = $curlManager->getCurlImageResponse($imageUrl->__toString(), $thingInfo->device->tokens->read_token);
 
+                //@TODO: über parameter machen
                 $functionsUrl = URL::createFromUrl($thingInfo->device->api->function);
                 $functionsData = $curlManager->getCurlResponse($functionsUrl->__toString(), true, $thingInfo->device->tokens->read_token);
 

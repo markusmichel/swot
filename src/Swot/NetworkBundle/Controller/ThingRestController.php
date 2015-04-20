@@ -121,9 +121,6 @@ class ThingRestController extends FOSRestController
         /** @var Thing $thing */
         $thing = $this->getUser();
 
-        /** @var ThingManager $thingManager */
-        $thingManager = $this->get('swot.manager.thing');
-
         /** @var CurlManager $curlManager */
         $curlManager = $this->get('services.curl_manager');
 
@@ -145,6 +142,41 @@ class ThingRestController extends FOSRestController
         return $this->handleView(new View(array(
             "code" => Response::HTTP_OK,
             "message" => "Information updated",
+        )));
+    }
+
+    /**
+     *
+     * @RequestParam(name="profileimage", strict=true, allowBlank=false, description="The thing's profile image")
+     *
+     * @Post("/profileimage/update")
+     *
+     * @param ParamFetcher $fetcher
+     * @return Response
+     */
+    public function postThingProfileImageUpdateAction(ParamFetcher $fetcher) {
+        /** @var Thing $thing */
+        $thing = $this->getUser();
+
+        $imageUrl = $fetcher->get('profileimage');
+
+        /** @var CurlManager $curlManager */
+        $curlManager = $this->get('services.curl_manager');
+
+        $formattedUrl = URL::createFromUrl($imageUrl);
+        $profileImage = $curlManager->getCurlImageResponse($formattedUrl->__toString(), $thing->getReadToken());
+
+        $thing->setProfileImage($profileImage);
+
+        /** @var EntityManager $manager */
+        $manager = $this->getDoctrine()->getManager();
+        $manager->persist($thing);
+
+        $manager->flush();
+
+        return $this->handleView(new View(array(
+            "code" => Response::HTTP_OK,
+            "message" => "ProfileImage updated",
         )));
     }
 

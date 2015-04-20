@@ -278,7 +278,6 @@ class ThingController extends Controller
                 $thingInfo = $curlManager->getCurlResponse($formattedUrl->__toString(), true, "", $accessToken);
 
                 $imageUrl = URL::createFromUrl($thingInfo->device->api->profileimage);
-                //@TODO: keep without tokens?!
                 $profileImage = $curlManager->getCurlImageResponse($imageUrl->__toString(), $thingInfo->device->tokens->read_token);
 
                 $functionsUrl = URL::createFromUrl($thingInfo->device->api->function);

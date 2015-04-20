@@ -2,12 +2,12 @@
 Netzwerk:
 
 - Geräte-Status Objekt berücksichtigen!!!
+- Except handling
 
-(- Profilbild vom Gerät wird geändert ... Route oder Bild jedesmal vom Gerät holen?!?!)
-
-Funktionen für's Gerät:
+Funktionen für's Gerät Prototypen:
 - Männchen bewegen
 - Kaffee kochen simulieren
+- Bushaltestelle
 
 Für Abgabe:
 - Skelett-Prototyp erstellen 

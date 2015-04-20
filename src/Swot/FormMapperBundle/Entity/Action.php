@@ -16,38 +16,6 @@ use League\Url\Url;
  */
 class Action
 {
-
-    /**
-     * @param string $accessToken
-     * @return mixed|string
-     */
-    public function activate($accessToken = "") {
-        $parameters = array();
-        /** @var Parameter $param */
-        foreach($this->getParameters() as $param) {
-            $parameters[$param->getName()] = $param->getValue();
-        }
-
-        $parameters["token"] = $accessToken;
-
-        //@TODO: for real use use this url
-        $url = URL::createFromUrl($this->getUrl());
-        $query = $url->getQuery();
-        $query->set($parameters);
-        $url->setQuery($query);
-        $url = $url->__toString();
-
-        //@TODO: only for development
-        $url = "http://www.google.de";
-
-        /** @var CurlManager $curlManager */
-        //@TODO good practice?!
-        $curlManager = new CurlManager("placeholder");
-        return $curlManager->getCurlResponse($url, true);
-        //$curlManager = $this->get('services.curl_manager');
-        //return $curlManager->getCurlResponse($url);
-    }
-
     /**
      * @var integer
      *

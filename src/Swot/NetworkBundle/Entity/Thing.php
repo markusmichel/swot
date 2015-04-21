@@ -128,7 +128,7 @@ class Thing implements UserInterface
     /**
      * @var text
      *
-     * @ORM\Column(name="information", nullable=true)
+     * @ORM\Column(name="information", nullable=true, type="text")
      */
     private $information;
 

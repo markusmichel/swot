@@ -82,7 +82,7 @@ swiftmailer:
 parameters:
     swot.directory.upload.profile_images:   'uploads/profileimages/'
     thing.api.functions:                    '/functions'
-    thing.api.information:                  '/status'
+    thing.api.information:                  '/information'
     thing.api.deregister:                   '/deregister'
     random.strangers.count:                 '10'
     random.publicthings.count:              '10'

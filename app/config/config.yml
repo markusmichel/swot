@@ -86,3 +86,4 @@ parameters:
     thing.api.deregister:                   '/deregister'
     random.strangers.count:                 '10'
     random.publicthings.count:              '10'
+    swot.development.mode:                  '0'

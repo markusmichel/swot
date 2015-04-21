@@ -33,21 +33,24 @@ class ThingManager {
     public $curlManager;
 
     public $deregisterRoute;
+    public $devMode;
 
     /**
      * @DI\InjectParams({
      *      "em" = @DI\Inject("doctrine.orm.entity_manager"),
      *      "cM" = @DI\Inject("services.curl_manager"),
      *      "deregisterRoute" = @DI\Inject("%thing.api.deregister%")
+     *      "devMode" = @DI\Inject("%swot.development.mode%")
      * })
      * @param EntityManager $em
      * @param CurlManager $cM
      * @param String $deregisterRoute
      */
-    public function __construct(EntityManager $em, CurlManager $cM, $deregisterRoute) {
+    public function __construct(EntityManager $em, CurlManager $cM, $deregisterRoute, $devMode) {
         $this->em = $em;
         $this->curlManager = $cM;
         $this->deregisterRoute = $deregisterRoute;
+        $this->devMode = $devMode;
     }
 
     public function createOwnership(Thing $thing, User $user) {
@@ -67,9 +70,9 @@ class ThingManager {
      * @param Thing $thing
      */
     public function remove(Thing $thing) {
-        //@TODO: $userCurlToDelete only for development
-        $useCurlToDelete = 0;
-        if($useCurlToDelete == 1){
+
+        // check if real thing is used
+        if($this->devMode == 1){
             $url = $thing->getBaseApiUrl() . $this->deregisterRoute;
             $formattedUrl = URL::createFromUrl($url);
 
@@ -109,17 +112,18 @@ class ThingManager {
             $parameters[$param->getName()] = $param->getValue();
         }
 
-        //@TODO: for real use use this url
-        $url = URL::createFromUrl($function->getUrl());
-        $query = $url->getQuery();
-        $query->set($parameters);
-        $url->setQuery($query);
-        $url = $url->__toString();
-
-        //@TODO: only for development
-        $url = "http://www.google.de";
+        // check if real thing is used
+        if($this->devMode == 1)
+        {
+            $url = URL::createFromUrl($function->getUrl());
+            $query = $url->getQuery();
+            $query->set($parameters);
+            $url->setQuery($query);
+            $url = $url->__toString();
+        }else{
+            $url = "http://www.google.de";
+        }
 
         return $this->curlManager->getCurlResponse($url, true, $accessToken);
-
     }
 }

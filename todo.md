@@ -2,6 +2,9 @@
 Netzwerk:
 - Exception handling korrekt?
 
+Netzwerk - Bugs: 
+- Registerbutton nach erstmaligen nutzen nicht weiter verwendbar
+
 Gerät:
 - Exception handling korrekt?
 

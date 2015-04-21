@@ -305,10 +305,12 @@ class ThingController extends Controller
             // Add them to the thing.
             $functions = $converter->convertFunctions($functionsData);
 
-            /** @var Action $function */
-            foreach($functions as $function) {
-                $thing->addFunction($function);
-                $function->setThing($thing);
+            if($functions != null){
+                /** @var Action $function */
+                foreach($functions as $function) {
+                    $thing->addFunction($function);
+                    $function->setThing($thing);
+                }
             }
 
             $manager = $this->getDoctrine()->getManager();

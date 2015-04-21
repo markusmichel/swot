@@ -37,6 +37,10 @@ class ThingResponseConverter {
     }
 
     public function convertFunctions($functionsData) {
+        // check if functions are generally available
+        if(empty($functionsData))
+            return null;
+
         $functions = array();
 
         foreach ($functionsData->functions as $func) {

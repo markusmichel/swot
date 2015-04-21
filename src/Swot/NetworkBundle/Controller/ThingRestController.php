@@ -2,6 +2,7 @@
 
 namespace Swot\NetworkBundle\Controller;
 
+use Doctrine\Common\Annotations\Annotation\IgnoreAnnotation;
 use Doctrine\ORM\EntityManager;
 use Doctrine\ORM\EntityNotFoundException;
 use FOS\RestBundle\Controller\Annotations\Post;
@@ -24,6 +25,14 @@ use League\Url\Url;
  * Class ThingRestController
  * @package Swot\NetworkBundle\Controller
  * @Prefix("/api/v1/thing")
+ *
+ * @IgnoreAnnotation("apiGroup")
+ * @IgnoreAnnotation("apiName")
+ * @IgnoreAnnotation("apiParam")
+ * @IgnoreAnnotation("apiSuccess")
+ * @IgnoreAnnotation("apiDescription")
+ * @IgnoreAnnotation("apiSuccessExample")
+ * @IgnoreAnnotation("apiVersion")
  */
 class ThingRestController extends FOSRestController
 {

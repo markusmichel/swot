@@ -155,9 +155,8 @@ class ThingController extends Controller
     public function showInformationAction(Thing $thing) {
         $this->assertAccessToThingGranted($thing, ThingVoter::ACCESS);
 
-        //@TODO: only for development. Set to 1 to use real data.
-        $useFixture = 0;
-        if($useFixture == 1)
+        // check if real thing is used
+        if($this->container->getParameter('swot.development.mode') == 1)
             $information = $thing->getInformation();
         else
             $information = json_decode(ThingFixtures::$informationResponse);
@@ -249,9 +248,6 @@ class ThingController extends Controller
         /** @var User $user */
         $user = $this->getUser();
 
-        //@TODO $useQR only for development
-        $useQR = 0;
-
         $data = array();
         $form = $this->createFormBuilder($data)
             ->add('register','file')
@@ -269,10 +265,11 @@ class ThingController extends Controller
             $file = $data['register'];
             $qr = $file->move($file->getPath(),"qr.png");
 
-            // dev switch
             $functionsData = null;
             $profileImage = null;
-            if($useQR == 1) {
+
+            // check if real thing is used
+            if($this->container->getParameter('swot.development.mode') == 1) {
                 $url = $this->getUrlFromQr($qr);
 
                 /** @var CurlManager $curlManager */

@@ -39,7 +39,7 @@ class ThingManager {
      * @DI\InjectParams({
      *      "em" = @DI\Inject("doctrine.orm.entity_manager"),
      *      "cM" = @DI\Inject("services.curl_manager"),
-     *      "deregisterRoute" = @DI\Inject("%thing.api.deregister%")
+     *      "deregisterRoute" = @DI\Inject("%thing.api.deregister%"),
      *      "devMode" = @DI\Inject("%swot.development.mode%")
      * })
      * @param EntityManager $em

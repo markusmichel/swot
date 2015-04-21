@@ -8,6 +8,7 @@ use Swot\NetworkBundle\Entity\Rental;
 use Swot\NetworkBundle\Entity\Thing;
 use Swot\NetworkBundle\Entity\User;
 use Swot\NetworkBundle\Exception\AccessToThingDeniedException;
+use Swot\NetworkBundle\Exception\ThingIsUnavailableException;
 use Swot\NetworkBundle\Fixtures\ThingFixtures;
 use Swot\FormMapperBundle\Form\FunctionType;
 use Swot\NetworkBundle\Form\ThingType;
@@ -17,6 +18,7 @@ use Swot\NetworkBundle\Services\Manager\ThingManager;
 use Swot\NetworkBundle\Services\QrReader;
 use Swot\NetworkBundle\Services\ThingResponseConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -276,14 +278,28 @@ class ThingController extends Controller
                 $url = $this->getUrlFromQr($qr);
 
                 $formattedUrl = URL::createFromUrl($url);
-                $thingInfo = $curlManager->getCurlResponse($formattedUrl->__toString(), true, "", $accessToken);
 
-                $imageUrl = URL::createFromUrl($thingInfo->device->api->profileimage);
-                $profileImage = $curlManager->getCurlImageResponse($imageUrl->__toString(), $thingInfo->device->tokens->read_token);
+                try{
+                    $thingInfo = $curlManager->getCurlResponse($formattedUrl->__toString(), true, "", $accessToken);
+                }catch (Exception $e){
+                    throw new ThingIsUnavailableException("The thing was unavailable");
+                }
 
-                $functionsUrl = $thingInfo->device->url . $this->container->getParameter("thing.api.functions");
-                $formattedFunctionsUrl = URL::createFromUrl($functionsUrl);
-                $functionsData = $curlManager->getCurlResponse($formattedFunctionsUrl->__toString(), true, $thingInfo->device->tokens->read_token);
+                try{
+                    $imageUrl = URL::createFromUrl($thingInfo->device->api->profileimage);
+                    $profileImage = $curlManager->getCurlImageResponse($imageUrl->__toString(), $thingInfo->device->tokens->read_token);
+                }catch(Exception $e){
+                    $profileImage = null;
+                }
+
+                try{
+                    $functionsUrl = $thingInfo->device->url . $this->container->getParameter("thing.api.functions");
+                    $formattedFunctionsUrl = URL::createFromUrl($functionsUrl);
+                    $functionsData = $curlManager->getCurlResponse($formattedFunctionsUrl->__toString(), true, $thingInfo->device->tokens->read_token);
+                } catch (Exception $e){
+                    $functionsData = null;
+                }
+
 
             } else {
                 $res = json_decode(ThingFixtures::$thingResponse);

@@ -17,7 +17,7 @@ class ThingFixtures {
                 "api": {
                     "deregister": "http://.....",
                     "function": "http://....",
-                    "status": "http://....",
+                    "information": "http://....",
                     "profileimage": "http://...."
                 },
                 "tokens": {
@@ -156,7 +156,7 @@ TAG;
                         ]
                     }
                 ],
-                "status": [
+                "information": [
                     {
 
                     }

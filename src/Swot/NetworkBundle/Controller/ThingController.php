@@ -248,6 +248,9 @@ class ThingController extends Controller
         /** @var User $user */
         $user = $this->getUser();
 
+        /** @var CurlManager $curlManager */
+        $curlManager = $this->get('services.curl_manager');
+
         $data = array();
         $form = $this->createFormBuilder($data)
             ->add('register','file')
@@ -269,11 +272,8 @@ class ThingController extends Controller
             $profileImage = null;
 
             // check if real thing is used
-            if($this->container->getParameter('swot.development.mode') == 1) {
+            if($this->container->getParameter('swot.development.mode') == 0) {
                 $url = $this->getUrlFromQr($qr);
-
-                /** @var CurlManager $curlManager */
-                $curlManager = $this->get('services.curl_manager');
 
                 $formattedUrl = URL::createFromUrl($url);
                 $thingInfo = $curlManager->getCurlResponse($formattedUrl->__toString(), true, "", $accessToken);
@@ -313,6 +313,16 @@ class ThingController extends Controller
                     $function->setThing($thing);
                 }
             }
+
+            // Use real data or fixture data
+            $thingStatus = "";
+            if($this->container->getParameter('swot.development.mode') == 0) {
+                $thingStatus = $curlManager->getThingStatus($thing);
+            } else {
+                $thingStatus = ThingFixtures::$informationResponse;
+            }
+
+            $thing->setInformation($thingStatus);
 
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($ownership);

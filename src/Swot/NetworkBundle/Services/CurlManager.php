@@ -3,15 +3,18 @@
 namespace Swot\NetworkBundle\Services;
 
 
+use Swot\NetworkBundle\Entity\Thing;
 use Swot\NetworkBundle\Exception\ThingIsUnavailableException;
 use Swot\NetworkBundle\Exception\ThingSendFailureException;
+use League\Url\Url;
 
 class CurlManager {
 
 
     private $uploadDir;
+    private $apiInformationEndpoint;
 
-    public function __construct($kernelDir){
+    public function __construct($kernelDir, $apiInformationEndpoint){
         $this->uploadDir = $kernelDir . '/../web/uploads/profileimages/';
     }
 
@@ -106,6 +109,16 @@ class CurlManager {
         rename($fullPath, $this->uploadDir . $newName);
 
         return $newName;
+    }
+
+    public function getThingStatus(Thing $thing) {
+        $baseUrl = $thing->getBaseApiUrl();
+
+        $informationUrl = $baseUrl . $this->apiInformationEndpoint;
+        $formattedUrl = URL::createFromUrl($informationUrl);
+        $informationData = $this->getCurlResponse($formattedUrl->__toString(), false, $thing->getReadToken());
+
+        return $informationData;
     }
 
 }

@@ -19,7 +19,6 @@ use Swot\NetworkBundle\Services\Manager\ThingManager;
 use Swot\NetworkBundle\Services\ThingResponseConverter;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
-use League\Url\Url;
 
 /**
  * Class ThingRestController
@@ -175,12 +174,7 @@ class ThingRestController extends FOSRestController
 
         /** @var CurlManager $curlManager */
         $curlManager = $this->get('services.curl_manager');
-
-        $baseUrl = $thing->getBaseApiUrl();
-
-        $informationUrl = $baseUrl . $this->container->getParameter('thing.api.information');
-        $formattedUrl = URL::createFromUrl($informationUrl);
-        $informationData = $curlManager->getCurlResponse($formattedUrl->__toString(), false, $thing->getReadToken());
+        $informationData = $curlManager->getThingStatus($thing);
 
         //@TODO: correct escaping of $informationData?
         $thing->setInformation(trim(addslashes($informationData)));

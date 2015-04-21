@@ -85,4 +85,4 @@ services:
 
     services.curl_manager:
         class: Swot\NetworkBundle\Services\CurlManager
-        arguments: [%kernel.root_dir%]
+        arguments: [%kernel.root_dir%, %thing.api.information%]

@@ -411,8 +411,8 @@ class ThingController extends Controller
     private function getUrlFromQr($qr){
         /** @var QrReader $qrReader */
         $qrReader = $this->get('services.qr_reader');
-        $qrContent = json_decode($qrReader->readQrCode($qr->getPathname()));
-        $url = $qrContent->url;
+        $qrContent = $qrReader->readQrCode($qr->getPathname());
+        $url = $qrContent;
         return $url;
     }
 }

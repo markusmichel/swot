@@ -1,11 +1,9 @@
 # Todo:
 Netzwerk:
-- Geräte-Status Objekt berücksichtigen!!!
-- Exception handling
+- Exception handling korrekt?
 
 Gerät:
-- Exception handling
-- status zu information anpassen
+- Exception handling korrekt?
 
 Funktionen für's Gerät Prototypen:
 - Männchen bewegen

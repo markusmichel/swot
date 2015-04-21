@@ -155,8 +155,12 @@ class ThingController extends Controller
     public function showInformationAction(Thing $thing) {
         $this->assertAccessToThingGranted($thing, ThingVoter::ACCESS);
 
-        $information = $thing->getInformation();
-        $information = json_decode(ThingFixtures::$informationResponse);
+        //@TODO: only for development. Set to 1 to use real data.
+        $useFixture = 0;
+        if($useFixture == 1)
+            $information = $thing->getInformation();
+        else
+            $information = json_decode(ThingFixtures::$informationResponse);
 
         $information->information[3]->value = rand(0, 100);
         $information->information[1]->value = rand(0, 1) === 0 ? true : false;

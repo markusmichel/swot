@@ -15,6 +15,7 @@ use Swot\NetworkBundle\Entity\User;
 use Swot\NetworkBundle\Exception\ThingIsUnavailableException;
 use Swot\NetworkBundle\Services\CurlManager;
 use League\Url\Url;
+use Symfony\Component\Config\Definition\Exception\Exception;
 
 /**
  *
@@ -76,7 +77,12 @@ class ThingManager {
             $url = $thing->getBaseApiUrl() . $this->deregisterRoute;
             $formattedUrl = URL::createFromUrl($url);
 
-            $deregisterResponse = $this->curlManager->getCurlResponse($formattedUrl->__toString(), true, $thing->getOwnerToken());
+            try{
+                $deregisterResponse = $this->curlManager->getCurlResponse($formattedUrl->__toString(), true, $thing->getOwnerToken());
+            } catch (Exception $e){
+                throw new ThingIsUnavailableException("Unable to delete the selected Thing");
+            }
+
 
             if($deregisterResponse->statusCode != 200)
                 throw new ThingIsUnavailableException("Unable to delete the selected Thing");
@@ -124,6 +130,11 @@ class ThingManager {
             $url = "http://www.google.de";
         }
 
-        return $this->curlManager->getCurlResponse($url, true, $accessToken);
+
+        try{
+            return $this->curlManager->getCurlResponse($url, true, $accessToken);
+        }catch(Exception $e){
+            throw new ThingIsUnavailableException("Action could not be executed");
+        }
     }
 }

@@ -592,14 +592,15 @@ class Thing implements UserInterface
     }
 
     /**
-     * Set information
+     * Set information.
+     * Trims and removes newlines.
      *
      * @param string $information
      * @return Thing
      */
     public function setInformation($information)
     {
-        $this->information = $information;
+        $this->information = trim(preg_replace('/[\s]+/', ' ', $information));
 
         return $this;
     }

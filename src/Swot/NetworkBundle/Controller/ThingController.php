@@ -52,17 +52,8 @@ class ThingController extends Controller
 
         $deleteForm = $this->createDeleteForm($thing->getId());
         //@TODO: implement status handling
+        //@TODO: check if thingStatus is really used in the template
         $thingStatus = json_decode(ThingFixtures::$thingResponse);
-
-        $thing->setInformation(ThingFixtures::$informationResponse);
-        $information = $thing->getInformation();
-
-        // @todo: remove fixture data
-        $information = trim(ThingFixtures::$informationResponse);
-
-        // fix newlines. @todo: extract in model or curl manager
-        $information = trim(preg_replace('/[\s]+/', ' ', $information));
-        $thing->setInformation($information);
 
         $functionForms = $this->createActivateFunctionForms($thing);
 
@@ -158,15 +149,12 @@ class ThingController extends Controller
         $this->assertAccessToThingGranted($thing, ThingVoter::ACCESS);
 
         // check if real thing is used
-        if($this->container->getParameter('swot.development.mode') == 1)
-            $information = $thing->getInformation();
-        else
-            $information = json_decode(ThingFixtures::$informationResponse);
+        $information = $thing->getInformation();
 
-        $information->information[3]->value = rand(0, 100);
-        $information->information[1]->value = rand(0, 1) === 0 ? true : false;
-
-        return new JsonResponse($information);
+        $response = new Response();
+        $response->headers->set("Content-Type", "application/json");
+        $response->setContent($information);
+        return $response;
     }
 
     /**
@@ -269,9 +257,10 @@ class ThingController extends Controller
 
             $functionsData = null;
             $profileImage = null;
+            $information = "";
 
             // check if real thing is used
-            if($this->container->getParameter('swot.development.mode') == 1) {
+            if($this->container->getParameter('swot.development.mode') == 0) {
                 $url = $this->getUrlFromQr($qr);
 
                 /** @var CurlManager $curlManager */
@@ -300,11 +289,24 @@ class ThingController extends Controller
                     $functionsData = null;
                 }
 
+                try{
+                    $statusUrl = $thingInfo->device->url . $this->container->getParameter("thing.api.information");
+                    $formattedUrl = URL::createFromUrl($statusUrl);
+
+                    // @todo: validate information response
+                    // @todo: remove unsafe code (xss...)
+                    $information = $curlManager->getCurlResponse($formattedUrl->__toString(), false, $thingInfo->device->tokens->read_token);
+                } catch (Exception $e){
+                    $information = "";
+                }
+
 
             } else {
+                // Use fixture data in development mode
                 $res = json_decode(ThingFixtures::$thingResponse);
                 $thingInfo = $res;
                 $functionsData = $res->device;
+                $information = ThingFixtures::$informationResponse;
             }
 
             /** @var ThingResponseConverter $converter */
@@ -315,6 +317,7 @@ class ThingController extends Controller
 
             // Create thing from response
             $thing = $converter->convertThing($thingInfo, $profileImage, $accessToken);
+            $thing->setInformation($information);
 
             $ownership = $thingManager->createOwnership($thing, $user);
 

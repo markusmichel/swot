@@ -257,6 +257,7 @@ class ThingController extends Controller
 
             $functionsData = null;
             $profileImage = null;
+            $thingInfo = null;
             $information = "";
 
             // check if real thing is used
@@ -268,20 +269,21 @@ class ThingController extends Controller
 
                 $formattedUrl = URL::createFromUrl($url);
 
-                try{
+                try {
                     $thingInfo = $curlManager->getCurlResponse($formattedUrl->__toString(), true, "", $accessToken);
-                }catch (Exception $e){
+                } catch (Exception $e) {
                     throw new ThingIsUnavailableException("The thing was unavailable");
                 }
 
-                try{
+                try {
+                    // @todo: handle "Trying to get property of non-object"
                     $imageUrl = URL::createFromUrl($thingInfo->device->api->profileimage);
                     $profileImage = $curlManager->getCurlImageResponse($imageUrl->__toString(), $thingInfo->device->tokens->read_token);
-                }catch(Exception $e){
+                } catch(Exception $e) {
                     $profileImage = null;
                 }
 
-                try{
+                try {
                     $functionsUrl = $thingInfo->device->url . $this->container->getParameter("thing.api.functions");
                     $formattedFunctionsUrl = URL::createFromUrl($functionsUrl);
                     $functionsData = $curlManager->getCurlResponse($formattedFunctionsUrl->__toString(), true, $thingInfo->device->tokens->read_token);
@@ -296,7 +298,7 @@ class ThingController extends Controller
                     // @todo: validate information response
                     // @todo: remove unsafe code (xss...)
                     $information = $curlManager->getCurlResponse($formattedUrl->__toString(), false, $thingInfo->device->tokens->read_token);
-                } catch (Exception $e){
+                } catch (Exception $e) {
                     $information = "";
                 }
 

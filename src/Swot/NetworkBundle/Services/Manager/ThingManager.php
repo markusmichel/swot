@@ -82,10 +82,6 @@ class ThingManager {
             } catch (Exception $e){
                 throw new ThingIsUnavailableException("Unable to delete the selected Thing");
             }
-
-
-            if($deregisterResponse->statusCode != 200)
-                throw new ThingIsUnavailableException("Unable to delete the selected Thing");
         }
         $this->em->remove($thing);
         $this->em->flush();

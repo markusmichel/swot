@@ -231,8 +231,10 @@ button, .button {
 
 .thing-desc {
     font-style: italic;
-    padding-left: 40px;
-    margin: 0 0 30px 0;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 35px;
+    font-size: 20px;
 }
 
 .opac {

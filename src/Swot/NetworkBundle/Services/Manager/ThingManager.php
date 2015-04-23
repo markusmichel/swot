@@ -28,13 +28,13 @@ use Symfony\Component\Config\Definition\Exception\Exception;
 class ThingManager {
 
     /** @var EntityManager */
-    public $em;
+    private $em;
 
     /** @var CurlManager*/
-    public $curlManager;
+    private $curlManager;
 
-    public $deregisterRoute;
-    public $devMode;
+    private $deregisterRoute;
+    private $devMode;
 
     /**
      * @DI\InjectParams({
@@ -73,7 +73,7 @@ class ThingManager {
     public function remove(Thing $thing) {
 
         // check if real thing is used
-        if($this->devMode == 1){
+        if($this->devMode == 0){
             $url = $thing->getBaseApiUrl() . $this->deregisterRoute;
             $formattedUrl = URL::createFromUrl($url);
 
@@ -119,7 +119,7 @@ class ThingManager {
         }
 
         // check if real thing is used
-        if($this->devMode == 1)
+        if($this->devMode == 0)
         {
             $url = URL::createFromUrl($function->getUrl());
             $query = $url->getQuery();

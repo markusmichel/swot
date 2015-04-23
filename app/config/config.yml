@@ -86,4 +86,4 @@ parameters:
     thing.api.deregister:                   '/deregister'
     random.strangers.count:                 '10'
     random.publicthings.count:              '10'
-    swot.development.mode:                  '0'
+    swot.development.mode:                  1  # true => development mode = on = use fixture data ; false => use real data

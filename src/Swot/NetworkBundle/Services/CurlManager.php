@@ -16,6 +16,7 @@ class CurlManager {
 
     public function __construct($kernelDir, $apiInformationEndpoint){
         $this->uploadDir = $kernelDir . '/../web/uploads/profileimages/';
+        $this->apiInformationEndpoint = $apiInformationEndpoint;
     }
 
     /**

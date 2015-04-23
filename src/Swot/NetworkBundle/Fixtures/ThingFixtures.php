@@ -13,10 +13,9 @@ class ThingFixtures {
             "device": {
                 "name": "foothing",
                 "description": "lfjfdalfjjdflköjalkfdklfkl",
-                "classification": "sdf",
-                "url": "http://.....",
+                "profileimage": "http://....",
                 "api": {
-                    "profileimage": "http://...."
+                    "url": "http://.....",
                 },
                 "tokens": {
                     "owner_token": "293487239",
@@ -60,9 +59,9 @@ TAG;
                 "id": 42,
                 "name": "foothing",
                 "description": "lfjfdalfjjdflköjalkfdklfkl",
-                "accessType": "public",
-                "classification": "sdf",
-                "url": "http://.....",
+                "api": {
+                    "url": "http://.....",
+                },
                 "tokens": {
                     "owner_token": "293487239",
                     "write_token": "2305982304",

@@ -3,7 +3,7 @@ Netzwerk:
 - Exception handling korrekt?
 
 Netzwerk - Bugs: 
-- Exceptions allgemein, z.b. bei schon verwendetem Nuternamen
+- Exceptions allgemein, z.b. bei schon verwendetem Nutzernamen
 
 Gerät:
 - Exception handling korrekt?

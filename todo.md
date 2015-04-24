@@ -2,9 +2,11 @@
 Netzwerk:
 - Exception handling korrekt?
 
-Netzwerk - Bugs: 
+Bugs: 
 - Exceptions allgemein, z.b. bei schon verwendetem Nutzernamen
 - Nutzerprofilbild 
+- Konversationen sind sichtbar, auch wenn Nutzer keine geführt hat
+- Konversationen doppelt
 
 Gerät:
 - Exception handling korrekt?

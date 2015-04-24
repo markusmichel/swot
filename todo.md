@@ -4,6 +4,7 @@ Netzwerk:
 
 Netzwerk - Bugs: 
 - Exceptions allgemein, z.b. bei schon verwendetem Nutzernamen
+- Nutzerprofilbild 
 
 Gerät:
 - Exception handling korrekt?

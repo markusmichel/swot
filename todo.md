@@ -6,5 +6,8 @@ Bugs:
 - Konversationen doppelt
 - Exception handling korrekt?
 
+Features:
+- function not available
+
 Für Abgabe:
 - Skelett-Prototyp erstellen 

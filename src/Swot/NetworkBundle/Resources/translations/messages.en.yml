@@ -45,7 +45,7 @@ thing:
     load_qr:                  Load QR-Code
 
 settings:
-    page_title:               Settings
+    page_title:               Account
 
     access_type:
         private:              private

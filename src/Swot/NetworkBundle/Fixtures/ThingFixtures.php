@@ -15,7 +15,7 @@ class ThingFixtures {
                 "description": "lfjfdalfjjdflköjalkfdklfkl",
                 "profileimage": "http://....",
                 "api": {
-                    "url": "http://.....",
+                    "url": "http://....."
                 },
                 "tokens": {
                     "owner_token": "293487239",
@@ -59,8 +59,9 @@ TAG;
                 "id": 42,
                 "name": "foothing",
                 "description": "lfjfdalfjjdflköjalkfdklfkl",
+                "profileimage": "http://....",
                 "api": {
-                    "url": "http://.....",
+                    "url": "http://....."
                 },
                 "tokens": {
                     "owner_token": "293487239",

@@ -3,7 +3,7 @@ Netzwerk:
 - Exception handling korrekt?
 
 Netzwerk - Bugs: 
-- Registerbutton nach erstmaligen nutzen nicht weiter verwendbar
+- Exceptions allgemein, z.b. bei schon verwendetem Nuternamen
 
 Gerät:
 - Exception handling korrekt?

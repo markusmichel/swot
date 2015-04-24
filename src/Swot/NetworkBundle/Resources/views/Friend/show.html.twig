@@ -45,7 +45,7 @@
             {% if user.gender == "m" %}<div class="gender-m">{% endif %}
             {% if user.gender == "f" %}<div class="gender-f">{% endif %}
             {{ user.firstname }} {{ user.lastname }}</div>
-            <div class="birthdate">{{ user.birthdate.date }}</div>
+            <div class="birthdate">{{ user.birthdate.date|date('Y-m-d') }}</div>
             <div class="access">{{ user.accessLevel }}</div>
         </div>
 

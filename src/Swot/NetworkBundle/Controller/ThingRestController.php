@@ -11,6 +11,7 @@ use FOS\RestBundle\Controller\Annotations\RequestParam;
 use FOS\RestBundle\Controller\FOSRestController;
 use FOS\RestBundle\Request\ParamFetcher;
 use FOS\RestBundle\View\View;
+use League\Url\Url;
 use Swot\FormMapperBundle\Entity\Action;
 use Swot\NetworkBundle\Entity\Thing;
 use Swot\NetworkBundle\Entity\ThingStatusUpdate;
@@ -264,7 +265,7 @@ class ThingRestController extends FOSRestController
         /** @var CurlManager $curlManager */
         $curlManager = $this->get('services.curl_manager');
 
-        $formattedUrl = URL::createFromUrl($imageUrl);
+        $formattedUrl = Url::createFromUrl($imageUrl);
         $profileImage = $curlManager->getCurlImageResponse($formattedUrl->__toString(), $thing->getReadToken());
 
         $thing->setProfileImage($profileImage);

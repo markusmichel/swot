@@ -1,0 +1,273 @@
+define({ "api": [
+  {
+    "description": "<p>Receives a message from a thing. Saves it to the thing&#39;s message list. Message parameter should be appended to the POST body.</p> ",
+    "type": "post",
+    "url": "/api/v1/thing/messages",
+    "title": "POST a message / status update to the thing's newsfeed",
+    "group": "ThingRestController",
+    "name": "PostMessage",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "message",
+            "description": "<p>A field in the sent request. It contains the message to be saved. Is needed.</p> "
+          }
+        ]
+      }
+    },
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "curl --header \"accesstoken: 12345\" --data \"message=mymessage\" -i http://localhost/api/v1/thing/messages",
+        "type": "curl"
+      }
+    ],
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "accesstoken",
+            "description": "<p>The thing&#39;s network access token. Used for athentication.</p> "
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example:",
+          "content": "{\n  \"accesstoken\": \"12345\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Response",
+            "optional": false,
+            "field": "response",
+            "description": "<p>The response to be sent. Contains the 200 response code and a short message.</p> "
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n  \"code\": \"200\",\n  \"message\": \"Message updated\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.1.0",
+    "filename": "src/Swot/NetworkBundle/Controller/ThingRestController.php",
+    "groupTitle": "ThingRestController"
+  },
+  {
+    "type": "post",
+    "url": "/api/v1/thing/functions/update",
+    "title": "Update thing-functions notification.",
+    "group": "ThingRestController",
+    "name": "PostThingFunctionsUpdate",
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Response",
+            "optional": false,
+            "field": "response",
+            "description": "<p>Contains the 200 response code and a short message.</p> "
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n  \"code\": \"200\",\n  \"message\": \"Functions updated\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "description": "<p>Receives an update notification from the thing and updates the saved functions with the current ones. To get the updated data, a cURL call to the thing is made.</p> ",
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "curl --header \"accesstoken: 12345\" -i http://localhost/api/v1/thing/functions/update",
+        "type": "curl"
+      }
+    ],
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "accesstoken",
+            "description": "<p>The thing&#39;s network access token. Used for athentication.</p> "
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example:",
+          "content": "{\n  \"accesstoken\": \"12345\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "version": "0.1.0",
+    "filename": "src/Swot/NetworkBundle/Controller/ThingRestController.php",
+    "groupTitle": "ThingRestController"
+  },
+  {
+    "type": "post",
+    "url": "/api/v1/thing/information/update",
+    "title": "Update thing-information notification.",
+    "group": "ThingRestController",
+    "name": "PostThingInformationUpdate",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "RequestParameter",
+            "optional": false,
+            "field": "information",
+            "description": "<p>A field in the sent request.</p> "
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Response",
+            "optional": false,
+            "field": "response",
+            "description": "<p>The response to be sent. Contains the 200 response code and a short message.</p> "
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n  \"code\": \"200\",\n  \"message\": \"Information updated\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "description": "<p>Receives an update notification from the thing and updates the saved information with the current ones. To get the updated data, a cURL call to the thing is made.</p> ",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "accesstoken",
+            "description": "<p>The thing&#39;s network access token. Used for athentication.</p> "
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example:",
+          "content": "{\n  \"accesstoken\": \"12345\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "curl --header \"accesstoken: 12345\" -i http://localhost/api/v1/thing/information/update",
+        "type": "curl"
+      }
+    ],
+    "version": "0.1.0",
+    "filename": "src/Swot/NetworkBundle/Controller/ThingRestController.php",
+    "groupTitle": "ThingRestController"
+  },
+  {
+    "type": "post",
+    "url": "/api/v1/thing/profileimage/update",
+    "title": "Update thing profile image notification.",
+    "group": "ThingRestController",
+    "name": "PostThingProfileImageUpdate",
+    "parameter": {
+      "fields": {
+        "Parameter": [
+          {
+            "group": "Parameter",
+            "type": "String",
+            "optional": false,
+            "field": "profileimage",
+            "description": "<p>Contains the url for the new profile image.</p> "
+          }
+        ]
+      }
+    },
+    "success": {
+      "fields": {
+        "Success 200": [
+          {
+            "group": "Success 200",
+            "type": "Response",
+            "optional": false,
+            "field": "response",
+            "description": "<p>Contains the 200 response code and a short message.</p> "
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Success-Response:",
+          "content": "HTTP/1.1 200 OK\n{\n  \"code\": \"200\",\n  \"message\": \"ProfileImage updated\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "description": "<p>Receives an update notification from the thing and updates the saved profile image with the current one. To get the updated image, a cURL call to the thing is made.</p> ",
+    "header": {
+      "fields": {
+        "Header": [
+          {
+            "group": "Header",
+            "type": "String",
+            "optional": false,
+            "field": "accesstoken",
+            "description": "<p>The thing&#39;s network access token. Used for athentication.</p> "
+          }
+        ]
+      },
+      "examples": [
+        {
+          "title": "Header-Example:",
+          "content": "{\n  \"accesstoken\": \"12345\"\n}",
+          "type": "json"
+        }
+      ]
+    },
+    "examples": [
+      {
+        "title": "Example usage:",
+        "content": "curl --header \"accesstoken: 12345\" --data \"profileimage=UrlToUpdatedProfIleimage\" -i http://localhost/api/v1/thing/profileimage/update",
+        "type": "curl"
+      }
+    ],
+    "version": "0.1.0",
+    "filename": "src/Swot/NetworkBundle/Controller/ThingRestController.php",
+    "groupTitle": "ThingRestController"
+  }
+] });

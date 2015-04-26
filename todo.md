@@ -1,17 +1,15 @@
 # Todo:
-Netzwerk:
+Bugs: 
+- Exceptions allgemein, z.b. bei schon verwendetem Nutzernamen
+- Nutzerprofilbild 
+- Konversationen sind sichtbar, auch wenn Nutzer keine geführt hat
+- Konversationen doppelt
 - Exception handling korrekt?
+- Sichtbarkeit restricted things und freunde
+- sticky navigation
 
-Netzwerk - Bugs: 
-- Registerbutton nach erstmaligen nutzen nicht weiter verwendbar
-
-Gerät:
-- Exception handling korrekt?
-
-Funktionen für's Gerät Prototypen:
-- Männchen bewegen
-- Kaffee kochen simulieren
-- Bushaltestelle
+Features:
+- function not available
 
 Für Abgabe:
 - Skelett-Prototyp erstellen 

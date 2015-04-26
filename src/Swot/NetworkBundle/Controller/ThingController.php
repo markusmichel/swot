@@ -277,14 +277,14 @@ class ThingController extends Controller
 
                 try {
                     // @todo: handle "Trying to get property of non-object"
-                    $imageUrl = URL::createFromUrl($thingInfo->device->api->profileimage);
+                    $imageUrl = URL::createFromUrl($thingInfo->device->profileimage);
                     $profileImage = $curlManager->getCurlImageResponse($imageUrl->__toString(), $thingInfo->device->tokens->read_token);
                 } catch(Exception $e) {
                     $profileImage = null;
                 }
 
                 try {
-                    $functionsUrl = $thingInfo->device->url . $this->container->getParameter("thing.api.functions");
+                    $functionsUrl = $thingInfo->device->api->url . $this->container->getParameter("thing.api.functions");
                     $formattedFunctionsUrl = URL::createFromUrl($functionsUrl);
                     $functionsData = $curlManager->getCurlResponse($formattedFunctionsUrl->__toString(), true, $thingInfo->device->tokens->read_token);
                 } catch (Exception $e){
@@ -292,7 +292,7 @@ class ThingController extends Controller
                 }
 
                 try{
-                    $statusUrl = $thingInfo->device->url . $this->container->getParameter("thing.api.information");
+                    $statusUrl = $thingInfo->device->api->url . $this->container->getParameter("thing.api.information");
                     $formattedUrl = URL::createFromUrl($statusUrl);
 
                     // @todo: validate information response

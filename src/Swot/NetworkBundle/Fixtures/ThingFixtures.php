@@ -11,14 +11,11 @@ class ThingFixtures {
     public static $registerThingResponse = <<<Tag
         {
             "device": {
-                "id": 12345,
-                "classification": "sdf",
-                "url": "http://.....",
+                "name": "foothing",
+                "description": "lfjfdalfjjdflköjalkfdklfkl",
+                "profileimage": "http://....",
                 "api": {
-                    "deregister": "http://.....",
-                    "function": "http://....",
-                    "information": "http://....",
-                    "profileimage": "http://...."
+                    "url": "http://....."
                 },
                 "tokens": {
                     "owner_token": "293487239",
@@ -59,9 +56,13 @@ TAG;
     public static $thingResponse = <<<TAG
         {
             "device": {
-                "id": 12345,
-                "classification": "sdf",
-                "url": "http://.....",
+                "id": 42,
+                "name": "foothing",
+                "description": "lfjfdalfjjdflköjalkfdklfkl",
+                "profileimage": "http://....",
+                "api": {
+                    "url": "http://....."
+                },
                 "tokens": {
                     "owner_token": "293487239",
                     "write_token": "2305982304",

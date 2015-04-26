@@ -23,9 +23,10 @@ class ThingResponseConverter {
         $thing = new Thing();
         $encodedToken = $this->encoder->encodePassword($thing, $accessToken);
 
-        $thing->setName($thingInfo->device->id);
+        $thing->setName($thingInfo->device->name);
+        $thing->setDescription($thingInfo->device->description);
         $thing->setNetworkAccessToken($encodedToken);
-        $thing->setBaseApiUrl($thingInfo->device->url);
+        $thing->setBaseApiUrl($thingInfo->device->api->url);
         $thing->setOwnerToken($thingInfo->device->tokens->owner_token);
         $thing->setReadToken($thingInfo->device->tokens->read_token);
         $thing->setWriteToken($thingInfo->device->tokens->write_token);

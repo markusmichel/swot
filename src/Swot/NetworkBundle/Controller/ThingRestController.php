@@ -206,8 +206,7 @@ class ThingRestController extends FOSRestController
         $curlManager = $this->get('services.curl_manager');
         $informationData = $curlManager->getThingStatus($thing);
 
-        //@TODO: correct escaping of $informationData?
-        $thing->setInformation(trim(addslashes($informationData)));
+        $thing->setInformation($informationData);
 
         /** @var EntityManager $manager */
         $manager = $this->getDoctrine()->getManager();

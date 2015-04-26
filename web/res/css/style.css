@@ -24,12 +24,12 @@ h1 {
 
 h2 {
     font-family: 'Slabo 27px', serif;
-    margin: 25px 28px 25px 71px;
+    margin: 25px 0 25px 0;
     text-transform: uppercase;
     font-size: 23px;
     background: transparent url("../gfx/secondary-bg.png") repeat-x center center;
     color: #000;
-    padding-left: 20px;
+    padding-left: 71px;
     padding-top: 1px;
     padding-bottom: 1px;
     border-radius: 3px;
@@ -231,8 +231,10 @@ button, .button {
 
 .thing-desc {
     font-style: italic;
-    padding-left: 40px;
-    margin: 0 0 30px 0;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 35px;
+    font-size: 20px;
 }
 
 .opac {

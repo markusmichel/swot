@@ -38,23 +38,30 @@ class ThingRestController extends FOSRestController
     /**
      * /api/v1/thing/messages
      *
-     * Receives a message from a thing.
-     * Saves it to the thing's message list.
-     *
-     * Requires:
-     *      - message: Message to send
-     *
      * @RequestParam(name="message", requirements=".+", strict=true, allowBlank=false, description="Message to post")
      *
      * @param ParamFetcher $fetcher
      * @return Response
      *
-     * @api {post} /api/v1/thing/messages Message receive route.
+     * @apiDescription 
+     * Receives a message from a thing. Saves it to the thing's message list.
+     * Message parameter should be appended to the POST body.
+     * 
+     * @api {post} /api/v1/thing/messages POST a message / status update to the thing's newsfeed
      * @apiGroup ThingRestController
      * @apiName PostMessage
-     * @apiParam {RequestParameter} message A field in the sent request. It contains the message to be saved. Is needed.
+     * @apiParam {String} message A field in the sent request. It contains the message to be saved. Is needed.
+     *
+     * @apiExample {curl} Example usage:
+     *     curl --header "accesstoken: 12345" --data "message=mymessage" -i http://localhost/api/v1/thing/messages
+     *
+     * @apiHeader {String} accesstoken The thing's network access token. Used for athentication.
+     * @apiHeaderExample {json} Header-Example:
+     *     {
+     *       "accesstoken": "12345"
+     *     }
+     * 
      * @apiSuccess {Response} response The response to be sent. Contains the 200 response code and a short message.
-     * @apiDescription Receives a message from a thing. Saves it to the thing's message list.
      * @apiSuccessExample {json} Success-Response:
      *     HTTP/1.1 200 OK
      *     {
@@ -94,9 +101,21 @@ class ThingRestController extends FOSRestController
      * @api {post} /api/v1/thing/functions/update Update thing-functions notification.
      * @apiGroup ThingRestController
      * @apiName PostThingFunctionsUpdate
-     * @apiSuccess {Response} response The response to be sent. Contains the 200 response code and a short message.
-     * @apiDescription Receives an update notification from the thing and updates the saved functions with the current ones.
+     * @apiSuccess {Response} response Contains the 200 response code and a short message.
+     * 
+     * @apiDescription 
+     * Receives an update notification from the thing and updates the saved functions with the current ones.
      * To get the updated data, a cURL call to the thing is made.
+     *
+     * @apiExample {curl} Example usage:
+     *     curl --header "accesstoken: 12345" -i http://localhost/api/v1/thing/functions/update
+     *
+     * @apiHeader {String} accesstoken The thing's network access token. Used for athentication.
+     * @apiHeaderExample {json} Header-Example:
+     *     {
+     *       "accesstoken": "12345"
+     *     }
+     * 
      * @apiSuccessExample {json} Success-Response:
      *     HTTP/1.1 200 OK
      *     {
@@ -158,8 +177,19 @@ class ThingRestController extends FOSRestController
      * @apiName PostThingInformationUpdate
      * @apiParam {RequestParameter} information A field in the sent request.
      * @apiSuccess {Response} response The response to be sent. Contains the 200 response code and a short message.
-     * @apiDescription Receives an update notification from the thing and updates the saved information with the current ones.
+     * @apiDescription 
+     * Receives an update notification from the thing and updates the saved information with the current ones.
      * To get the updated data, a cURL call to the thing is made.
+     *
+     * @apiHeader {String} accesstoken The thing's network access token. Used for athentication.
+     * @apiHeaderExample {json} Header-Example:
+     *     {
+     *       "accesstoken": "12345"
+     *     }
+     *
+     * @apiExample {curl} Example usage:
+     *     curl --header "accesstoken: 12345" -i http://localhost/api/v1/thing/information/update
+     * 
      * @apiSuccessExample {json} Success-Response:
      *     HTTP/1.1 200 OK
      *     {
@@ -203,10 +233,21 @@ class ThingRestController extends FOSRestController
      * @api {post} /api/v1/thing/profileimage/update Update thing profile image notification.
      * @apiGroup ThingRestController
      * @apiName PostThingProfileImageUpdate
-     * @apiParam {RequestParameter} profileimage A field in the sent request. It contains the url for the new profile image. Is needed.
-     * @apiSuccess {Response} response The response to be sent. The response to be sent. Contains the 200 response code and a short message.
-     * @apiDescription Receives an update notification from the thing and updates the saved profile image with the current one.
+     * @apiParam {String} profileimage Contains the url for the new profile image.
+     * @apiSuccess {Response} response Contains the 200 response code and a short message.
+     * @apiDescription 
+     * Receives an update notification from the thing and updates the saved profile image with the current one.
      * To get the updated image, a cURL call to the thing is made.
+     *
+     * @apiHeader {String} accesstoken The thing's network access token. Used for athentication.
+     * @apiHeaderExample {json} Header-Example:
+     *     {
+     *       "accesstoken": "12345"
+     *     }
+     *
+     * @apiExample {curl} Example usage:
+     *     curl --header "accesstoken: 12345" --data "profileimage=UrlToUpdatedProfIleimage" -i http://localhost/api/v1/thing/profileimage/update
+     * 
      * @apiSuccessExample {json} Success-Response:
      *     HTTP/1.1 200 OK
      *     {

@@ -52,3 +52,6 @@ app/check.php
 /web/config.php
 app/SymfonyRequirements.php
 *.php~
+
+
+/doc/swot-minimum/node_modules/

@@ -13,3 +13,4 @@ Features:
 
 Für Abgabe:
 - Skelett-Prototyp erstellen 
+- constrains überprüfen

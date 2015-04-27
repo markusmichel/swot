@@ -33,6 +33,9 @@ use Symfony\Component\Security\Core\Exception\AccessDeniedException;
  * @IgnoreAnnotation("apiDescription")
  * @IgnoreAnnotation("apiSuccessExample")
  * @IgnoreAnnotation("apiVersion")
+ * @IgnoreAnnotation("apiExample")
+ * @IgnoreAnnotation("apiHeader")
+ * @IgnoreAnnotation("apiHeaderExample")
  */
 class ThingRestController extends FOSRestController
 {

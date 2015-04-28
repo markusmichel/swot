@@ -15,3 +15,4 @@ Für Abgabe:
 - Skelett-Prototyp erstellen 
 - constrains überprüfen
 - nodemon aus den prototypen löschen
+- syntax bilder als gültige json datei mit syntaxhighlights

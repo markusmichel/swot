@@ -1,0 +1,6 @@
+{
+  "name": "SWOTY Thing REST API",
+  "version": "1.0",
+  "description": "Documentation of the SWOTY Thing REST API. Used for communication between a thing and the network.",
+  "title": "REST API documentation for SWOTY"
+}

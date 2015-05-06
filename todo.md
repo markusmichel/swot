@@ -6,7 +6,6 @@ Bugs:
 - Konversationen doppelt
 - Exception handling korrekt?
 - Sichtbarkeit restricted things und freunde
-- sticky navigation
 
 Features:
 - function not available

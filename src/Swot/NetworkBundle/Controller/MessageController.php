@@ -21,7 +21,7 @@ class MessageController extends Controller
 {
 
     /**
-     * Lists all vonversations of the current user.
+     * Lists all conversations of the current user.
      * @return Response
      */
     public function conversationsAction() {

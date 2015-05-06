@@ -9,11 +9,9 @@
                     </div>
                 </a>
             </div>
-            <div class="flex-center conversations-content">
-                <a href="{{ path('conversation', {id: conversation.id}) }}">
-                    {{ partner.username }}
-                </a>
-            </div>
+            <a class="flex-center conversations-content" href="{{ path('conversation', {id: conversation.id}) }}">
+                {{ partner.username }}
+            </a>
             <div class="flex-right conversations-date">
                 <div class="meta-info">from:
                     <span class="message-sent" data-timestamp="{{ conversation.updated|date('U') }}"></span>

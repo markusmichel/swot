@@ -21,11 +21,13 @@ class ConversationRepository extends EntityRepository
     public function findUsersConversations(User $user) {
         $query = $this->getEntityManager()->createQuery('
             SELECT c
-            FROM SwotNetworkBundle:Conversation c
-            JOIN SwotNetworkBundle:User u
+            FROM SwotNetworkBundle:User u
+            JOIN SwotNetworkBundle:Conversation c
             WHERE u = :user
+            AND c MEMBER OF u.conversations
             ORDER BY c.updated DESC
-        ')->setParameter('user', $user);
+        ')
+            ->setParameter('user', $user);
 
         /** @var Conversation $conversation */
         $conversation = $query->getResult();

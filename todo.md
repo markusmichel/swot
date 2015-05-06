@@ -1,8 +1,6 @@
 # Todo:
 Bugs: 
 - Exceptions allgemein, z.b. bei schon verwendetem Nutzernamen
-- Konversationen sind sichtbar, auch wenn Nutzer keine geführt hat
-- Konversationen doppelt
 - Exception handling korrekt?
 - Sichtbarkeit restricted things und freunde
 

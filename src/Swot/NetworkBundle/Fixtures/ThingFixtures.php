@@ -13,9 +13,9 @@ class ThingFixtures {
             "device": {
                 "name": "foothing",
                 "description": "lfjfdalfjjdflköjalkfdklfkl",
-                "profileimage": "http://....",
+                "profileimage": "http://www.example.com",
                 "api": {
-                    "url": "http://....."
+                    "url": "http://www.example.com"
                 },
                 "tokens": {
                     "owner_token": "293487239",
@@ -34,7 +34,7 @@ Tag;
 		"message":					"Temperature was set to 10 degrees",
 
 		"request": {
-			"requestedUrl": 		"http://.....",
+			"requestedUrl": 		"http://www.example.com",
 			"functionName": 		"Name-A",
 			"params": [
 				{
@@ -59,9 +59,9 @@ TAG;
                 "id": 42,
                 "name": "foothing",
                 "description": "lfjfdalfjjdflköjalkfdklfkl",
-                "profileimage": "http://....",
+                "profileimage": "http://www.example.com",
                 "api": {
-                    "url": "http://....."
+                    "url": "http://www.example.com"
                 },
                 "tokens": {
                     "owner_token": "293487239",

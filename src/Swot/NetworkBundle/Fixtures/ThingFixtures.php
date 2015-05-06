@@ -136,23 +136,44 @@ TAG;
                         "available": true,
                         "parameters": [
                             {
-                                "name": "Param-2A",
-                                "type": "text",
-                                "required": true,
-                                "constraints": [
-                                    {
-                                        "type": "Locale",
-                                        "message": "Param 2A must be a locale"
-                                    }
-                                ],
-                                "defaultValue": "hallo"
+                                "name": "Language example",
+                                "type": "Language",
+                                "required": true
                             },
                             {
-                                "name": "Param-2B",
-                                "type": "integer",
-                                "required": false,
-                                "readOnly": true,
-                                "defaultValue": 20
+                                "name": "Country example",
+                                "type": "Country",
+                                "required": false
+                            },
+                            {
+                                "name": "Locale example",
+                                "type": "Locale",
+                                "required": false
+                            },
+                            {
+                                "name": "Date example",
+                                "type": "Date",
+                                "required": false
+                            },
+                            {
+                                "name": "DateTime example",
+                                "type": "DateTime",
+                                "required": false
+                            },
+                            {
+                                "name": "Password example",
+                                "type": "Password",
+                                "required": false
+                            },
+                            {
+                                "name": "Timezone example",
+                                "type": "Timezone",
+                                "required": false
+                            },
+                            {
+                                "name": "Currency example",
+                                "type": "Currency",
+                                "required": false
                             }
                         ]
                     }

@@ -18,7 +18,6 @@ use Swot\NetworkBundle\Services\Manager\ThingManager;
 use Swot\NetworkBundle\Services\QrReader;
 use Swot\NetworkBundle\Services\ThingResponseConverter;
 use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Symfony\Component\Config\Definition\Exception\Exception;
 use Symfony\Component\Form\Form;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\JsonResponse;
@@ -271,7 +270,7 @@ class ThingController extends Controller
 
                 try {
                     $thingInfo = $curlManager->getCurlResponse($formattedUrl->__toString(), true, "", $accessToken);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     throw new ThingIsUnavailableException("The thing was unavailable");
                 }
 
@@ -279,7 +278,7 @@ class ThingController extends Controller
                     // @todo: handle "Trying to get property of non-object"
                     $imageUrl = URL::createFromUrl($thingInfo->device->profileimage);
                     $profileImage = $curlManager->getCurlImageResponse($imageUrl->__toString(), $thingInfo->device->tokens->read_token);
-                } catch(Exception $e) {
+                } catch(\Exception $e) {
                     $profileImage = null;
                 }
 
@@ -287,7 +286,7 @@ class ThingController extends Controller
                     $functionsUrl = $thingInfo->device->api->url . $this->container->getParameter("thing.api.functions");
                     $formattedFunctionsUrl = URL::createFromUrl($functionsUrl);
                     $functionsData = $curlManager->getCurlResponse($formattedFunctionsUrl->__toString(), true, $thingInfo->device->tokens->read_token);
-                } catch (Exception $e){
+                } catch (\Exception $e){
                     $functionsData = null;
                 }
 
@@ -298,7 +297,7 @@ class ThingController extends Controller
                     // @todo: validate information response
                     // @todo: remove unsafe code (xss...)
                     $information = $curlManager->getCurlResponse($formattedUrl->__toString(), false, $thingInfo->device->tokens->read_token);
-                } catch (Exception $e) {
+                } catch (\Exception $e) {
                     $information = "";
                 }
 

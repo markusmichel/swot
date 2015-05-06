@@ -52,7 +52,7 @@
         {# Show the users things if allowed #}
         {% if user != app.user %}
             <h2 id="thingsHeadline">{{ user.username }}'s {% trans %}user.thing.friend_title{% endtrans %}</h2>
-            <h2 id="noThingsHeadline">{{ user.username }} {% trans %}user.thing.friend_no_things{% endtrans %}</h2>
+            <h2 id="noThingsHeadline">{% trans %}user.thing.friend_no_things{% endtrans %}</h2>
         {% endif %}
         {% if user.ownerships|length > 0 %}
             <div class="hex-list small" id="thinglist">

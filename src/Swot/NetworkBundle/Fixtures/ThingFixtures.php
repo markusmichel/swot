@@ -11,8 +11,8 @@ class ThingFixtures {
     public static $registerThingResponse = <<<Tag
         {
             "device": {
-                "name": "foothing",
-                "description": "lfjfdalfjjdflköjalkfdklfkl",
+                "name": "FooThing",
+                "description": "This is only a example thing.",
                 "profileimage": "http://www.example.com",
                 "api": {
                     "url": "http://www.example.com"
@@ -57,8 +57,8 @@ TAG;
         {
             "device": {
                 "id": 42,
-                "name": "foothing",
-                "description": "lfjfdalfjjdflköjalkfdklfkl",
+                "name": "FooThing",
+                "description": "This is only a example thing",
                 "profileimage": "http://www.example.com",
                 "api": {
                     "url": "http://www.example.com"

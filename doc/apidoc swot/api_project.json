@@ -1,12 +1,13 @@
 {
-  "name": "",
-  "version": "0.0.0",
-  "description": "",
+  "name": "SWOTY Thing REST API",
+  "version": "1.0",
+  "description": "Documentation of the SWOTY Thing REST API. Used for communication between a thing and the network.",
+  "title": "REST API documentation for SWOTY",
   "sampleUrl": false,
   "apidoc": "0.2.0",
   "generator": {
     "name": "apidoc",
-    "time": "2015-04-26T20:11:32.390Z",
+    "time": "2015-05-06T13:26:01.825Z",
     "url": "http://apidocjs.com",
     "version": "0.12.3"
   }

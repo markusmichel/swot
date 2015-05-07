@@ -30,8 +30,8 @@ class ThingResponseConverter {
 
             if (property_exists($thingInfo->device, 'tokens')) {
                 if (property_exists($thingInfo->device->tokens, 'owner_token')) $thing->setOwnerToken($thingInfo->device->tokens->owner_token);
-                if (property_exists($thingInfo->device->tokens, 'read_token')) $thing->setOwnerToken($thingInfo->device->tokens->read_token);
-                if (property_exists($thingInfo->device->tokens, 'write_token')) $thing->setOwnerToken($thingInfo->device->tokens->write_token);
+                if (property_exists($thingInfo->device->tokens, 'read_token')) $thing->setReadToken($thingInfo->device->tokens->read_token);
+                if (property_exists($thingInfo->device->tokens, 'write_token')) $thing->setWriteToken($thingInfo->device->tokens->write_token);
             }
         } else {
             //exception missing

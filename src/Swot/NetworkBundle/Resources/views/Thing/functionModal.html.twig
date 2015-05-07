@@ -3,7 +3,11 @@
     <li>
         {#<form action="{{ path('thing_activate_function', {id: thing.id, functionId: function.id}) }}" method="post" novalidate="novalidate" name="{{ function.id }}">#}
         <form action="{{ path('thing_show', {id: thing.id}) }}" method="post" novalidate="novalidate" name="{{ function.id }}">
-            {{ form_widget(functionForm.createView()) }}
+
+            {% set form = functionForm.createView() %}
+            {% form_theme form 'SwotNetworkBundle:Form:form_div_layout.html.twig' %}
+
+            {{ form_widget(form) }}
 
             <input type="hidden" name="_fid" value="{{ function.id }}"/>
 

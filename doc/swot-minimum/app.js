@@ -1,6 +1,16 @@
 var express = require('express');
 var app = express();
 
+
+/**
+ * @apiDefine notAuthorized
+ * @apiErrorExample {json} Error-Response: not authorized
+ *     HTTP/1.1 401 OK
+ *     {
+ *       "message": "Access Token not valid"
+ *     }
+ */
+
 /**
  * @apiDescription
  * The route is used to register this thing in SWOTY. The URL .../register is just convention, the real URL is provided by the QR Code of this thing
@@ -52,6 +62,13 @@ var app = express();
  *           }
  *       }
  *   }
+ *
+ *  @apiUse notAuthorized
+ *  @apiErrorExample {json} Error-Response: device already registered
+ *     HTTP/1.1 423 OK
+ *     {
+ *       "message": "Device already registered"
+ *     }
  */
 app.get('/register', function (req, res) {
   res.json({
@@ -98,6 +115,8 @@ app.get('/register', function (req, res) {
  *     {
  *       "message" : "Device deregistered."
  *     }
+ *
+ * @apiUse notAuthorized
  */
 app.get('/deregister', function (req, res) {
   res.json({
@@ -278,6 +297,8 @@ app.get('/deregister', function (req, res) {
  *	        ]
  *		}]
  *	}
+ *
+ * @apiUse notAuthorized
  */
 app.get('/functions', function (req, res) {
   res.json({});
@@ -312,6 +333,8 @@ app.get('/functions', function (req, res) {
  *     {
  *       "message" : "Function activated."
  *     }
+ *
+ * @apiUse notAuthorized
  */
 app.post('/functions/activateexamplefunction', function (req, res) {
   res.json({});
@@ -475,6 +498,8 @@ app.post('/functions/activateexamplefunction', function (req, res) {
  *           }
  *          ]
  *        }
+ *
+ * @apiUse notAuthorized
  */
 app.get('/information', function (req, res) {
   res.json({});

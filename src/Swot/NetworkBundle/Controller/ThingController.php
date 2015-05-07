@@ -335,16 +335,6 @@ class ThingController extends Controller
                 }
             }
 
-            // Use real data or fixture data
-            $thingStatus = "";
-            if($this->container->getParameter('swot.development.mode') == 0) {
-                $thingStatus = $curlManager->getThingStatus($thing);
-            } else {
-                $thingStatus = ThingFixtures::$informationResponse;
-            }
-
-            $thing->setInformation($thingStatus);
-
             $manager = $this->getDoctrine()->getManager();
             $manager->persist($ownership);
             $manager->persist($user);

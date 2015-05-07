@@ -8,7 +8,7 @@
 
 {% block body %}
 
-    <form action="{{ path('new_message') }}" method="post" {{ form_enctype(newMessageForm) }} novalidate="novalidate">
+    <form action="{{ path('new_message') }}" method="post" {{ form_enctype(newMessageForm) }}>
         {{ form_widget(newMessageForm) }}
 
         <button type="submit">

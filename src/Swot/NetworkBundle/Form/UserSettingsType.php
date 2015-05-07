@@ -21,7 +21,7 @@ class UserSettingsType extends AbstractType
             ->add('firstName')
             ->add('lastName')
             ->add('username')
-            ->add('birthdate')
+            ->add('birthdate', 'birthday')
             ->add('gender', 'choice', array(
                 'choices' => array(
                     'm' => 'male',

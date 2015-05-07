@@ -50,7 +50,7 @@ class Thing implements UserInterface
      * Used to access thing functions/information.
      * Only owner of the thing may use this token.
      *
-     * @ORM\Column(name="owner_token", type="string", length=255)
+     * @ORM\Column(name="owner_token", type="string", length=255, nullable=true)
      */
     private $ownerToken;
 
@@ -58,7 +58,7 @@ class Thing implements UserInterface
      * Used to access thing functions/information.
      * Only users with permissions to activate the thing's functions may use this token.
      *
-     * @ORM\Column(name="write_token", type="string", length=255)
+     * @ORM\Column(name="write_token", type="string", length=255, nullable=true)
      */
     private $writeToken;
 
@@ -66,7 +66,7 @@ class Thing implements UserInterface
      * Used to access thing functions/information.
      * Users with read permissions may use this token to retrieve the thing's status.
      *
-     * @ORM\Column(name="read_token", type="string", length=255)
+     * @ORM\Column(name="read_token", type="string", length=255, nullable=true)
      */
     private $readToken;
 

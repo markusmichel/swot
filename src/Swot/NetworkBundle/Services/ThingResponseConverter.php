@@ -23,13 +23,22 @@ class ThingResponseConverter {
         $thing = new Thing();
         $encodedToken = $this->encoder->encodePassword($thing, $accessToken);
 
-        $thing->setName($thingInfo->device->name);
-        $thing->setDescription($thingInfo->device->description);
+        if (property_exists($thingInfo, 'device')) {
+            if (property_exists($thingInfo->device, 'description')) $thing->setDescription($thingInfo->device->description);
+            if (property_exists($thingInfo->device, 'name')) $thing->setName($thingInfo->device->name);
+            else $thing->setName("unnamed thing");
+
+            if (property_exists($thingInfo->device, 'tokens')) {
+                if (property_exists($thingInfo->device->tokens, 'owner_token')) $thing->setOwnerToken($thingInfo->device->tokens->owner_token);
+                if (property_exists($thingInfo->device->tokens, 'read_token')) $thing->setOwnerToken($thingInfo->device->tokens->read_token);
+                if (property_exists($thingInfo->device->tokens, 'write_token')) $thing->setOwnerToken($thingInfo->device->tokens->write_token);
+            }
+        } else {
+            //exception missing
+        }
+
         $thing->setNetworkAccessToken($encodedToken);
         $thing->setBaseApiUrl($thingInfo->device->api->url);
-        $thing->setOwnerToken($thingInfo->device->tokens->owner_token);
-        $thing->setReadToken($thingInfo->device->tokens->read_token);
-        $thing->setWriteToken($thingInfo->device->tokens->write_token);
 
         if($profileImageName != null && $profileImageName != "")
             $thing->setProfileImage($profileImageName);

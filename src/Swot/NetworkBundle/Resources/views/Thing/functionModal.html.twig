@@ -2,7 +2,7 @@
     {% set functionForm = functionForms[function.id] %}
     <li>
         {#<form action="{{ path('thing_activate_function', {id: thing.id, functionId: function.id}) }}" method="post" novalidate="novalidate" name="{{ function.id }}">#}
-        <form action="{{ path('thing_show', {id: thing.id}) }}" method="post" novalidate="novalidate" name="{{ function.id }}">
+        <form action="{{ path('thing_show', {id: thing.id}) }}" method="post" name="{{ function.id }}">
 
             {% set form = functionForm.createView() %}
             {% form_theme form 'SwotNetworkBundle:Form:form_div_layout.html.twig' %}

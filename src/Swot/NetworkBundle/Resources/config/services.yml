@@ -86,3 +86,10 @@ services:
     services.curl_manager:
         class: Swot\NetworkBundle\Services\CurlManager
         arguments: [%kernel.root_dir%, %thing.api.information%]
+
+    # Exception Listener
+    kernel.listener.swot_exception_listener:
+        class: Swot\NetworkBundle\Services\ExceptionListener
+        tags:
+            - { name: kernel.event_listener, event: kernel.exception, method: onKernelException }
+        arguments: [@twig]

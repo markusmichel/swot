@@ -7,7 +7,6 @@ use Swot\NetworkBundle\Exception\ThingAlreadyRegisteredException;
 use Swot\NetworkBundle\Exception\ThingIsUnavailableException;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\HttpKernel\Event\GetResponseForExceptionEvent;
-use Symfony\Component\HttpKernel\Exception\HttpExceptionInterface;
 
 
 class ExceptionListener {
@@ -28,20 +27,17 @@ class ExceptionListener {
         $response->setStatusCode(200);
         $response->headers->set('Content-Type', 'text/html');
 
-        // HttpExceptionInterface is a special type of exception that
-        // holds status code and header details
+        // Catch custom exceptions and render specific templates for them
         if ($exception instanceof ThingIsUnavailableException) {
             $content = $this->twig->render(':Exception:thing_is_unavailable.html.twig');
             $response->setContent($content);
 
-            // Send the modified response object to the event
             $event->setResponse($response);
 
         } elseif ($exception instanceof ThingAlreadyRegisteredException) {
             $content = $this->twig->render(':Exception:thing_already_registered.html.twig');
             $response->setContent($content);
 
-            // Send the modified response object to the event
             $event->setResponse($response);
         }
     }

@@ -51,12 +51,14 @@
     {{ parent() }}
     <script>
         $(function() {
+            var fileInput = $('#form_register');
+            fileInput.val('');
             $('#form').hide();
             $('#registerThingBtn').click(function(e) {
-                $('#form_register').click();
+                fileInput.click();
                 e.preventDefault();
             });
-            $('#form_register').change(function() {
+            fileInput.change(function() {
                 $('form').submit();
             });
             $('form').submit(function(){

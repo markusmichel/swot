@@ -249,8 +249,7 @@ class ThingController extends Controller
 
         if ($form->isValid()) {
             // accesstoken for the thing to communicate with the network
-            $accessToken = $this->container->get("swot.security.network_token_generator")->generate();
-
+            $networkToken = $this->container->get("swot.security.network_token_generator")->generate();
             $data = $form->getData();
 
             /** @var UploadedFile $file */
@@ -269,7 +268,7 @@ class ThingController extends Controller
                 $formattedUrl = URL::createFromUrl($url);
 
                 try {
-                    $thingInfo = $curlManager->getCurlResponse($formattedUrl->__toString(), true, "", $accessToken);
+                    $thingInfo = $curlManager->getCurlResponse($formattedUrl->__toString(), true, "", $networkToken);
                 } catch (\Exception $e) {
                     throw new ThingIsUnavailableException("The thing was unavailable");
                 }
@@ -317,7 +316,7 @@ class ThingController extends Controller
             $thingManager = $this->container->get("swot.manager.thing");
 
             // Create thing from response
-            $thing = $converter->convertThing($thingInfo, $profileImage, $accessToken);
+            $thing = $converter->convertThing($thingInfo, $profileImage, $networkToken);
             $thing->setInformation($information);
 
             $ownership = $thingManager->createOwnership($thing, $user);

@@ -177,6 +177,8 @@ class ThingController extends Controller
             $manager->persist($thing);
             $manager->flush();
             $this->addFlash("success", "Settings saved.");
+
+            return $this->redirectToRoute('thing_show', array("id" => $thing->getId()));
         }
 
         return $this->render('SwotNetworkBundle:Thing:settings.html.twig', array(

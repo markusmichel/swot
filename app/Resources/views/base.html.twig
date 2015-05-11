@@ -17,16 +17,18 @@
         </div>
         <div class="row show-for-medium-down">
             <div class="small-12 small-centered columns ">
-                {% include 'navigation-icons-only.html.twig' %}
+                {% if app.user %}{% include 'navigation-icons-only.html.twig' %}{% endif %}
             </div>
         </div>
         <div class="row main">
             {% include 'flash-messages.html.twig' %}
             <div class="row">
-                <div class="small-2 columns show-for-large-up">
-                    {% include 'navigation.html.twig' %}
-                </div>
-                <div class="small-12 large-10 medium columns">
+                {% if app.user %}
+                    <div class="small-2 columns show-for-large-up">
+                        {% include 'navigation.html.twig' %}
+                    </div>
+                {% endif %}
+                <div class="small-12 large-10 {% if not app.user %}large-centered{% endif %} medium columns">
                     {% block headline %}{% endblock %}
                     <div class="headline-margin"></div>
                     <div class="main-padding">

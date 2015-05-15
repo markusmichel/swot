@@ -3,9 +3,7 @@
 {% extends "::base.html.twig" %}
 {% set partner_username = partner.username %}
 
-{% block title %}
-    {% trans with {'%username%': partner.username}%}conversation.page_title %username%{% endtrans %}
-{% endblock %}
+{% block title %}Conversation with {{ partner.username }}{% endblock %}
 
 {% block body %}
     <div class="conversation-container">
